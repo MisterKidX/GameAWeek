@@ -15,6 +15,8 @@ public class UIView_PlayerParemetersStrip : MonoBehaviour
     [SerializeField]
     Button _removeStrip;
 
+    public event Action<UIView_PlayerParemetersStrip> Remove;
+
     public void Init(string[] castleOptions, bool canRemoveStrip)
     {
         _castle.ClearOptions();
@@ -28,6 +30,7 @@ public class UIView_PlayerParemetersStrip : MonoBehaviour
 
     private void RemoveStrip()
     {
+        Remove?.Invoke(this);
         Destroy(gameObject);
     }
 }
