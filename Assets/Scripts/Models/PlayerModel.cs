@@ -2,10 +2,11 @@
 
 public class PlayerModel : ActorModel
 {
-    public PlayerInstace Create(string name, int orderInGameplay, CastleModel startingCastle, Color color)
+    public static PlayerInstace Create(string name, int orderInGameplay, CastleModel startingCastle, Color color)
     {
+        var model = ScriptableObject.CreateInstance<PlayerModel>();
         var playerInstance = ScriptableObject.CreateInstance<PlayerInstace>();
-        playerInstance.Init(this, name, orderInGameplay, startingCastle, color);
+        playerInstance.Init(model, name, orderInGameplay, startingCastle, color);
         return playerInstance;
     }
 }

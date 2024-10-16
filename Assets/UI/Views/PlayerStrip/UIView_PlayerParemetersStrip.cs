@@ -17,10 +17,12 @@ public class UIView_PlayerParemetersStrip : MonoBehaviour
 
     public event Action<UIView_PlayerParemetersStrip> Remove;
 
-    public void Init(string[] castleOptions, bool canRemoveStrip)
+    public void Init(string[] castleOptions, int color, bool canRemoveStrip)
     {
         _castle.ClearOptions();
         _castle.AddOptions(castleOptions.ToList());
+
+        _color.value = color;
 
         if (canRemoveStrip)
             _removeStrip.onClick.AddListener(RemoveStrip);
@@ -32,5 +34,14 @@ public class UIView_PlayerParemetersStrip : MonoBehaviour
     {
         Remove?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    internal (string name, string castle, Color color) GetInfo()
+    {
+        (string name, string castle, Color color) info;
+        info.name = _playerName.text;
+        info.castle = _castle.options[_castle.value].text;
+        info.color = _color.options[_color.value].color;
+        return info;
     }
 }

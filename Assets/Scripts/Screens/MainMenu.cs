@@ -40,7 +40,17 @@ public class MainMenu : MonoBehaviour
 
     private void PlayButtonClckedHandler()
     {
-        // GameManager.Instance.TransitionToGameplay(1);
+        PlayerInstace[] playerInstances = new PlayerInstace[_strips.Count];
+
+        for (int i = 0; i < _strips.Count; i++)
+        {
+            UIView_PlayerParemetersStrip playerParameterStrip = _strips[i];
+            var info = playerParameterStrip.GetInfo();
+            var castle = Resources.LoadAll<CastleModel>("").Where(castleModel => castleModel.Name == info.castle).First();
+            PlayerModel.Create(info.name, i, castle, info.color);
+        }
+
+        GameManager.Instance.TransitionToGameplay(playerInstances, "DemoLevel");
     }
 
     private void AddPlayerStripButtonClickedHandler() => AddPlayerParemeterStrip(true);
@@ -50,7 +60,7 @@ public class MainMenu : MonoBehaviour
         Debug.Assert(_strips.Count <= MaxPlayers);
 
         UIView_PlayerParemetersStrip strip = Instantiate(p_PlayerStrip, PlayerStripContainer);
-        strip.Init(_castleOptions, canRemoveStrip);
+        strip.Init(_castleOptions, _strips.Count, canRemoveStrip);
         strip.Remove += Strip_Remove;
         strip.transform.SetSiblingIndex(0);
         _strips.Add(strip);
