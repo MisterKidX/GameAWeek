@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerInstace : ScriptableObject
 {
@@ -7,6 +8,10 @@ public class PlayerInstace : ScriptableObject
     public int Order { get; private set; }
     public CastleModel StartingCastle { get; private set; }
     public Color Color { get; private set; }
+    public List<CastleInstance> Castles = new();
+    public List<HeroInstance> Heroes = new();
+
+    public bool HasCastle => Castles.Count > 0;
 
     internal void Init(PlayerModel model, string name, int order, CastleModel startingCastle, Color color)
     {

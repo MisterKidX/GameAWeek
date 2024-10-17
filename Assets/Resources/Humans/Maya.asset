@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00498fe2266f1724ba97a2afee205001, type: 3}
-  m_Name: Humans
+  m_Script: {fileID: 11500000, guid: 4bc751788200d7f48ac996a75f4e1d92, type: 3}
+  m_Name: Maya
   m_EditorClassIdentifier: 
-  Name: Humans
+  Name: Maya
+  p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}

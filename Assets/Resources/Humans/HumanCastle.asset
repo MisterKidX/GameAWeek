@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00498fe2266f1724ba97a2afee205001, type: 3}
+  m_Name: HumanCastle
+  m_EditorClassIdentifier: 
+  Name: Humans
+  p_View: {fileID: 5698095400311141323, guid: 7b273875e405d8d4bad20c91702523d9, type: 3}
+  Heroes:
+  - {fileID: 11400000, guid: 5dd9ba274a0482b44b921772304489f5, type: 2}
+  - {fileID: 11400000, guid: 41627f982bff83c418213ad38df23f0d, type: 2}

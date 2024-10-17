@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,7 @@ public class LocalLevelManager : MonoBehaviour
     private Grid _grid;
     private Tilemap[] _tilemaps;
 
-    private Tilemap _castleTilemap => _tilemaps[2];
+    private Tilemap _metadataLayer => _tilemaps[2];
 
     private void Awake()
     {
@@ -35,12 +36,12 @@ public class LocalLevelManager : MonoBehaviour
 
     internal void LoadLevel(PlayerInstace[] playerInstances, string level)
     {
+        CurrentLevel = Instance;
         StartCoroutine(LoadLevelRoutine(playerInstances, level));
     }
 
     private IEnumerator LoadLevelRoutine(PlayerInstace[] playerInstances, string level)
     {
-        CurrentLevel = Instance;
         SceneManager.LoadScene(level);
 
         yield return null;
@@ -50,23 +51,75 @@ public class LocalLevelManager : MonoBehaviour
         _grid = FindObjectsByType<Grid>(FindObjectsSortMode.None)[0];
         _tilemaps = _grid.GetComponentsInChildren<Tilemap>();
 
-        var castleEntrances = _castleTilemap.GetTilesBlock(_castleTilemap.cellBounds)
-            ?.OfType<CastleEntranceTile>().ToList();
+        DecompileLevel();
+    }
 
-        if (castleEntrances == null|| castleEntrances.Count < Players.Length)
-            Debug.LogError("All players must have at least one castle entrance which is theirs.");
-
-        for (int i = 0; i < Players.Length; i++)
+    private void DecompileLevel()
+    {
+        for (int i = _metadataLayer.cellBounds.xMin; i < _metadataLayer.cellBounds.xMax; i++)
         {
-            PlayerInstace player = Players[i];
-            var pos = _castleTilemap.WorldToCell(castleEntrances[i].transform.GetPosition());
-            var ent = ScriptableObject.CreateInstance<CastleEntranceTile>();
-
-            ent.sprite = castleEntrances[i].sprite;
-            ent.color = player.Color;
-            ent.Model = player.StartingCastle;
-
-            _castleTilemap.SetTile(pos, ent);
+            for (int j = _metadataLayer.cellBounds.yMin; j < _metadataLayer.cellBounds.yMax; j++)
+            {
+                var pos = new Vector3Int(i, j);
+                var tile = _metadataLayer.GetTile(pos);
+                if (tile != null)
+                    HandleTileMetaData(tile, pos);
+            }
         }
     }
+
+    #region Validation
+
+    private void ValidateLevelSetup()
+    {
+        ValidateAllPlayersHaveCastles();
+    }
+
+    private void ValidateAllPlayersHaveCastles()
+    {
+        if (_playerSetupIndex != Players.Length)
+            Debug.LogError("All players must have castles at the beginning of the game.");
+
+        foreach (var player in Players)
+        {
+            if (!player.HasCastle)
+            {
+                Debug.LogError("All players must have castles at the beginning of the game.");
+            }
+        }
+    }
+
+    #endregion
+
+    #region Metadata Handlers
+
+    private void HandleTileMetaData(TileBase tile, Vector3Int pos)
+    {
+        switch (tile)
+        {
+            case CastleEntranceTile ce:
+                HandleCastleEntrance(ce, pos);
+                break;
+            default:
+                throw new NotImplementedException(tile.GetType() + " - was not implemented.");
+        }
+    }
+
+    int _playerSetupIndex = 0;
+    private void HandleCastleEntrance(CastleEntranceTile castleEntranceTile, Vector3Int pos)
+    {
+        var player = Players[_playerSetupIndex];
+        var position = _metadataLayer.CellToWorld(pos);
+        CastleInstance castleInstance = GameLogic.CreateStartingCastle(player, position);
+        castleInstance.Show();
+
+        HeroInstance heroInstance = GameLogic.CreateRandomHeroInstanceFromCastle(
+            player.StartingCastle,
+            pos,
+            player);
+        heroInstance.Show();
+
+        _playerSetupIndex++;
+    }
+    #endregion
 }
