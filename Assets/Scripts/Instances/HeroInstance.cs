@@ -6,6 +6,10 @@ public class HeroInstance : ScriptableObject
     public Vector3 Pos;
     public PlayerInstace Holder;
 
+    public int RemainingMovementPoints { get; private set; }
+    public int MovementPointsForCurrentTurn { get; private set; }
+    public float NormalizedMovementPoints => (float)RemainingMovementPoints / MovementPointsForCurrentTurn;
+
     HeroView _view;
 
     internal void Init(HeroModel heroModel, Vector3 pos, PlayerInstace player)
@@ -13,6 +17,8 @@ public class HeroInstance : ScriptableObject
         Model = heroModel;
         Pos = pos;
         Holder = player;
+        RemainingMovementPoints = Model.BaseMovementPoints;
+        MovementPointsForCurrentTurn = Model.BaseMovementPoints;
     }
 
     internal void Show()

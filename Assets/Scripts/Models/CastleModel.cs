@@ -5,6 +5,7 @@ using UnityEngine;
 public class CastleModel : ScriptableObject
 {
     public string Name;
+    public Sprite Portrait;
     public CastleView p_View;
     public HeroModel[] Heroes;
 

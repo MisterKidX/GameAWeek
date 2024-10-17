@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HumanCastle
   m_EditorClassIdentifier: 
   Name: Humans
+  Portrait: {fileID: 21300000, guid: 258ce021a8af1124eae659f7b92c3605, type: 3}
   p_View: {fileID: 5698095400311141323, guid: 7b273875e405d8d4bad20c91702523d9, type: 3}
   Heroes:
   - {fileID: 11400000, guid: 5dd9ba274a0482b44b921772304489f5, type: 2}

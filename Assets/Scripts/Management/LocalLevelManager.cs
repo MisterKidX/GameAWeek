@@ -21,7 +21,10 @@ public class LocalLevelManager : MonoBehaviour
 
     private Grid _grid;
     private Tilemap[] _tilemaps;
+    private GameplayUI _gameplayUI;
+    private int _turnOrder = 0;
 
+    public PlayerInstace CurrentPlayer => Players[_turnOrder];
     private Tilemap _metadataLayer => _tilemaps[2];
 
     private void Awake()
@@ -50,8 +53,17 @@ public class LocalLevelManager : MonoBehaviour
 
         _grid = FindObjectsByType<Grid>(FindObjectsSortMode.None)[0];
         _tilemaps = _grid.GetComponentsInChildren<Tilemap>();
+        var asset = Resources.Load<GameObject>("Structural/GameplayUI");
+        _gameplayUI = Instantiate(asset).GetComponent<GameplayUI>();
 
         DecompileLevel();
+        PlayerturnSequence();
+    }
+
+    private void PlayerturnSequence()
+    {
+        _gameplayUI.ShowHeroes(CurrentPlayer);
+        _gameplayUI.ShowCastles(CurrentPlayer);
     }
 
     private void DecompileLevel()

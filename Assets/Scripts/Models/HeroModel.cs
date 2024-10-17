@@ -6,6 +6,8 @@ public class HeroModel : ScriptableObject
 {
     public string Name;
     public HeroView p_View;
+    public Sprite Portrait;
+    public int BaseMovementPoints = 10;
 
     internal HeroInstance Create(Vector3 pos, PlayerInstace player)
     {
