@@ -47,7 +47,7 @@ public class MainMenu : MonoBehaviour
             UIView_PlayerParemetersStrip playerParameterStrip = _strips[i];
             var info = playerParameterStrip.GetInfo();
             var castle = Resources.LoadAll<CastleModel>("").Where(castleModel => castleModel.Name == info.castle).First();
-            PlayerModel.Create(info.name, i, castle, info.color);
+            playerInstances[i] = PlayerModel.Create(info.name, i, castle, info.color);
         }
 
         GameManager.Instance.TransitionToGameplay(playerInstances, "DemoLevel");

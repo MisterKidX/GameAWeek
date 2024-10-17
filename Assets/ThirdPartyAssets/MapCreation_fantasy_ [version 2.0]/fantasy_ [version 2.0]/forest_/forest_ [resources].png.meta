@@ -198,7 +198,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1372,7 +1372,57 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      forest_ [resources]_0: 7894740091292667399
+      forest_ [resources]_1: 3019040352853377591
+      forest_ [resources]_10: 309223966863900782
+      forest_ [resources]_11: -8396024627381086057
+      forest_ [resources]_12: 8611860373421387872
+      forest_ [resources]_13: 3128289193164421384
+      forest_ [resources]_14: 1873952117517293043
+      forest_ [resources]_15: 6835072391291917011
+      forest_ [resources]_16: -6716801743645134397
+      forest_ [resources]_17: 5094672898379893057
+      forest_ [resources]_18: 7933584912820182276
+      forest_ [resources]_19: -4878340616857800940
+      forest_ [resources]_2: -6605258144222842400
+      forest_ [resources]_20: 1808139627112315629
+      forest_ [resources]_21: -2899189577595985405
+      forest_ [resources]_22: -5780623273772650115
+      forest_ [resources]_23: 6569403964279985187
+      forest_ [resources]_24: -1664360450863958514
+      forest_ [resources]_25: 5780170026046184495
+      forest_ [resources]_26: -4715988792179109947
+      forest_ [resources]_27: 3936254566473464411
+      forest_ [resources]_28: -2642706314171204937
+      forest_ [resources]_29: -1848895694802593071
+      forest_ [resources]_3: -3608815245255208948
+      forest_ [resources]_30: 4291044640442212974
+      forest_ [resources]_31: -6421172574369478704
+      forest_ [resources]_32: 5843295228607677769
+      forest_ [resources]_33: 4003803388131567500
+      forest_ [resources]_34: 2185095214895425303
+      forest_ [resources]_35: -1348297886304518959
+      forest_ [resources]_36: 5222261964092278511
+      forest_ [resources]_37: 7099261254546156644
+      forest_ [resources]_38: 8914219852027167755
+      forest_ [resources]_39: 3263303212960866169
+      forest_ [resources]_4: 5236155219266044449
+      forest_ [resources]_40: 7334498754739342881
+      forest_ [resources]_41: -1777675648544310096
+      forest_ [resources]_42: -4691430117508813643
+      forest_ [resources]_43: 8895910591923455891
+      forest_ [resources]_44: -2757139725585175935
+      forest_ [resources]_45: 7040910224047721498
+      forest_ [resources]_46: 3422541256615967132
+      forest_ [resources]_47: -6687465149754951720
+      forest_ [resources]_48: 266409513753969926
+      forest_ [resources]_49: -5823890989954616429
+      forest_ [resources]_5: 3209689938956724051
+      forest_ [resources]_6: -918247824443769853
+      forest_ [resources]_7: -961870665426790156
+      forest_ [resources]_8: 7513275199330600606
+      forest_ [resources]_9: 6932624107524769134
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

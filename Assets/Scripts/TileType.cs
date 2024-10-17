@@ -2,5 +2,8 @@ using UnityEngine;
 
 public enum TileType
 {
-    Ground
+    Ground,
+    Interactable,
+    Blocker,
+    Aquirable
 }
