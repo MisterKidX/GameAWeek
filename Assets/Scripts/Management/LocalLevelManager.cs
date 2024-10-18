@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
-public class LocalLevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    private static LocalLevelManager _instance;
-    public static LocalLevelManager Instance
+    private static LevelManager _instance;
+    public static LevelManager Instance
     {
         get { return _instance; }
         private set => _instance = value;
     }
 
-    public static LocalLevelManager CurrentLevel { get; private set; }
+    public static LevelManager CurrentLevel { get; private set; }
 
     public PlayerInstace[] Players;
 

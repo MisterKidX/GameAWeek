@@ -3,7 +3,7 @@
 public class HeroInstance : ScriptableObject
 {
     public HeroModel Model;
-    public Vector3 Pos;
+    public Vector3 Position;
     public PlayerInstace Holder;
 
     public int RemainingMovementPoints { get; private set; }
@@ -15,7 +15,7 @@ public class HeroInstance : ScriptableObject
     internal void Init(HeroModel heroModel, Vector3 pos, PlayerInstace player)
     {
         Model = heroModel;
-        Pos = pos;
+        Position = pos;
         Holder = player;
         RemainingMovementPoints = Model.BaseMovementPoints;
         MovementPointsForCurrentTurn = Model.BaseMovementPoints;

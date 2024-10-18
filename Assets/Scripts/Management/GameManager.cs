@@ -32,14 +32,14 @@ public class GameManager : MonoBehaviour
 
     internal void TransitionToGameplay(PlayerInstace[] playerInstances, string level)
     {
-        LocalLevelManager levelManager = null;
-        if (LocalLevelManager.Instance == null)
+        LevelManager levelManager = null;
+        if (LevelManager.Instance == null)
         {
             var go = new GameObject("Local Level Manager");
-            levelManager = go.AddComponent<LocalLevelManager>();
+            levelManager = go.AddComponent<LevelManager>();
         }
         else
-            levelManager = LocalLevelManager.Instance;
+            levelManager = LevelManager.Instance;
 
         levelManager.LoadLevel(playerInstances, level);
     }

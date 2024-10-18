@@ -9,7 +9,7 @@ public class HeroView : MonoBehaviour
     public void Init(HeroInstance instance)
     {
         _instance = instance;
-        transform.position = _instance.Pos;
+        transform.position = _instance.Position;
         PaintColor(_instance.Holder.Color);
     }
 
