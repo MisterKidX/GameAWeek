@@ -13,13 +13,18 @@ public class TraversalInteractions : MonoBehaviour
     [SerializeField]
     Tilemap _obstacles;
     [SerializeField]
+    TileMapAstar _astar;
+    [SerializeField]
+    TraversalUI _traversalUI;
+    [SerializeField]
     private float _cameraScrollSpeed;
 
     public void Update()
     {
         if (CilckedOnMap(out Vector3Int cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected)
         {
-            TileMapAstar.CalculatePath(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.Position, cellPos);
+            var path = _astar.CalculatePath(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.Position, cellPos);
+            _traversalUI.VisualizePath(path);
         }
         if (MoveMapUp())
             _camera.transform.Translate(Vector3.up * Time.deltaTime * _cameraScrollSpeed);

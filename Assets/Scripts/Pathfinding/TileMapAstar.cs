@@ -9,52 +9,19 @@ public class TileMapAstar : MonoBehaviour
     public Tilemap groundTilemap;
     public Tilemap placementTilemap;
 
-    private List<Vector3Int> path = new List<Vector3Int>();
-
-    public Vector3Int startPos;
-    public Vector3Int endPos;
-    private void Update()
+    public List<Vector3Int> CalculatePath(Vector3Int start, Vector3Int end)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            var mousePos = Input.mousePosition;
-            mousePos.z = 0;
-            var worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
-            var pos = groundTilemap.WorldToCell(worldPoint);
-            var tile = groundTilemap.GetTile(pos);
+        var gEnd = groundTilemap.GetTile(end);
+        var pEnd = (placementTilemap.GetTile(end) as BaseTile);
+        if (start == end)
+            return new List<Vector3Int>() { start };
+        if (gEnd == null || (pEnd != null && !pEnd.GroundTraversable))
+            return null;
 
-            if (groundTilemap != null)
-                startPos = pos;
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            var mousePos = Input.mousePosition;
-            mousePos.z = 0;
-            var worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
-            var pos = groundTilemap.WorldToCell(worldPoint);
-            var tile = groundTilemap.GetTile(pos);
-
-            if (groundTilemap != null)
-                endPos = pos;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            FindPathAndDraw();
-        }
-    }
-
-    public void FindPathAndDraw()
-    {
-        path = FindPath();
-    }
-
-    public List<Vector3Int> FindPath()
-    {
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
 
-        Node startNode = new Node(startPos, null, 0, GetHCost(startPos, endPos));
+        Node startNode = new Node(start, null, 0, GetHCost(start, end));
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
@@ -72,7 +39,7 @@ public class TileMapAstar : MonoBehaviour
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
 
-            if (currentNode.Position == endPos)
+            if (currentNode.Position == end)
             {
                 return RetracePath(currentNode);
             }
@@ -83,12 +50,12 @@ public class TileMapAstar : MonoBehaviour
                     continue;
 
                 float newMovementCostToNeighbor = currentNode.GCost + GetGCost(currentNode.Position, neighbor);
-                Node neighborNode = new Node(neighbor, currentNode, newMovementCostToNeighbor, GetHCost(neighbor, endPos));
+                Node neighborNode = new Node(neighbor, currentNode, newMovementCostToNeighbor, GetHCost(neighbor, end));
 
                 if (!openSet.Exists(n => n.Position == neighbor) || newMovementCostToNeighbor < neighborNode.GCost)
                 {
                     neighborNode.GCost = newMovementCostToNeighbor;
-                    neighborNode.HCost = GetHCost(neighbor, endPos);
+                    neighborNode.HCost = GetHCost(neighbor, end);
                     neighborNode.Parent = currentNode;
 
                     if (!openSet.Exists(n => n.Position == neighbor))
@@ -124,9 +91,9 @@ public class TileMapAstar : MonoBehaviour
 
         float movementDirectionCost = 0;
         if (current.x == next.x || current.y == next.y)
-            movementDirectionCost += 1f;
+            movementDirectionCost = 1f;
         else
-            movementDirectionCost += 1.5f;
+            movementDirectionCost = 1.8f;
 
         return movementDirectionCost * nextTile.MovementCost;
     }
@@ -137,7 +104,7 @@ public class TileMapAstar : MonoBehaviour
         d = new Vector3Int(Mathf.Abs(d.x), Mathf.Abs(d.y));
         var diagonals = Mathf.Min(d.x, d.y);
         var straights = d.y + d.x - diagonals;
-        return (diagonals * 1.5f + straights) * 1.05f;
+        return (d.x + d.y) * 0.5f;
     }
 
     bool IsWalkable(Vector3Int position)
@@ -166,27 +133,6 @@ public class TileMapAstar : MonoBehaviour
         };
         return neighbors;
     }
-
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        if (path != null && path.Count > 0)
-        {
-            Gizmos.color = Color.green;
-            for (int i = 0; i < path.Count - 1; i++)
-            {
-                Gizmos.DrawLine(groundTilemap.CellToWorld(path[i]) + new Vector3(0.5f, 0.5f, 0),
-                                groundTilemap.CellToWorld(path[i + 1]) + new Vector3(0.5f, 0.5f, 0));
-            }
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(groundTilemap.CellToWorld(startPos) + new Vector3(0.5f, 0.5f, 0), 0.2f);
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(groundTilemap.CellToWorld(endPos) + new Vector3(0.5f, 0.5f, 0), 0.2f);
-        }
-    }
-#endif
 }
 
 public class Node

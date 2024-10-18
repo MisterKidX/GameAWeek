@@ -6,7 +6,7 @@ public static class GameLogic
 {
     static HashSet<HeroModel> _heroesInGameplay = new(20);
 
-    public static HeroInstance CreateRandomHeroInstanceFromCastle(CastleModel castleModel, Vector3 position, PlayerInstace holder)
+    public static HeroInstance CreateRandomHeroInstanceFromCastle(CastleModel castleModel, Vector3Int position, PlayerInstace holder)
     {
         var inst = castleModel.Heroes.
             Where(heroModel => !_heroesInGameplay.

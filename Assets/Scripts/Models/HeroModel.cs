@@ -9,7 +9,7 @@ public class HeroModel : ScriptableObject
     public Sprite Portrait;
     public int BaseMovementPoints = 10;
 
-    internal HeroInstance Create(Vector3 pos, PlayerInstace player)
+    internal HeroInstance Create(Vector3Int pos, PlayerInstace player)
     {
         var inst = ScriptableObject.CreateInstance<HeroInstance>();
         inst.Init(this, pos, player);
