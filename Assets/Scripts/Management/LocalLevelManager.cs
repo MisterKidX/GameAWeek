@@ -62,8 +62,7 @@ public class LocalLevelManager : MonoBehaviour
 
     private void PlayerturnSequence()
     {
-        _gameplayUI.ShowHeroes(CurrentPlayer);
-        _gameplayUI.ShowCastles(CurrentPlayer);
+        _gameplayUI.InitializePlayer(CurrentPlayer);
     }
 
     private void DecompileLevel()

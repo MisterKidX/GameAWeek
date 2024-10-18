@@ -11,8 +11,14 @@ public class UIView_HeroCard : MonoBehaviour
     public void Init(HeroInstance instance)
     {
         Instance = instance;
-        Portrait.sprite = instance.Model.Portrait;
-        MovementBar.Slider.value = (float)instance.RemainingMovementPoints / GameConfig.MovementBarMaxMovementPoints;
         Portrait.gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (Instance == null) return;
+
+        Portrait.sprite = Instance.Model.Portrait;
+        MovementBar.Slider.value = (float)Instance.RemainingMovementPoints / GameConfig.MovementBarMaxMovementPoints;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInstace : ScriptableObject
@@ -10,6 +11,7 @@ public class PlayerInstace : ScriptableObject
     public Color Color { get; private set; }
     public List<CastleInstance> Castles = new();
     public List<HeroInstance> Heroes = new();
+    public List<ResourceInstance> Resources = new();
 
     public bool HasCastle => Castles.Count > 0;
 
@@ -20,5 +22,7 @@ public class PlayerInstace : ScriptableObject
         Order = order;
         StartingCastle = startingCastle;
         Color = color;
+
+        Resources = GameConfig.GetStartingResouces().ToList();
     }
 }
