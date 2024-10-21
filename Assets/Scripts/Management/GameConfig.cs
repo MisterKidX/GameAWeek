@@ -1,6 +1,6 @@
 ﻿public static class GameConfig
 {
-    public const int MovementBarMaxMovementPoints = 20;
+    public const int MovementBarMaxMovementPoints = 30;
 
     static ResourceModel[] _resources;
     public static ResourceModel[] Resources 

@@ -1,11 +1,13 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TraversalInteractions : MonoBehaviour
 {
     [SerializeField]
-    Camera _camera;
+    CameraController _camController;
     [SerializeField]
     Grid _grid;
     [SerializeField]
@@ -19,21 +21,58 @@ public class TraversalInteractions : MonoBehaviour
     [SerializeField]
     private float _cameraScrollSpeed;
 
+    private List<PathPoint> _path = null;
     public void Update()
     {
-        if (CilckedOnMap(out Vector3Int cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected)
+        Vector3Int cellPos;
+
+        if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
+            (_path == null || cellPos != _path[_path.Count - 1].Position))
         {
-            var path = _astar.CalculatePath(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.Position, cellPos);
-            _traversalUI.VisualizePath(path);
+            StopAllCoroutines();
+            _camController.UnstickToObject();
+            _path = _astar.CalculatePath(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.Position, cellPos);
+            _traversalUI.VisualizePath(_path, LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.RemainingMovementPoints);
+        }
+        else if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected && _path != null)
+        {
+            // if the cell position which was clicked is the X
+            if (cellPos == _path[_path.Count - 1].Position)
+            {
+                StartCoroutine(MoveSelectedHero(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero));
+            }
         }
         if (MoveMapUp())
-            _camera.transform.Translate(Vector3.up * Time.deltaTime * _cameraScrollSpeed);
+            _camController.Camera.transform.Translate(Vector3.up * Time.deltaTime * _cameraScrollSpeed);
         if (MoveMapDown())
-            _camera.transform.Translate(Vector3.down * Time.deltaTime * _cameraScrollSpeed);
+            _camController.Camera.transform.Translate(Vector3.down * Time.deltaTime * _cameraScrollSpeed);
         if (MoveMapLeft())
-            _camera.transform.Translate(Vector3.left * Time.deltaTime * _cameraScrollSpeed);
+            _camController.Camera.transform.Translate(Vector3.left * Time.deltaTime * _cameraScrollSpeed);
         if (MoveMapRight())
-            _camera.transform.Translate(Vector3.right * Time.deltaTime * _cameraScrollSpeed);
+            _camController.Camera.transform.Translate(Vector3.right * Time.deltaTime * _cameraScrollSpeed);
+    }
+
+    private IEnumerator MoveSelectedHero(HeroInstance selectedHero)
+    {
+        _camController.StickToObject(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.View.gameObject);
+
+        for (int i = 1; i < _path.Count; i++)
+        {
+            var moveCost = _path[i].MovemventCost;
+            if (selectedHero.RemainingMovementPoints >= moveCost)
+            {
+                selectedHero.Position = _path[i].Position;
+                selectedHero.RemainingMovementPoints -= moveCost;
+                _traversalUI.ConsumePath();
+            }
+            else
+                break;
+
+            yield return new WaitForSeconds(0.65f);
+        }
+
+        _path = null;
+        _camController.UnstickToObject();
     }
 
     private bool MoveMapRight()
@@ -76,7 +115,7 @@ public class TraversalInteractions : MonoBehaviour
 
         var mousePos = Input.mousePosition;
         mousePos.z = 0;
-        var worldPoint = _camera.ScreenToWorldPoint(mousePos);
+        var worldPoint = _camController.Camera.ScreenToWorldPoint(mousePos);
         pos = _grid.WorldToCell(worldPoint);
         var tile = _ground.GetTile(pos);
 

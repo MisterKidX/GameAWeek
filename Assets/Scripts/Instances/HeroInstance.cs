@@ -6,11 +6,11 @@ public class HeroInstance : ScriptableObject
     public Vector3Int Position;
     public PlayerInstace Holder;
 
-    public int RemainingMovementPoints { get; private set; }
-    public int MovementPointsForCurrentTurn { get; private set; }
+    public float RemainingMovementPoints { get; set; }
+    public float MovementPointsForCurrentTurn { get; private set; }
     public float NormalizedMovementPoints => (float)RemainingMovementPoints / MovementPointsForCurrentTurn;
 
-    HeroView _view;
+    public HeroView View { get; private set; }
 
     internal void Init(HeroModel heroModel, Vector3Int pos, PlayerInstace player)
     {
@@ -23,10 +23,10 @@ public class HeroInstance : ScriptableObject
 
     internal void Show()
     {
-        if (_view == null)
+        if (View == null)
         {
-            _view = Instantiate(Model.p_View);
-            _view.Init(this);
+            View = Instantiate(Model.p_View);
+            View.Init(this);
         }
     }
 }

@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Steve
   p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}
   Portrait: {fileID: 21300000, guid: 6330ae5da18beb7498da1fe26eaf9cfb, type: 3}
-  BaseMovementPoints: 20
+  BaseMovementPoints: 30

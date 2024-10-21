@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Maya
   p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}
   Portrait: {fileID: 21300000, guid: 86b158b20b5534949b784e19d057455e, type: 3}
-  BaseMovementPoints: 3
+  BaseMovementPoints: 15

@@ -9,12 +9,12 @@ public class TileMapAstar : MonoBehaviour
     public Tilemap groundTilemap;
     public Tilemap placementTilemap;
 
-    public List<Vector3Int> CalculatePath(Vector3Int start, Vector3Int end)
+    public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end)
     {
         var gEnd = groundTilemap.GetTile(end);
         var pEnd = (placementTilemap.GetTile(end) as BaseTile);
         if (start == end)
-            return new List<Vector3Int>() { start };
+            return new List<PathPoint>() { new PathPoint(start, 0, 0)};
         if (gEnd == null || (pEnd != null && !pEnd.GroundTraversable))
             return null;
 
@@ -66,17 +66,18 @@ public class TileMapAstar : MonoBehaviour
             }
         }
 
-        return new List<Vector3Int>();
+        return new List<PathPoint>();
     }
 
-    List<Vector3Int> RetracePath(Node endNode)
+    List<PathPoint> RetracePath(Node endNode)
     {
-        List<Vector3Int> path = new List<Vector3Int>();
+        List<PathPoint> path = new();
         Node currentNode = endNode;
 
         while (currentNode != null)
         {
-            path.Add(currentNode.Position);
+            path.Add(new PathPoint(currentNode.Position, currentNode.GCost, 
+                currentNode.Parent == null ? currentNode.GCost : currentNode.GCost - currentNode.Parent.GCost));
             currentNode = currentNode.Parent;
         }
 
@@ -93,7 +94,7 @@ public class TileMapAstar : MonoBehaviour
         if (current.x == next.x || current.y == next.y)
             movementDirectionCost = 1f;
         else
-            movementDirectionCost = 1.8f;
+            movementDirectionCost = 1.6f;
 
         return movementDirectionCost * nextTile.MovementCost;
     }
@@ -103,8 +104,8 @@ public class TileMapAstar : MonoBehaviour
         var d = end - pos;
         d = new Vector3Int(Mathf.Abs(d.x), Mathf.Abs(d.y));
         var diagonals = Mathf.Min(d.x, d.y);
-        var straights = d.y + d.x - diagonals;
-        return (d.x + d.y) * 0.5f;
+        var straights = Mathf.Abs(d.y - d.x);
+        return (diagonals * 1.6f + straights) * 0.8f;
     }
 
     bool IsWalkable(Vector3Int position)
@@ -149,5 +150,19 @@ public class Node
         Parent = parent;
         GCost = gCost;
         HCost = hCost;
+    }
+}
+
+public struct PathPoint
+{
+    public Vector3Int Position;
+    public float AccumulatedMoveCost;
+    public float MovemventCost;
+
+    public PathPoint(Vector3Int position, float accumulatedMovementCost, float movementCost)
+    {
+        Position = position;
+        AccumulatedMoveCost = accumulatedMovementCost;
+        MovemventCost = movementCost;
     }
 }
