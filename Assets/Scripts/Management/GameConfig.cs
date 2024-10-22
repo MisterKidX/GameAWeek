@@ -1,17 +1,28 @@
-﻿public static class GameConfig
-{
-    public const int MovementBarMaxMovementPoints = 30;
+﻿using UnityEngine;
 
+public static class GameConfig
+{
+    private static Configuration _config;
+    public static Configuration Configuration
+    {
+        get
+        {
+            if (_config == null)
+                _config = UnityEngine.Resources.LoadAll<Configuration>("")[0];
+
+            return _config;
+        }
+    }
     static ResourceModel[] _resources;
-    public static ResourceModel[] Resources 
-    { 
+    public static ResourceModel[] Resources
+    {
         get
         {
             if (_resources == null)
                 _resources = UnityEngine.Resources.LoadAll<ResourceModel>("");
 
             return _resources;
-        } 
+        }
     }
 
     public static ResourceInstance[] GetStartingResouces()

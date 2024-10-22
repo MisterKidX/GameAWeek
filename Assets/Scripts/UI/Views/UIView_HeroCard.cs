@@ -19,6 +19,6 @@ public class UIView_HeroCard : MonoBehaviour
     {
         if (Instance == null) return;
 
-        MovementBar.Slider.value = (float)Instance.RemainingMovementPoints / GameConfig.MovementBarMaxMovementPoints;
+        MovementBar.Slider.value = (float)Instance.RemainingMovementPoints / GameConfig.Configuration.MovementBarMaxMovementPoints;
     }
 }

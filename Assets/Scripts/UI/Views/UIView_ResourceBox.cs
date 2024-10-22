@@ -9,11 +9,22 @@ public class UIView_ResourceBox : MonoBehaviour
     public Image Icon;
     public TMP_Text Amount;
 
+    int _change = 0;
+
     public void Init(ResourceInstance instance)
     {
         _instance = instance;
 
         Icon.sprite = _instance.Model.Icon;
-        Amount.text = _instance.Amount.ToString();
+    }
+
+    private void Update()
+    {
+        if (_instance == null) return;
+
+        if (_change != _instance.Amount)
+        {
+            Amount.text = _instance.Amount.ToString();
+        }
     }
 }

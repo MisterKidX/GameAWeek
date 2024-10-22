@@ -8,14 +8,17 @@ public class TileMapAstar : MonoBehaviour
 {
     public Tilemap groundTilemap;
     public Tilemap placementTilemap;
+    public Tilemap metadataTilemap;
 
     public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end)
     {
         var gEnd = groundTilemap.GetTile(end);
-        var pEnd = (placementTilemap.GetTile(end) as BaseTile);
+        var pEnd = placementTilemap.GetTile(end) as BaseTile;
+        var aquirable = placementTilemap.GetTile(end) as AquirableTile;
+
         if (start == end)
-            return new List<PathPoint>() { new PathPoint(start, 0, 0)};
-        if (gEnd == null || (pEnd != null && !pEnd.GroundTraversable))
+            return new List<PathPoint>() { new PathPoint(start, 0, 0) };
+        else if (!IsTargetable(end))
             return null;
 
         List<Node> openSet = new List<Node>();
@@ -46,7 +49,9 @@ public class TileMapAstar : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (!IsWalkable(neighbor) || closedSet.Contains(new Node(neighbor, null, 0, 0)))
+                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Contains(new Node(neighbor, null, 0, 0)))
+                    continue;
+                else if (neighbor == end && !IsTargetable(neighbor))
                     continue;
 
                 float newMovementCostToNeighbor = currentNode.GCost + GetGCost(currentNode.Position, neighbor);
@@ -76,7 +81,7 @@ public class TileMapAstar : MonoBehaviour
 
         while (currentNode != null)
         {
-            path.Add(new PathPoint(currentNode.Position, currentNode.GCost, 
+            path.Add(new PathPoint(currentNode.Position, currentNode.GCost,
                 currentNode.Parent == null ? currentNode.GCost : currentNode.GCost - currentNode.Parent.GCost));
             currentNode = currentNode.Parent;
         }
@@ -112,9 +117,27 @@ public class TileMapAstar : MonoBehaviour
     {
         BaseTile tile = groundTilemap.GetTile(position) as BaseTile;
         BaseTile tile2 = placementTilemap.GetTile(position) as BaseTile;
+        BaseTile hiddenBlocker = metadataTilemap.GetTile(position) as BaseTile;
         if (tile == null) return false;
-        if (tile2 != null && !tile2.GroundTraversable) return false;
         if (tile.TileType != TileType.Ground) return false;
+        if (tile2 != null && !tile2.GroundTraversable) return false;
+        if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable)
+            return false;
+
+        return true;
+    }
+
+    bool IsTargetable(Vector3Int end)
+    {
+        BaseTile tile = groundTilemap.GetTile(end) as BaseTile;
+        BaseTile tile2 = placementTilemap.GetTile(end) as BaseTile;
+        BaseTile aquirable = placementTilemap.GetTile(end) as AquirableTile;
+        BaseTile hiddenBlocker = metadataTilemap.GetTile(end) as BaseTile;
+        if (tile == null) return false;
+        if (tile.TileType != TileType.Ground) return false;
+        if (tile2 != null && !tile2.GroundTraversable && aquirable == null) return false;
+        if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable)
+            return false;
 
         return true;
     }
@@ -140,8 +163,8 @@ public class Node
 {
     public Vector3Int Position;
     public Node Parent;
-    public float GCost;        
-    public float HCost;        
+    public float GCost;
+    public float HCost;
     public float FCost => GCost + HCost;
 
     public Node(Vector3Int position, Node parent, float gCost, float hCost)

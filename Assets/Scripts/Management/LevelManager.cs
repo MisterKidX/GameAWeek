@@ -24,6 +24,8 @@ public class LevelManager : MonoBehaviour
 
     public PlayerInstace CurrentPlayer => Players[_turnOrder];
     private Tilemap _metadataLayer => _tilemaps[2];
+    private Tilemap _interactionLayer => _tilemaps[1];
+    private Tilemap _groundLayer => _tilemaps[0];
 
     private void Awake()
     {
@@ -75,6 +77,30 @@ public class LevelManager : MonoBehaviour
                     HandleTileMetaData(tile, pos);
             }
         }
+
+        var hiddenBlocker = Resources.Load<BaseTile>("Structural/hiddenBlocker");
+        for (int i = _interactionLayer.cellBounds.xMin; i < _interactionLayer.cellBounds.xMax; i++)
+        {
+            for (int j = _interactionLayer.cellBounds.yMin; j < _interactionLayer.cellBounds.yMax; j++)
+            {
+                var pos = new Vector3Int(i, j);
+                var tile = _interactionLayer.GetTile(pos);
+                var mine = _interactionLayer.GetTile(pos) as MineTile;
+                if (mine != null)
+                {
+                    _metadataLayer.SetTile(pos + new Vector3Int(1,0), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(-1,0), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(1,1), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(0,1), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(-1,1), hiddenBlocker);
+                }    
+            }
+        }
+    }
+
+    public T GetInstance<T>(Vector3Int pos)
+    { 
+        return default(T);
     }
 
     #region Validation

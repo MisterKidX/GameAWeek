@@ -18,7 +18,8 @@ public class CameraController : MonoBehaviour
 
     internal void UnstickToObject()
     {
-        StopCoroutine(StickToObjectRoutine());
+        StopAllCoroutines();
+        _stick = null;
     }
 
     private IEnumerator StickToObjectRoutine()

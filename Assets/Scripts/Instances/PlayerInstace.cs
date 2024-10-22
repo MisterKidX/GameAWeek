@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -28,5 +29,12 @@ public class PlayerInstace : ScriptableObject
         Color = color;
 
         Resources = GameConfig.GetStartingResouces().ToList();
+    }
+
+    internal void GetResource(ResourceInstance inst)
+    {
+        var res = Resources.First(r => r.Model == inst.Model);
+        res.Amount += inst.Amount;
+        Destroy(inst);
     }
 }

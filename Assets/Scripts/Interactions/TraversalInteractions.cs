@@ -42,6 +42,7 @@ public class TraversalInteractions : MonoBehaviour
                 StartCoroutine(MoveSelectedHero(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero));
             }
         }
+
         if (MoveMapUp())
             _camController.Camera.transform.Translate(Vector3.up * Time.deltaTime * _cameraScrollSpeed);
         if (MoveMapDown())
@@ -58,6 +59,23 @@ public class TraversalInteractions : MonoBehaviour
 
         for (int i = 1; i < _path.Count; i++)
         {
+            var aquirable = _obstacles.GetTile(_path[i].Position) as AquirableTile;
+            if (i == _path.Count -1 && aquirable != null)
+            {
+                aquirable.Aquire(LevelManager.CurrentLevel.CurrentPlayer);
+                var instObject = _obstacles.GetInstantiatedObject(_path[i].Position);
+                if (instObject != null)
+                {
+                    var mineView = instObject.GetComponent<MineView>();
+                    if (mineView != null)
+                        mineView.Capture(LevelManager.CurrentLevel.CurrentPlayer);
+                }
+                if (!aquirable.CanStepOver)
+                {
+                    _obstacles.SetTile(_path[i].Position, null);
+                    break;
+                }
+            }
             var moveCost = _path[i].MovemventCost;
             if (selectedHero.RemainingMovementPoints >= moveCost)
             {
@@ -68,7 +86,7 @@ public class TraversalInteractions : MonoBehaviour
             else
                 break;
 
-            yield return new WaitForSeconds(0.65f);
+            yield return new WaitForSeconds(GameConfig.Configuration.HeroMovementSpeed);
         }
 
         _path = null;
@@ -93,7 +111,7 @@ public class TraversalInteractions : MonoBehaviour
 
     private bool MoveMapDown()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.S))
             return true;
         else
             return false;
