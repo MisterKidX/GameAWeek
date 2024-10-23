@@ -53,6 +53,12 @@ public class TraversalInteractions : MonoBehaviour
             _camController.Camera.transform.Translate(Vector3.right * Time.deltaTime * _cameraScrollSpeed);
     }
 
+    public void Reset()
+    {
+        _path = null;
+        _traversalUI.Reset();
+    }
+
     private IEnumerator MoveSelectedHero(HeroInstance selectedHero)
     {
         _camController.StickToObject(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.View.gameObject);

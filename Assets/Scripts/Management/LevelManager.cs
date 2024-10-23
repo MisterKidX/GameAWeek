@@ -6,6 +6,11 @@ using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField]
+    CameraController _camController;
+    [SerializeField]
+    TraversalInteractions _interaction;
+
     private static LevelManager _instance;
     public static LevelManager Instance
     {
@@ -33,21 +38,24 @@ public class LevelManager : MonoBehaviour
             _instance = this;
         else
             Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Quick Load")]
+    private void LoadTestLevel()
+    {
+        var pInstances = new PlayerInstace[]
+        {
+            PlayerModel.Create("p1", 0, Resources.LoadAll<CastleModel>("")[0], Color.blue),
+            PlayerModel.Create("p2", 1, Resources.LoadAll<CastleModel>("")[0], Color.green),
+        };
+        LoadLevel(pInstances, null);
+    }
+#endif
 
     internal void LoadLevel(PlayerInstace[] playerInstances, string level)
     {
         CurrentLevel = Instance;
-        StartCoroutine(LoadLevelRoutine(playerInstances, level));
-    }
-
-    private IEnumerator LoadLevelRoutine(PlayerInstace[] playerInstances, string level)
-    {
-        SceneManager.LoadScene(level);
-
-        yield return null;
 
         Players = playerInstances;
 
@@ -60,9 +68,17 @@ public class LevelManager : MonoBehaviour
         PlayerturnSequence();
     }
 
+    public void FinishedTurn()
+    {
+        _turnOrder = ++_turnOrder % Players.Length;
+        _interaction.Reset();
+        PlayerturnSequence();
+    }
+
     private void PlayerturnSequence()
     {
-        _gameplayUI.InitializePlayer(CurrentPlayer);
+        _gameplayUI.InitializePlayer(CurrentPlayer, FinishedTurn);
+        _camController.PointAt(CurrentPlayer.Heroes[0].View.gameObject);
     }
 
     private void DecompileLevel()

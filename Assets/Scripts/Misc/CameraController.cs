@@ -6,31 +6,33 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Camera Camera { get; private set; }
-    private GameObject _stick;
 
     private void Awake() => Camera = GetComponent<Camera>();
 
     internal void StickToObject(GameObject go)
     {
-        _stick = go;
-        StartCoroutine(StickToObjectRoutine());
+        StartCoroutine(StickToObjectRoutine(go));
     }
 
     internal void UnstickToObject()
     {
         StopAllCoroutines();
-        _stick = null;
     }
 
-    private IEnumerator StickToObjectRoutine()
+    private IEnumerator StickToObjectRoutine(GameObject go)
     {
         while (true)
         {
-            var pos = Camera.transform.position;
-            pos.x = _stick.transform.position.x;
-            pos.y = _stick.transform.position.y;
-            Camera.transform.position = pos;
+            PointAt(go);
             yield return null;
         }
+    }
+
+    internal void PointAt(GameObject go)
+    {
+        var pos = Camera.transform.position;
+        pos.x = go.transform.position.x;
+        pos.y = go.transform.position.y;
+        Camera.transform.position = pos;
     }
 }

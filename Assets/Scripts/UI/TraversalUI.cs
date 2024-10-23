@@ -16,14 +16,7 @@ public class TraversalUI : MonoBehaviour
 
     public void VisualizePath(List<PathPoint> path, float movementAllowance)
     {
-        if (_pathVisuals.Count > 0)
-        {
-            while (_pathVisuals.Count != 0)
-            {
-                Destroy(_pathVisuals[0]);
-                _pathVisuals.RemoveAt(0);
-            }
-        }
+        Reset();
 
         if (path != null && path.Count > 0)
         {
@@ -71,6 +64,18 @@ public class TraversalUI : MonoBehaviour
             _pathVisuals.Add(x);
             if (path[path.Count-1].AccumulatedMoveCost > movementAllowance)
                 x.GetComponentInChildren<Image>().color = Color.red;
+        }
+    }
+
+    public void Reset()
+    {
+        if (_pathVisuals.Count > 0)
+        {
+            while (_pathVisuals.Count != 0)
+            {
+                Destroy(_pathVisuals[0]);
+                _pathVisuals.RemoveAt(0);
+            }
         }
     }
 

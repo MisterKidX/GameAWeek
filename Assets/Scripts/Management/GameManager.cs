@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,15 +33,15 @@ public class GameManager : MonoBehaviour
 
     internal void TransitionToGameplay(PlayerInstace[] playerInstances, string level)
     {
-        LevelManager levelManager = null;
-        if (LevelManager.Instance == null)
-        {
-            var go = new GameObject("Local Level Manager");
-            levelManager = go.AddComponent<LevelManager>();
-        }
-        else
-            levelManager = LevelManager.Instance;
+        StartCoroutine(TransitionToGameplayRoutine(playerInstances, level));
+    }
 
-        levelManager.LoadLevel(playerInstances, level);
+    private IEnumerator TransitionToGameplayRoutine(PlayerInstace[] playerInstances, string level)
+    {
+        SceneManager.LoadScene(level);
+
+        yield return null;
+
+        FindFirstObjectByType<LevelManager>().LoadLevel(playerInstances, level);
     }
 }
