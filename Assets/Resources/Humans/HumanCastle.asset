@@ -18,3 +18,11 @@ MonoBehaviour:
   Heroes:
   - {fileID: 11400000, guid: 5dd9ba274a0482b44b921772304489f5, type: 2}
   - {fileID: 11400000, guid: 41627f982bff83c418213ad38df23f0d, type: 2}
+  Units:
+  - {fileID: 11400000, guid: 6c08030238f35684e8bc8ec7e5613f3d, type: 2}
+  - {fileID: 11400000, guid: 30d08a55987cea84ea5f2d21ca0c1c9e, type: 2}
+  - {fileID: 11400000, guid: 136f514ac98a40d4c8513ce494f6cf56, type: 2}
+  - {fileID: 11400000, guid: d98ee31c15ed3e04c90545141c9006bb, type: 2}
+  - {fileID: 11400000, guid: 8a0e8bd2c57721549920df7df9fbdb0d, type: 2}
+  - {fileID: 11400000, guid: 10a5897297cf85b4a8278f5d85bf7cf7, type: 2}
+  - {fileID: 11400000, guid: 09e6af3d90858ca4486c55cce0b2ed9c, type: 2}

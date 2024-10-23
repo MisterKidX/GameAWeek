@@ -7,15 +7,27 @@ public class CastleInstance : ScriptableObject
     public CastleModel Model;
     public PlayerInstace Holder;
     public string Name;
+    public UnitInstance[] CastledUnits;
+    public HeroInstance CastledHero;
+    public HeroInstance VisitingHero;
 
     CastleView _view;
 
-    public void Init(CastleModel model, Vector3 postion, PlayerInstace holder, string name)
+    public bool HasCastledHero => CastledHero != null;
+    public bool HasVisitingHero => VisitingHero != null;
+
+    public void Init(CastleModel model, Vector3 postion, PlayerInstace holder, string name, UnitInstance[] castledUnits = null)
     {
         Model = model;
         Name = name;
         Holder = holder;
         Position = postion;
+        CastledUnits = castledUnits;
+
+        if (CastledUnits == null)
+            CastledUnits = new UnitInstance[7];
+        else if (CastledUnits.Length != 7)
+            throw new ArgumentException("", nameof(castledUnits));
     }
 
     internal void Show()

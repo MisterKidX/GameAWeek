@@ -1,16 +1,18 @@
+using System;
 using UnityEngine;
 
 public class UIView_UnitStrip : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    UIView_UnitBox[] UnitBoxes;
 
-    // Update is called once per frame
-    void Update()
+    internal void Init(HeroInstance hero, UnitInstance[] units)
     {
-        
+        UnitBoxes[0].Init(hero == null ? null : hero.Model.Portrait, 0, false);
+
+        for (int i = 0; i < units.Length; i++)
+        {
+            UnitBoxes[i + 1].Init(units[i] == null ? null : units[i].Model.Portrait, units[i].Amount, true);
+        }
     }
 }

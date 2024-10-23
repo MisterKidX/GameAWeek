@@ -19,10 +19,10 @@ public class UnitModel : ScriptableObject
     public int Growth;
 
 
-    public UnitInstance Create()
+    public UnitInstance Create(int amount)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();
-        inst.Init(this);
+        inst.Init(this, amount);
         return inst;
     }
 }

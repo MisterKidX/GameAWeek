@@ -8,11 +8,16 @@ public static class GameLogic
 
     public static HeroInstance CreateRandomHeroInstanceFromCastle(CastleModel castleModel, Vector3Int position, PlayerInstace holder)
     {
+        var unitInstances = new UnitInstance[7];
+        unitInstances[0] = castleModel.Units[0].Create(Random.Range(1, 25));
+        unitInstances[1] = castleModel.Units[1].Create(Random.Range(1, 10));
+        unitInstances[2] = castleModel.Units[2].Create(Random.Range(0, 3));
+
         var inst = castleModel.Heroes.
             Where(heroModel => !_heroesInGameplay.
             Contains(heroModel)).
             GetRandom().
-            Create(position, holder);
+            Create(position, holder, unitInstances);
 
         _heroesInGameplay.Add(inst.Model);
         holder.Heroes.Add(inst);
