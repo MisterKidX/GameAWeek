@@ -12,7 +12,8 @@ public class UIView_UnitStrip : MonoBehaviour
 
         for (int i = 0; i < units.Length; i++)
         {
-            UnitBoxes[i + 1].Init(units[i] == null ? null : units[i].Model.Portrait, units[i].Amount, true);
+            UnitBoxes[i + 1].Init(units[i] == null ? null : units[i].Model.Portrait,
+                units[i] == null ? 0 : units[i].Amount);
         }
     }
 }

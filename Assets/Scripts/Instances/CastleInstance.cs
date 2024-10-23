@@ -9,7 +9,17 @@ public class CastleInstance : ScriptableObject
     public string Name;
     public UnitInstance[] CastledUnits;
     public HeroInstance CastledHero;
-    public HeroInstance VisitingHero;
+    public HeroInstance VisitingHero
+    {
+        get
+        {
+            foreach (var hero in Holder.Heroes)
+                if (hero.Position == Position)
+                    return hero;
+
+            return null;
+        }
+    }
 
     CastleView _view;
 

@@ -9,7 +9,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     CameraController _camController;
     [SerializeField]
-    TraversalInteractions _interaction;
+    TraversalInteractions _traversalInteraction;
+    [SerializeField]
+    GameplayUI _gameplayUI;
 
     private static LevelManager _instance;
     public static LevelManager Instance
@@ -24,7 +26,6 @@ public class LevelManager : MonoBehaviour
 
     private Grid _grid;
     private Tilemap[] _tilemaps;
-    private GameplayUI _gameplayUI;
     private int _turnOrder = 0;
 
     public PlayerInstace CurrentPlayer => Players[_turnOrder];
@@ -41,6 +42,14 @@ public class LevelManager : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    private void OnGUI()
+    {
+        if (GUILayout.Button("Quick Load"))
+        {
+            LoadTestLevel();
+        }
+    }
+
     [ContextMenu("Quick Load")]
     private void LoadTestLevel()
     {
@@ -61,8 +70,9 @@ public class LevelManager : MonoBehaviour
 
         _grid = FindObjectsByType<Grid>(FindObjectsSortMode.None)[0];
         _tilemaps = _grid.GetComponentsInChildren<Tilemap>();
-        var asset = Resources.Load<GameObject>("Structural/GameplayUI");
-        _gameplayUI = Instantiate(asset).GetComponent<GameplayUI>();
+        _gameplayUI.Init(
+            () => _traversalInteraction.gameObject.SetActive(false),
+            () => _traversalInteraction.gameObject.SetActive(true));
 
         DecompileLevel();
         PlayerturnSequence();
@@ -71,7 +81,7 @@ public class LevelManager : MonoBehaviour
     public void FinishedTurn()
     {
         _turnOrder = ++_turnOrder % Players.Length;
-        _interaction.Reset();
+        _traversalInteraction.Reset();
         PlayerturnSequence();
     }
 

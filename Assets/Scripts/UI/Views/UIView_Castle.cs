@@ -12,12 +12,13 @@ public class UIView_Castle : MonoBehaviour
     UIView_UnitStrip _castledUnitsStrip;
 
     CastleInstance _instance;
-    public void Init(CastleInstance instance)
+    public void Init(CastleInstance instance, Action exit)
     {
         _instance = instance;
 
         _exit.onClick.RemoveAllListeners();
-        _exit.onClick.AddListener(() => gameObject.SetActive(false));
+        _exit.onClick.AddListener(() => Destroy(gameObject));
+        _exit.onClick.AddListener(() => exit());
 
         ShowUnits();
     }
