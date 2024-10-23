@@ -6,8 +6,9 @@ public class CastleModel : ScriptableObject
 {
     public string Name;
     public Sprite Portrait;
-    public CastleView p_View;
+    public CastleView p_View;   
     public HeroModel[] Heroes;
+    public UnitModel[] Units;
 
     internal CastleInstance Create(Vector3 position, PlayerInstace holder = null, string name = null)
     {
