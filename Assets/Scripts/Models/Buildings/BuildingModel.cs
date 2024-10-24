@@ -4,9 +4,9 @@ using UnityEngine;
 public abstract class BuildingModel : ScriptableObject
 {
     public string Name;
-
+    public int Order;
+    public BuildingModel Upgrade;
     public ResourceCost[] Cost;
-    public BuildingModel[] Upgrades;
 }
 
 [Serializable]

@@ -31,10 +31,16 @@ public class PlayerInstace : ScriptableObject
         Resources = GameConfig.GetStartingResouces().ToHashSet();
     }
 
-    internal void GetResource(ResourceInstance inst)
+    internal void AddResource(ResourceInstance inst)
     {
         var res = Resources.First(r => r.Model == inst.Model);
         res.Amount += inst.Amount;
         Destroy(inst);
+    }
+
+    public void AddResource(ResourceModel resource, int amount)
+    {
+        var res = Resources.First(r => r.Model == resource);
+        res.Amount += amount;
     }
 }

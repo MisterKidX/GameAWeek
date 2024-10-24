@@ -2,7 +2,7 @@
 {
     public int ReactionTime { get; }
 
-    public void React(int days);
+    public void React(int totalDays);
 
     public void EnlistToTimeManager() => LevelManager.CurrentLevel.EnlistTimeObject(this);
 }

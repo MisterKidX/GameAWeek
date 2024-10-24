@@ -9,6 +9,7 @@ public class CastleModel : ScriptableObject
     public CastleView p_View;   
     public HeroModel[] Heroes;
     public UnitModel[] Units;
+    public BuildingModel[] Buildings;
 
     internal CastleInstance Create(Vector3 position, PlayerInstace holder = null, string name = null)
     {

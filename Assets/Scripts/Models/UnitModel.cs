@@ -18,7 +18,6 @@ public class UnitModel : ScriptableObject
     public int Speed;
     public int Growth;
 
-
     public UnitInstance Create(int amount)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();

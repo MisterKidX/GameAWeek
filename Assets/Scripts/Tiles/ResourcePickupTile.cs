@@ -9,6 +9,6 @@ public class ResourcePickupTile : AquirableTile
     public override void Aquire(PlayerInstace player)
     {
         var inst = ResourceModel.Create(Amount);
-        player.GetResource(inst);
+        player.AddResource(inst);
     }
 }
