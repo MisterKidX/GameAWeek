@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: u1_pikemen
   m_EditorClassIdentifier: 
   Name: Guardhouse
+  View: {fileID: 1390685767406630478, guid: b4ec009f8f62f3047920bc6b281e07c0, type: 3}
   Order: 30
   Upgrade: {fileID: 0}
   Cost:

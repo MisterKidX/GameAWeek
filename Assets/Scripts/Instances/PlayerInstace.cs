@@ -43,4 +43,12 @@ public class PlayerInstace : ScriptableObject
         var res = Resources.First(r => r.Model == resource);
         res.Amount += amount;
     }
+
+    internal void NewTurn()
+    {
+        foreach (var castle in Castles)
+        {
+            castle.Reset();
+        }
+    }
 }

@@ -8,7 +8,7 @@ public class IncomeGeneratorBuildingModel : BuildingModel
     public int Income;
     public int OverTime = 1;
 
-    public IncomeGeneratorBuildingInstance Create(PlayerInstace holder)
+    public IncomeGeneratorBuildingInstance Create(CastleInstance holder)
     {
         IncomeGeneratorBuildingInstance instance = ScriptableObject.CreateInstance<IncomeGeneratorBuildingInstance>();
         instance.Init(this, holder);

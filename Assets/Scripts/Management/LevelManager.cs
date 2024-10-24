@@ -47,9 +47,16 @@ public class LevelManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnGUI()
     {
-        if (GUILayout.Button("Quick Load"))
+        if (CurrentLevel == null)
         {
-            LoadTestLevel();
+            Rect r = new Rect(1920f/2f, 1080/2f, 500, 150);
+            GUIStyle g = new GUIStyle(GUI.skin.button);
+            g.fontSize = 72;
+
+            if (GUI.Button(r,"Quick Load", g))
+            {
+                LoadTestLevel();
+            }
         }
     }
 
@@ -80,6 +87,7 @@ public class LevelManager : MonoBehaviour
         _gameplayUI.Init(
             () => _traversalInteraction.gameObject.SetActive(false),
             () => _traversalInteraction.gameObject.SetActive(true));
+        _traversalInteraction.gameObject.SetActive(true);
 
         DecompileLevel();
         PlayerturnSequence();
@@ -99,6 +107,7 @@ public class LevelManager : MonoBehaviour
     {
         _gameplayUI.InitializePlayer(CurrentPlayer, FinishedTurn);
         _camController.PointAt(CurrentPlayer.Heroes[0].View.gameObject);
+        CurrentPlayer.NewTurn();
     }
 
     private void DecompileLevel()

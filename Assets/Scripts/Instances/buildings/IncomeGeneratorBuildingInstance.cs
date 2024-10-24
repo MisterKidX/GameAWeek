@@ -2,21 +2,22 @@
 using System.Linq;
 using UnityEngine;
 
-public class IncomeGeneratorBuildingInstance : ScriptableObject, ITimeableReactor
+public class IncomeGeneratorBuildingInstance : BuildingInstance, ITimeableReactor
 {
-    public IncomeGeneratorBuildingModel Model { get; private set; }
-    public PlayerInstace Holder { get; private set; }
+    public override BuildingModel Model => IModel;
+    public IncomeGeneratorBuildingModel IModel { get; private set; }
+    public CastleInstance Holder { get; private set; }
 
-    public int ReactionTime => Model.OverTime;
+    public int ReactionTime => IModel.OverTime;
 
     public void React(int days)
     {
-        Holder.AddResource(Model.Resource, Model.Income);
+        Holder.Holder.AddResource(IModel.Resource, IModel.Income);
     }
 
-    internal void Init(IncomeGeneratorBuildingModel incomeGeneratorBuildingModel, PlayerInstace holder)
+    internal void Init(IncomeGeneratorBuildingModel incomeGeneratorBuildingModel, CastleInstance holder)
     {
-        Model = incomeGeneratorBuildingModel;
+        IModel = incomeGeneratorBuildingModel;
         Holder = holder;
     }
 

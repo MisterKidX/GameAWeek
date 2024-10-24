@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 1.1_TownHall
   m_EditorClassIdentifier: 
   Name: Town Hall
+  View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
+  Order: 0
+  Upgrade: {fileID: 11400000, guid: 127211a9a98f9174c8aaed5b068d923c, type: 2}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 2000
-  Upgrade: {fileID: 11400000, guid: 127211a9a98f9174c8aaed5b068d923c, type: 2}
   Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
   Income: 1000
   OverTime: 1
