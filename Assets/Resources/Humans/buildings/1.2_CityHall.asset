@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 1.2_CityHall
   m_EditorClassIdentifier: 
   Name: City Hall
+  Description: Provides 2000 gold for your kingdom.
   View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
   Order: 0
   Upgrade: {fileID: 0}

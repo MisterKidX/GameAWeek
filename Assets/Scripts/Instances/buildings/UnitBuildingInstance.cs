@@ -11,13 +11,13 @@ public class UnitBuildingInstance : BuildingInstance, ITimeableReactor
     private void Awake()
     {
         (this as ITimeableReactor).EnlistToTimeManager();
-        AvailableForPurchase = UModel.Unit.Create(0);
     }
 
     public void Init(UnitBuildingModel model, CastleInstance holder)
     {
         UModel = model;
         Holder = holder;
+        AvailableForPurchase = UModel.Unit.Create(0);
     }
 
     public void React(int totalDays)

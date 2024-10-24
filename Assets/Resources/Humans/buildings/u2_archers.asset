@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: u2_archers
   m_EditorClassIdentifier: 
   Name: Archer Tower
+  Description: Allows you to purchase archers.
   View: {fileID: -5830397675949700229, guid: b8768858eaabbb64a9a29e77a79e995e, type: 3}
   Order: 31
   Upgrade: {fileID: 0}

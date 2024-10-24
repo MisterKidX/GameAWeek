@@ -100,4 +100,33 @@ public class CastleInstance : ScriptableObject
     {
         BuiltThisTurn = false;
     }
+
+    public void BuildOrUpgrade(BuildingModel bmodel)
+    {
+        if (BuiltBuildings.ContainsKey(bmodel) && BuiltBuildings[bmodel] == null)
+            Build(bmodel);
+        else
+            Upgrade(bmodel);
+    }
+
+    private void Build(BuildingModel bmodel)
+    {
+        if (BuiltBuildings[bmodel] != null)
+            throw new InvalidOperationException("You can't build an already built buuilding.");
+
+        BuiltBuildings[bmodel] = bmodel.BaseCreate(this);
+        BuiltThisTurn = true;
+    }
+
+    private void Upgrade(BuildingModel bmodel)
+    {
+        if (BuiltBuildings[bmodel] == null)
+            throw new InvalidOperationException("Cannot upgrade a building which is not built.");
+        if (!bmodel.Upgradable)
+            throw new InvalidOperationException("Cannot upgrade a building which is not upgradable.");
+
+        BuiltBuildings.Remove(bmodel);
+        BuiltBuildings.Add(bmodel.Upgrade, bmodel.Upgrade.BaseCreate(this));
+        BuiltThisTurn = true;
+    }
 }

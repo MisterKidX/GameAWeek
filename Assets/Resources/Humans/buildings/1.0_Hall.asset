@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 1.0_Hall
   m_EditorClassIdentifier: 
   Name: Hall
+  Description: Provides daily gold for your kingdom
   View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
   Order: 0
   Upgrade: {fileID: 11400000, guid: 6f35d00b66d098b48a7c46bbcdd8c25a, type: 2}

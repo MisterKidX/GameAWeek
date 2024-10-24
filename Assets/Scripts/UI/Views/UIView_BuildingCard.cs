@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,15 +17,20 @@ public class UIView_BuildingCard : MonoBehaviour
     Sprite _statusIconNotEnoughResources;
     [SerializeField]
     Sprite _cantBuild;
+    [SerializeField]
+    Button _build;
 
     BuildingModel _model;
 
-    public void Init(BuildingModel model)
+    public void Init(BuildingModel model, Action onClick)
     {
         _model = model;
 
         _name.text = _model.Name;
         _portrait.sprite = _model.View;
+
+        _build.onClick.RemoveAllListeners();
+        _build.onClick.AddListener(() => onClick());
     }
 
     public void SetState(BuildingStateView built)

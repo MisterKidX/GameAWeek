@@ -10153,6 +10153,7 @@ MonoBehaviour:
   - {fileID: 9071511974035444055}
   - {fileID: 6153384515503401825}
   p_buildingCard: {fileID: 8481476432619104004, guid: d4c6d64c88d9d2c41b80776816717629, type: 3}
+  p_buildingModal: {fileID: 4676420049301067966, guid: df283028c82fb714db63d7e23b3ac4bb, type: 3}
   _exit: {fileID: 7655564505449333428}
   _castleInstance: {fileID: 0}
 --- !u!1 &8451092052717311883

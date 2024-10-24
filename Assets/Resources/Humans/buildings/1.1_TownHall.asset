@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 1.1_TownHall
   m_EditorClassIdentifier: 
   Name: Town Hall
+  Description: Provides even more gold for your kingdom.
   View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
   Order: 0
   Upgrade: {fileID: 11400000, guid: 127211a9a98f9174c8aaed5b068d923c, type: 2}

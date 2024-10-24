@@ -13,4 +13,6 @@ public class UnitBuildingModel : BuildingModel
 
         return instance;
     }
+
+    public override BuildingInstance BaseCreate(CastleInstance instance) => Create(instance);
 }

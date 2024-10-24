@@ -9,6 +9,8 @@ public class UIView_CastleBuildMenu : MonoBehaviour
     [SerializeField]
     UIView_BuildingCard p_buildingCard;
     [SerializeField]
+    UIView_BuildingBuildConfirmationModal p_buildingModal;
+    [SerializeField]
     Button _exit;
 
     public CastleInstance _castleInstance;
@@ -19,10 +21,10 @@ public class UIView_CastleBuildMenu : MonoBehaviour
         _exit.onClick.RemoveAllListeners();
         _exit.onClick.AddListener(() => Destroy(gameObject));
 
-        Show();
+        Draw();
     }
 
-    private void Show()
+    private void Draw()
     {
         EmptyRows();
 
@@ -35,18 +37,62 @@ public class UIView_CastleBuildMenu : MonoBehaviour
             bool hasUpgrades = model.Upgrade != null;
 
             var buildingCard = Instantiate(p_buildingCard);
-            buildingCard.Init(model);
             ParentCardToRow(buildingCard, model.Order);
 
-            if (!isBuilt && _castleInstance.BuiltThisTurn)
-                buildingCard.SetState(BuildingStateView.CantBuild);
-            else if (isBuilt && !hasUpgrades)
+            if (_castleInstance.BuiltThisTurn)
+            {
+                if (!isBuilt)
+                {
+                    buildingCard.SetState(BuildingStateView.CantBuild);
+                    buildingCard.Init(model, () => ShowBuildingModal(model, false));
+                }
+                else if (isBuilt && hasUpgrades)
+                {
+                    buildingCard.SetState(BuildingStateView.CantBuild);
+                    buildingCard.Init(model, () => ShowBuildingModal(model, false));
+                }
+                else
+                {
+                    buildingCard.SetState(BuildingStateView.Built);
+                    buildingCard.Init(model, () => ShowBuildingModal(model, false));
+                }
+
+                continue;
+            }
+
+            if (isBuilt && !hasUpgrades)
+            {
                 buildingCard.SetState(BuildingStateView.Built);
-            else if (!isBuilt && _castleInstance.HasEnoughResourcesForBuilding(model))
+                buildingCard.Init(model, () => ShowBuildingModal(model, false));
+            }
+            else if (isBuilt && hasUpgrades && _castleInstance.HasEnoughResourcesForBuilding(model.Upgrade))
+            {
                 buildingCard.SetState(BuildingStateView.CanBuild);
+                buildingCard.Init(model.Upgrade, () => ShowBuildingModal(model, true));
+            }
+            else if (!isBuilt && _castleInstance.HasEnoughResourcesForBuilding(model))
+            {
+                buildingCard.SetState(BuildingStateView.CanBuild);
+                buildingCard.Init(model, () => ShowBuildingModal(model, true));
+            }
             else
+            {
                 buildingCard.SetState(BuildingStateView.NotEnoughResources);
+                buildingCard.Init(model, () => ShowBuildingModal(model, false));
+            }
         }
+    }
+
+    private void ShowBuildingModal(BuildingModel model, bool canBebuilt)
+    {
+        var modal = Instantiate(p_buildingModal);
+        modal.Init(model, canBebuilt, ConfirmBuild);
+    }
+
+    private void ConfirmBuild(BuildingModel model)
+    {
+        _castleInstance.BuildOrUpgrade(model);
+        Draw();
     }
 
     private void ParentCardToRow(UIView_BuildingCard buildingCard, int order)

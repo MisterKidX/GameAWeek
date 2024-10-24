@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: u3_griffins
   m_EditorClassIdentifier: 
   Name: Griffin Tower
+  Description: allowes you to purchase griffins.
   View: {fileID: -8274196694388497642, guid: 88eb73694f545f143a1f6e6b4cf027e7, type: 3}
   Order: 32
   Upgrade: {fileID: 0}
