@@ -7,7 +7,22 @@ public class CastleInstance : ScriptableObject
     public CastleModel Model;
     public PlayerInstace Holder;
     public string Name;
-    public UnitInstance[] CastledUnits;
+
+    private UnitInstance[] _castledUnits;
+    public UnitInstance[] CastledUnits
+    {
+        get
+        {
+            return CastledHero == null ? _castledUnits : CastledHero.Units;
+        }
+        set
+        {
+            if (CastledHero != null)
+                throw new InvalidOperationException("Cannot set castled units when a hero is castled");
+
+            _castledUnits = value;
+        }
+    }
     public HeroInstance CastledHero;
     public HeroInstance VisitingHero
     {
@@ -32,10 +47,10 @@ public class CastleInstance : ScriptableObject
         Name = name;
         Holder = holder;
         Position = postion;
-        CastledUnits = castledUnits;
+        _castledUnits = castledUnits;
 
         if (CastledUnits == null)
-            CastledUnits = new UnitInstance[7];
+            _castledUnits = new UnitInstance[7];
         else if (CastledUnits.Length != 7)
             throw new ArgumentException("", nameof(castledUnits));
     }

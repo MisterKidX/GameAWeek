@@ -11,7 +11,8 @@ public static class GameLogic
         var unitInstances = new UnitInstance[7];
         unitInstances[0] = castleModel.Units[0].Create(Random.Range(1, 25));
         unitInstances[1] = castleModel.Units[1].Create(Random.Range(1, 10));
-        unitInstances[2] = castleModel.Units[2].Create(Random.Range(1, 3));
+        unitInstances[2] = castleModel.Units[1].Create(Random.Range(1, 5));
+        unitInstances[3] = castleModel.Units[2].Create(Random.Range(1, 3));
 
         var inst = castleModel.Heroes.
             Where(heroModel => !_heroesInGameplay.

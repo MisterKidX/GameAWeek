@@ -53,6 +53,9 @@ public class LevelManager : MonoBehaviour
     [ContextMenu("Quick Load")]
     private void LoadTestLevel()
     {
+        if (!Application.isPlaying)
+            return;
+
         var pInstances = new PlayerInstace[]
         {
             PlayerModel.Create("p1", 0, Resources.LoadAll<CastleModel>("")[0], Color.blue),

@@ -26,7 +26,7 @@ public class UIView_Castle : MonoBehaviour
     private void ShowUnits()
     {
         var castledUnits = _instance.CastledUnits;
-        _castledUnitsStrip.Init(_instance.CastledHero, _instance.CastledUnits);
-        _visitingUnitsStrip.Init(_instance.VisitingHero, _instance.VisitingHero?.Units);
+        _castledUnitsStrip.Init(_instance, true);
+        _visitingUnitsStrip.Init(_instance, false);
     }
 }

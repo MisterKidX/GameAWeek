@@ -83,8 +83,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429ec98cac910f645980f387ad63b333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitBoxes:
-  - {fileID: 7586812478629538606}
+  _heroBox: {fileID: 7586812478629538606}
+  _unitBoxes:
   - {fileID: 3794116337211680643}
   - {fileID: 4053759478051175677}
   - {fileID: 752831765941473270}
