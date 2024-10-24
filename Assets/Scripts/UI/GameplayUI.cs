@@ -11,7 +11,7 @@ public class GameplayUI : MonoBehaviour
     UIView_GameTime _gameTime;
 
     public UIView_HeroSelectionPane HeroSelectionPane;
-    public UIVIew_CastleSelectionPane CastleSelectionPane;
+    public UIView_CastleSelectionPane CastleSelectionPane;
     public UIView_ResourceBar ResourceBar;
     public Button _passTurnButton;
 

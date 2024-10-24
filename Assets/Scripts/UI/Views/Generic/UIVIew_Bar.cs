@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class UIVIew_Bar : MonoBehaviour
+public class UIView_Bar : MonoBehaviour
 {
     public Slider Slider;
 

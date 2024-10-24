@@ -14,7 +14,11 @@ public class UIView_Castle : MonoBehaviour
     [SerializeField]
     UIView_CastleBuildMenu p_castleBuildMenu;
     [SerializeField]
+    UIView_UnitsPurchaseMenu p_unitsPurchaseMenu;
+    [SerializeField]
     Button _build;
+    [SerializeField]
+    Button _units;
 
     [SerializeField]
     ImageBuildingModelTuple[] Scene;
@@ -31,8 +35,17 @@ public class UIView_Castle : MonoBehaviour
         _build.onClick.RemoveAllListeners();
         _build.onClick.AddListener(OpenBuildMenu);
 
+        _units.onClick.RemoveAllListeners();
+        _units.onClick.AddListener(OpenUnitsMenu);
+
         ShowUnits();
         ShowScene();
+    }
+
+    private void OpenUnitsMenu()
+    {
+        var menu = Instantiate(p_unitsPurchaseMenu);
+        menu.Init(_instance);
     }
 
     private void ShowScene()

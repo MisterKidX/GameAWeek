@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIVIew_CastleSelectionPane : MonoBehaviour
+public class UIView_CastleSelectionPane : MonoBehaviour
 {
     public UIView_CastleBox[] CastleCards;
 

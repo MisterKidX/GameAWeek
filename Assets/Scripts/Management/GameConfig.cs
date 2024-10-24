@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 public static class GameConfig
 {
@@ -46,4 +48,19 @@ public static class GameConfig
 
         return insts;
     }
+
+    internal static Sprite GetIconForStat(Stat stat)
+    {
+        return _config.StatIcons.First(s => s.Stat == stat).Icon;
+    }
+}
+
+public enum Stat
+{
+    Attack,
+    Defense,
+    Damage,
+    Health,
+    Speed,
+    Growth
 }

@@ -5,8 +5,8 @@ public class UIView_HeroCard : MonoBehaviour
 {
     public HeroInstance Instance { get; private set; }
     public Image Portrait;
-    public UIVIew_Bar MovementBar;
-    public UIVIew_Bar ManaBar;
+    public UIView_Bar MovementBar;
+    public UIView_Bar ManaBar;
 
     public void Init(HeroInstance instance)
     {

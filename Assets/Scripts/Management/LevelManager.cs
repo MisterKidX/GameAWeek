@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
     {
         if (CurrentLevel == null)
         {
-            Rect r = new Rect(1920f/2f, 1080/2f, 500, 150);
+            Rect r = new Rect(Screen.width/2f, Screen.height/2f, 500, 150);
             GUIStyle g = new GUIStyle(GUI.skin.button);
             g.fontSize = 72;
 
