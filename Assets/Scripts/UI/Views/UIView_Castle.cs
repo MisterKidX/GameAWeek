@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,9 @@ public class UIView_Castle : MonoBehaviour
     [SerializeField]
     Button _build;
 
+    [SerializeField]
+    ImageBuildingModelTuple[] Scene;
+
     CastleInstance _instance;
     public void Init(CastleInstance instance, Action exit)
     {
@@ -28,12 +32,34 @@ public class UIView_Castle : MonoBehaviour
         _build.onClick.AddListener(OpenBuildMenu);
 
         ShowUnits();
+        ShowScene();
+    }
+
+    private void ShowScene()
+    {
+        foreach (var item in Scene)
+        {
+            item.Image.gameObject.SetActive(false);
+        }
+        foreach (var building in _instance.BuiltBuildings)
+        {
+            if (building.Value == null)
+                continue;
+
+            var sceneObject = Scene.FirstOrDefault(s => s.BModel == building.Key);
+
+            if (sceneObject == null)
+                continue;
+
+            sceneObject.Image.gameObject.SetActive(true);
+            sceneObject.Image.sprite = building.Key.View;
+        }
     }
 
     private void OpenBuildMenu()
     {
         var castleView = Instantiate(p_castleBuildMenu);
-        castleView.Init(_instance);
+        castleView.Init(_instance, ShowScene);
     }
 
     private void ShowUnits()
@@ -42,4 +68,11 @@ public class UIView_Castle : MonoBehaviour
         _castledUnitsStrip.Init(_instance, true);
         _visitingUnitsStrip.Init(_instance, false);
     }
+}
+
+[Serializable]
+public record ImageBuildingModelTuple
+{
+    public BuildingModel BModel;
+    public Image Image;
 }

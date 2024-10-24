@@ -15,13 +15,23 @@ public class UIView_CastleBuildMenu : MonoBehaviour
 
     public CastleInstance _castleInstance;
 
-    public void Init(CastleInstance instance)
+    Action _exitAction;
+
+    public void Init(CastleInstance instance, Action exit)
     {
         _castleInstance = instance;
+        _exitAction = exit;
+
         _exit.onClick.RemoveAllListeners();
-        _exit.onClick.AddListener(() => Destroy(gameObject));
+        _exit.onClick.AddListener(Exit);
 
         Draw();
+    }
+
+    private void Exit()
+    {
+        Destroy(gameObject);
+        _exitAction?.Invoke();
     }
 
     private void Draw()
@@ -92,7 +102,7 @@ public class UIView_CastleBuildMenu : MonoBehaviour
     private void ConfirmBuild(BuildingModel model)
     {
         _castleInstance.BuildOrUpgrade(model);
-        Draw();
+        Exit();
     }
 
     private void ParentCardToRow(UIView_BuildingCard buildingCard, int order)
