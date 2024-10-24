@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -32,6 +33,8 @@ public class LevelManager : MonoBehaviour
     private Tilemap _metadataLayer => _tilemaps[2];
     private Tilemap _interactionLayer => _tilemaps[1];
     private Tilemap _groundLayer => _tilemaps[0];
+
+    private TimeManagement _timeManagement;
 
     private void Awake()
     {
@@ -68,6 +71,7 @@ public class LevelManager : MonoBehaviour
     internal void LoadLevel(PlayerInstace[] playerInstances, string level)
     {
         CurrentLevel = Instance;
+        _timeManagement = new();
 
         Players = playerInstances;
 
@@ -84,6 +88,9 @@ public class LevelManager : MonoBehaviour
     public void FinishedTurn()
     {
         _turnOrder = ++_turnOrder % Players.Length;
+        if (_turnOrder == 0)
+            _timeManagement.RoundOver();
+
         _traversalInteraction.Reset();
         PlayerturnSequence();
     }
@@ -130,6 +137,11 @@ public class LevelManager : MonoBehaviour
     public T GetInstance<T>(Vector3Int pos)
     { 
         return default(T);
+    }
+
+    public void EnlistTimeObject(ITimeableReactor timeableReactor)
+    {
+        _timeManagement.TimeableReactors.Add(timeableReactor, 0);
     }
 
     #region Validation
@@ -186,4 +198,50 @@ public class LevelManager : MonoBehaviour
         _playerSetupIndex++;
     }
     #endregion
+}
+
+internal class TimeManagement
+{
+    // int is last time in days it was updated
+    public Dictionary<ITimeableReactor, int> TimeableReactors = new();
+    private int _totalDays;
+
+    public int TotalDays
+    {
+        get => _totalDays;
+        private set
+        {
+            _totalDays = value;
+            UpdateTimeableReactors();
+        }
+    }
+
+    // called each round (day++)
+    private void UpdateTimeableReactors()
+    {
+        Dictionary<ITimeableReactor, int> changes = new();
+        foreach (var timeable in TimeableReactors)
+        {
+            var requestedUpdateTime = timeable.Value + timeable.Key.ReactionTime;
+            if (requestedUpdateTime <= TotalDays)
+                changes.Add(timeable.Key, TotalDays);
+
+            timeable.Key.React(TotalDays);
+        }
+
+        foreach (var change in changes)
+        {
+            TimeableReactors[change.Key] = change.Value;
+        }
+    }
+
+    public TimeManagement() 
+    { 
+        TotalDays = 1;
+    }
+
+    public void RoundOver()
+    {
+        TotalDays++;
+    }
 }

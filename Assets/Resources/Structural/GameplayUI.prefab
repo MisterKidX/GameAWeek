@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p_castleView: {fileID: 6091607690450970199, guid: e32dd43900ccca140a20a1f903dc5814, type: 3}
+  _gameTime: {fileID: 209519435335963005}
   HeroSelectionPane: {fileID: 2099716009256618807}
   CastleSelectionPane: {fileID: 4617907382143347081}
   ResourceBar: {fileID: 112318962738638194}

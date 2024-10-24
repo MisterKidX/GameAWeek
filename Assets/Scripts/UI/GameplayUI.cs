@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,8 @@ public class GameplayUI : MonoBehaviour
 {
     [SerializeField]
     UIView_Castle p_castleView;
+    [SerializeField]
+    UIView_GameTime _gameTime;
 
     public UIView_HeroSelectionPane HeroSelectionPane;
     public UIVIew_CastleSelectionPane CastleSelectionPane;
@@ -34,13 +37,14 @@ public class GameplayUI : MonoBehaviour
 
     private void ShowResources(PlayerInstace currentPlayer)
     {
-        ResourceBar.Init(currentPlayer.Resources);
+        ResourceBar.Init(currentPlayer.Resources.ToList());
     }
 
     public void Init(Action UIPanelOpen, Action UIPanelClosed)
     {
         _uiPanelClose = UIPanelClosed;
         _uiPanelOpen = UIPanelOpen;
+        _gameTime.Init(1);
     }
 
     public void InitializePlayer(PlayerInstace currentPlayer, Action passTurn)
