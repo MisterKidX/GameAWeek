@@ -22,3 +22,6 @@ MonoBehaviour:
   Health: 35
   Speed: 9
   Growth: 7
+  Cost:
+    Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
+    Amount: 250

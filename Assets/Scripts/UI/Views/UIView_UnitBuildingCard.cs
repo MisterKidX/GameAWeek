@@ -17,9 +17,14 @@ public class UIView_UnitBuildingCard : MonoBehaviour
     Image _unitPortrait;
     [SerializeField]
     UIView_StatsContainer _unitStatsContainer;
+    [SerializeField]
+    Button _recruit;
+    [SerializeField]
+    UIView_UnitPurchase p_unitRecruitment;
 
     UnitBuildingInstance _instance;
     UnitBuildingModel _model;
+    Action _recruitAction;
 
     UnitBuildingModel Model
     {
@@ -29,11 +34,14 @@ public class UIView_UnitBuildingCard : MonoBehaviour
         }
     }
 
-    public void Init(UnitBuildingInstance buildingInstance)
+    public void Init(UnitBuildingInstance buildingInstance, Action recruit)
     {
         _instance = buildingInstance;
         _model = null;
-
+        _recruit.interactable = true;
+        _recruitAction = recruit;
+        _recruit.onClick.RemoveAllListeners();
+        _recruit.onClick.AddListener(() => OpenRecruitmentPanel(buildingInstance));
         Draw();
     }
 
@@ -41,8 +49,16 @@ public class UIView_UnitBuildingCard : MonoBehaviour
     {
         _instance = null;
         _model = buildingModel;
+        _recruit.interactable = false;
+        _recruitAction = null;
 
         Draw();
+    }
+
+    private void OpenRecruitmentPanel(UnitBuildingInstance buildingInstance)
+    {
+        var inst = Instantiate(p_unitRecruitment);
+        inst.Init(buildingInstance, _recruitAction);
     }
 
     internal void Disable()

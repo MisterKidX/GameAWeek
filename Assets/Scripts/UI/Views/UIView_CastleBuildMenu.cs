@@ -102,6 +102,7 @@ public class UIView_CastleBuildMenu : MonoBehaviour
     private void ConfirmBuild(BuildingModel model)
     {
         _castleInstance.BuildOrUpgrade(model);
+        _castleInstance.Holder.Purchase(model);
         Exit();
     }
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class UnitInstance :ScriptableObject
+public class UnitInstance : ScriptableObject
 {
     public UnitModel Model;
     public int Amount;

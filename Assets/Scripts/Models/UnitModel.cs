@@ -18,6 +18,9 @@ public class UnitModel : ScriptableObject
     public int Speed;
     public int Growth;
 
+    // This will be an array in the future
+    public ResourceCost Cost;
+
     public UnitInstance Create(int amount)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();

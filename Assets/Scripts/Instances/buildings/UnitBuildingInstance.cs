@@ -17,7 +17,7 @@ public class UnitBuildingInstance : BuildingInstance, ITimeableReactor
     {
         UModel = model;
         Holder = holder;
-        AvailableForPurchase = UModel.Unit.Create(0);
+        AvailableForPurchase = UModel.Unit.Create(UModel.Unit.Growth / 2);
     }
 
     public void React(int totalDays)

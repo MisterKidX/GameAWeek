@@ -51,4 +51,66 @@ public class PlayerInstace : ScriptableObject
             castle.Reset();
         }
     }
+
+    public int GetMaxRecruitment(UnitInstance unit)
+    {
+        var cost = unit.Model.Cost;
+        var resourceAmount = Resources.First(r => r.Model == cost.Resource).Amount;
+
+        return (int)Mathf.Min(Mathf.Floor((float)resourceAmount / cost.Amount), unit.Amount);
+    }
+
+    public bool CanPurchaseUnit(UnitModel unit, int amount, CastleInstance atCastle)
+    {
+        var unitTotalCost = amount * unit.Cost.Amount;
+        var resource = Resources.First(r => r.Model == unit.Cost.Resource);
+        var resourceAmount = resource.Amount;
+
+        if (unitTotalCost > resourceAmount)
+            return false;
+        if (!atCastle.CastledUnits.Any(u => u == null))
+            return false;
+
+        return true;
+    }
+
+    public void Purchase(UnitModel unit, int amount, CastleInstance atCastle)
+    {
+        if (!CanPurchaseUnit(unit, amount, atCastle))
+            throw new InvalidOperationException("Cannot perform purchase operation for this unit.");
+
+        var unitTotalCost = amount * unit.Cost.Amount;
+        var resource = Resources.First(r => r.Model == unit.Cost.Resource);
+        var resourceAmount = resource.Amount;
+
+        resource.Amount -= unitTotalCost;
+
+        // check to see if any of the castled untis can be stacked
+        var stackableUnit = atCastle.CastledUnits.
+            FirstOrDefault(u => u != null && u.Model == unit);
+
+        if (stackableUnit != null)
+        {
+            stackableUnit.Amount += amount;
+        }
+        else
+        {
+            int i = 0;
+            for (; i < atCastle.CastledUnits.Length; i++)
+            {
+                if (atCastle.CastledUnits[i] == null)
+                {
+                    var inst = unit.Create(amount);
+                    atCastle.CastledUnits[i] = inst;
+                    break;
+                }
+            }
+        }
+    }
+
+    internal void Purchase(BuildingModel model)
+    {
+        foreach (var cost in model.Cost)
+            Resources.First(r => r.Model == cost.Resource).Amount -= cost.Amount;
+    }
 }
