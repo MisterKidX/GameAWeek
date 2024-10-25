@@ -45,7 +45,13 @@ public class UIView_Castle : MonoBehaviour
     private void OpenUnitsMenu()
     {
         var menu = Instantiate(p_unitsPurchaseMenu);
-        menu.Init(_instance);
+        menu.Init(_instance, ShowUnits);
+    }
+
+    private void OpenBuildMenu()
+    {
+        var castleView = Instantiate(p_castleBuildMenu);
+        castleView.Init(_instance, ShowScene);
     }
 
     private void ShowScene()
@@ -67,12 +73,6 @@ public class UIView_Castle : MonoBehaviour
             sceneObject.Image.gameObject.SetActive(true);
             sceneObject.Image.sprite = building.Key.View;
         }
-    }
-
-    private void OpenBuildMenu()
-    {
-        var castleView = Instantiate(p_castleBuildMenu);
-        castleView.Init(_instance, ShowScene);
     }
 
     private void ShowUnits()

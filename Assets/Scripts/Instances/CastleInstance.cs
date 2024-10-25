@@ -26,6 +26,8 @@ public class CastleInstance : ScriptableObject
         }
     }
 
+    public UnitInstance[] VisitingUnits => VisitingHero == null ? null : VisitingHero.Units;
+
     public HeroInstance CastledHero;
     public HeroInstance VisitingHero
     {

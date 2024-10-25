@@ -11,12 +11,13 @@ public class UIView_UnitsPurchaseMenu : MonoBehaviour
     UIView_UnitBuildingCard[] _unitCards;
 
     CastleInstance _instance;
-    public void Init(CastleInstance instance)
+    public void Init(CastleInstance instance, Action recruit)
     {
         _instance = instance;
 
         _done.onClick.RemoveAllListeners();
         _done.onClick.AddListener(() => Destroy(gameObject));
+        _done.onClick.AddListener(() => recruit?.Invoke());
 
         Draw();
     }

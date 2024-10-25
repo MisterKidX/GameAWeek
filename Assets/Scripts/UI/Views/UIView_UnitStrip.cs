@@ -11,21 +11,18 @@ public class UIView_UnitStrip : MonoBehaviour
 
     CastleInstance _castle;
     HeroInstance _hero;
-    UnitInstance[] _units
-    {
-        get
-        {
-            if (_hero != null)
-                return _hero.Units;
-            else
-                return _castle.CastledUnits;
-        }
-    }
+    UnitInstance[] _units;
 
     internal void Init(CastleInstance castle, bool castledUnits)
     {
         _castle = castle;
         _hero = castledUnits ? _castle.CastledHero : _castle.VisitingHero;
+        _units = castledUnits ? _castle.CastledUnits : _castle.VisitingUnits;
+
+        if (!castledUnits && _hero == null)
+            gameObject.SetActive(false);
+        else
+            gameObject.SetActive(true);
 
         Draw();
     }
