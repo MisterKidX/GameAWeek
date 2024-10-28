@@ -329,6 +329,7 @@ MonoBehaviour:
   _amount: {fileID: 870064253935469972}
   RootView: {fileID: 0}
   Selection: {fileID: 0}
+  _canvas: {fileID: 7614493682685019187}
 --- !u!1 &7614493682685019187
 GameObject:
   m_ObjectHideFlags: 0

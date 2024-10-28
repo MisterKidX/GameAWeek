@@ -27,7 +27,7 @@ public class UnitInstance : ScriptableObject
     {
         OnDefend?.Invoke();
         var d = attacker.Model.Attack - Model.Defense;
-        float damage = attacker.Model.Damage.Roll();
+        float damage = attacker.Model.Damage.Roll() * attacker.Amount;
 
         if (attacker.Model.IsRanged)
         {
@@ -43,6 +43,9 @@ public class UnitInstance : ScriptableObject
         multi = Mathf.Min(multi, 3f);
 
         damage = Mathf.Ceil(damage * multi);
+
+        Debug.Log(attacker.Model.Name + " attacks " + Model.Name + " for " + damage +
+            $" damage. {(float)damage / Model.Health} perish.");
 
         if (damage > CumulativeHP)
         {

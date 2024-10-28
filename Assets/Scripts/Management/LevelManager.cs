@@ -55,8 +55,8 @@ public class LevelManager : MonoBehaviour
             g.fontSize = 72;
 
             Vector2 size = new Vector2(500, 150);
-            Rect r1 = new Rect(Screen.width / 2f - size.x/2f, Screen.height / 2f + size.y/2f, size.x, size.y);
-            Rect r2 = new Rect(Screen.width / 2f - size.x/2f, Screen.height / 2f - size.y/2f, size.x, size.y);
+            Rect r1 = new Rect(Screen.width / 2f - size.x / 2f, Screen.height / 2f + size.y / 2f, size.x, size.y);
+            Rect r2 = new Rect(Screen.width / 2f - size.x / 2f, Screen.height / 2f - size.y / 2f, size.x, size.y);
 
             if (GUI.Button(r1, "Quick Load", g))
             {
@@ -197,7 +197,6 @@ public class LevelManager : MonoBehaviour
 
         yield return null;
 
-
         var combatScene = SceneManager.GetSceneByName(COMBAT_SCENE_NAME);
         SceneManager.SetActiveScene(combatScene);
 
@@ -211,6 +210,18 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
+    internal void BackFromCombat()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("DemoLevel"));
+        _root = SceneManager.GetActiveScene().GetRootGameObjects();
+
+        foreach (var go in _root)
+        {
+            go.SetActive(true);
+        }
+    }
+
 
     #region Validation
 
@@ -265,7 +276,6 @@ public class LevelManager : MonoBehaviour
 
         _playerSetupIndex++;
     }
-
     #endregion
 }
 

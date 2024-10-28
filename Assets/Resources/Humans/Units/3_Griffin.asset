@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Berzerker
   Portrait: {fileID: 21300000, guid: 7c3b76edabe55244ba41ae1b3508ae35, type: 3}
-  Attack: 4
-  Defense: 4
+  Attack: 7
+  Defense: 2
   AttackRange: 1
   Flying: 1
-  Damage: {x: 2, y: 5}
+  Damage: {x: 2, y: 6}
   Health: 10
   Speed: 7
   Growth: 8

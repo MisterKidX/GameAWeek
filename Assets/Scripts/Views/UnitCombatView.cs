@@ -13,6 +13,8 @@ public class UnitCombatView : MonoBehaviour
     GameObject RootView;
     [SerializeField]
     GameObject Selection;
+    [SerializeField]
+    GameObject _canvas;
 
     UnitInstance _instance;
     public void Init(UnitInstance unitInstance, bool flip)
@@ -38,6 +40,7 @@ public class UnitCombatView : MonoBehaviour
     private IEnumerator DieRoutine()
     {
         _animator.SetTrigger("4_Death");
+        _canvas.SetActive(false);
         Selection.gameObject.SetActive(false);
         while (transform.localScale.x > 0.5f)
         {

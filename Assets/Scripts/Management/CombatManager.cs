@@ -14,6 +14,8 @@ public class CombatManager : MonoBehaviour
     Tile MovableTile;
     [SerializeField]
     Camera _camera;
+    [SerializeField]
+    UIView_SumBattle _sumBattleUI;
 
     public Tilemap _walkable;
     public Tilemap _obstacles;
@@ -33,7 +35,9 @@ public class CombatManager : MonoBehaviour
     UnitInstance _currentUnit => _turnOrder[_currentUnitIndex];
 
     HeroInstance _attacker;
+    (UnitModel, int)[] _attackerStartingUnits = new (UnitModel, int)[7];
     HeroInstance _defender;
+    (UnitModel, int)[] _defenderStartingUnits = new (UnitModel, int)[7];
 
     Vector3Int[] _leftPositions;
     Vector3Int[] _rightPositions;
@@ -42,6 +46,20 @@ public class CombatManager : MonoBehaviour
     {
         _attacker = attacker;
         _defender = defender;
+
+        for (int i = 0; i < _attacker.Units.Length; i++)
+        {
+            UnitInstance unit = _attacker.Units[i];
+            if (unit != null)
+                _attackerStartingUnits[i] = (unit.Model, unit.Amount);
+        }
+        for (int i = 0; i < _defender.Units.Length; i++)
+        {
+            UnitInstance unit = _defender.Units[i];
+            if (unit != null)
+                _defenderStartingUnits[i] = (unit.Model, unit.Amount);
+        }
+
         _leftPositions = new Vector3Int[]
         {
             new Vector3Int(XMin, YMax, 0),
@@ -98,18 +116,41 @@ public class CombatManager : MonoBehaviour
 
             _currentUnitIndex = (_currentUnitIndex + 1) % _turnOrder.Count;
 
-            if (_attacker.Units.All(u => u == null))
+            var attackerWon = _defender.Units.All(u => u == null);
+            if (_attacker.Units.All(u => u == null) || _defender.Units.All(u => u == null))
             {
-                Debug.Log("Attacker Loses");
-                break;
-            }
+                var ui = Instantiate(_sumBattleUI);
+                (UnitModel, int)[] attackerCasualties = new (UnitModel, int)[7];
+                for (int i = 0; i < _attacker.Units.Length; i++)
+                {
+                    UnitInstance unit = _attacker.Units[i];
+                    if (unit != null)
+                        attackerCasualties[i] = (unit.Model, _attackerStartingUnits[i].Item2 - unit.Amount);
+                    else if (unit == null && _attackerStartingUnits[i].Item1 != null)
+                        attackerCasualties[i] = (unit.Model, _attackerStartingUnits[i].Item2);
+                }
+                (UnitModel, int)[] defenderCasualties = new (UnitModel, int)[7];
+                for (int i = 0; i < _defender.Units.Length; i++)
+                {
+                    UnitInstance unit = _defender.Units[i];
+                    if (unit != null)
+                        defenderCasualties[i] = (unit.Model, _defenderStartingUnits[i].Item2 - unit.Amount);
+                    else if (unit == null && _defenderStartingUnits[i].Item1 != null)
+                        defenderCasualties[i] = (unit.Model, _defenderStartingUnits[i].Item2);
+                }
 
-            if (_defender.Units.All(u => u == null))
-            {
-                Debug.Log("Defender Loses");
+                ui.Init(attackerWon, Exit,_attacker.Model.Portrait,
+                    _defender.Model.Portrait, _attacker.Model.Name, _defender.Model.Name,
+                    attackerCasualties, defenderCasualties);
                 break;
             }
         }
+    }
+
+    private void Exit()
+    {
+        LevelManager.CurrentLevel.BackFromCombat();
+        SceneManager.UnloadSceneAsync("Combat");
     }
 
     private IEnumerator UnitTurnRoutine()
@@ -154,7 +195,7 @@ public class CombatManager : MonoBehaviour
             var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
             var mouseTile = _ui.WorldToCell(mousePos);
             mouseTile.z = 0;
-            return possibilities.Aggregate((n1,n2) => 
+            return possibilities.Aggregate((n1, n2) =>
                 (mousePos - n2).magnitude < (mousePos - n1).magnitude ? n2 : n1);
         }
         else

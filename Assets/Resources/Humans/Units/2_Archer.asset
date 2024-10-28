@@ -18,7 +18,7 @@ MonoBehaviour:
   Defense: 1
   AttackRange: 10
   Flying: 0
-  Damage: {x: 2, y: 4}
+  Damage: {x: 2, y: 3}
   Health: 5
   Speed: 3
   Growth: 11
