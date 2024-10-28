@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class UnitCombatView : MonoBehaviour
         transform.position = _instance.CombatWorldPosition;
         if (flip)
             RootView.transform.localScale = new Vector3(-1, 1, 1);
+        else
+            RootView.transform.localScale = new Vector3(1, 1, 1);
 
         _instance.OnAttack += _instance_OnAttack;
         _instance.OnDefend += _instance_OnDefend;
@@ -28,8 +31,20 @@ public class UnitCombatView : MonoBehaviour
 
     private void _instance_OnDie(UnitInstance instance)
     {
+        StartCoroutine(DieRoutine());
+    }
+
+    Vector3 _vel2;
+    private IEnumerator DieRoutine()
+    {
         _animator.SetTrigger("4_Death");
         Selection.gameObject.SetActive(false);
+        while (transform.localScale.x > 0.5f)
+        {
+            transform.localScale = Vector3.SmoothDamp(transform.localScale, Vector3.one * 0.5f,
+                ref _vel2, 0.3f);
+            yield return null;
+        }
         this.enabled = false;
     }
 

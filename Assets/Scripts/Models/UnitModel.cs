@@ -25,6 +25,8 @@ public class UnitModel : ScriptableObject
     public UnitCombatView p_combatView;
     public float HexAnimationSpeed = 0.2f;
 
+    public bool IsRanged => AttackRange > 1;
+
     public UnitInstance Create(int amount)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();

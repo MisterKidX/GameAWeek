@@ -26,7 +26,14 @@ public class UnitInstance : ScriptableObject
     {
         OnDefend?.Invoke();
         var d = attacker.Model.Attack - Model.Defense;
-        var damage = attacker.Model.Damage.Roll();
+        float damage = attacker.Model.Damage.Roll();
+
+        if (attacker.Model.IsRanged)
+        {
+            var delta = CombatCellPosition - attacker.CombatCellPosition;
+            if (delta.magnitude > attacker.Model.AttackRange)
+                damage /= 2f;
+        }
 
         // i.e. attacker has bigger attack
         float multi = damage * (1 + d * 0.05f);
@@ -34,7 +41,7 @@ public class UnitInstance : ScriptableObject
         multi = Mathf.Max(multi, 0.3f);
         multi = Mathf.Min(multi, 3f);
 
-        damage = (int)(damage * multi);
+        damage = Mathf.Ceil(damage * multi);
 
         if (damage > CumulativeHP)
             Die();
@@ -45,6 +52,11 @@ public class UnitInstance : ScriptableObject
             var amountReduction = Mathf.FloorToInt(relative);
             Amount -= amountReduction;
             CurrentHealth -= (int)((relative - amountReduction) * health);
+            if (CurrentHealth <= 0)
+            {
+                Amount -= 1;
+                CurrentHealth = Model.Health;
+            }
         }
     }
 

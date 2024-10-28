@@ -25,5 +25,5 @@ MonoBehaviour:
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 120
-  p_combatView: {fileID: 8148081437322904011, guid: cdd683f9eb53c2c4a860bcfc95138419, type: 3}
+  p_combatView: {fileID: 8148081437322904011, guid: 84bf4817603d06247ada5add0aa192bb, type: 3}
   HexAnimationSpeed: 0.2

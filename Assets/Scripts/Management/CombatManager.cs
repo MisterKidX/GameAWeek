@@ -38,13 +38,6 @@ public class CombatManager : MonoBehaviour
     Vector3Int[] _leftPositions;
     Vector3Int[] _rightPositions;
 
-    //private void Update()
-    //{
-    //    var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //    var cell = _walkable.WorldToCell(mousePos);
-    //    Debug.Log(cell);
-    //}
-
     public void Init(HeroInstance attacker, HeroInstance defender)
     {
         _attacker = attacker;
@@ -126,10 +119,15 @@ public class CombatManager : MonoBehaviour
         yield return StartCoroutine(ienum);
         var pos = (Vector3Int)ienum.Current;
         var opposition = AreOpposingUnits(_currentUnit, pos);
-        if (opposition != null && GetAttackPosition(_currentUnit, opposition) != null)
+        if (opposition != null)
         {
-            yield return StartCoroutine(MoveUnitRoutine(_currentUnit, GetAttackPosition(_currentUnit, opposition).Value));
-            yield return StartCoroutine(AttackRoutine(_currentUnit, opposition));
+            if (_currentUnit.Model.IsRanged)
+                yield return StartCoroutine(AttackRoutine(_currentUnit, opposition));
+            else if (GetAttackPosition(_currentUnit, opposition) != null)
+            {
+                yield return StartCoroutine(MoveUnitRoutine(_currentUnit, GetAttackPosition(_currentUnit, opposition).Value));
+                yield return StartCoroutine(AttackRoutine(_currentUnit, opposition));
+            }
         }
         else
             yield return StartCoroutine(MoveUnitRoutine(_currentUnit, pos));
@@ -141,21 +139,31 @@ public class CombatManager : MonoBehaviour
         if (neighbors.Contains(attacker.CombatCellPosition))
             return attacker.CombatCellPosition;
 
+        List<Vector3Int> possibilities = new();
         foreach (var neighbor in neighbors)
         {
             if (_ui.GetTile(neighbor) != null)
             {
-                return neighbor;
+                possibilities.Add(neighbor);
             }
         }
 
-        return null;
+        if (possibilities.Count > 0)
+        {
+            var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            var mouseTile = _ui.WorldToCell(mousePos);
+            mouseTile.z = 0;
+            return possibilities.Aggregate((n1,n2) => 
+                (mousePos - n2).magnitude < (mousePos - n1).magnitude ? n2 : n1);
+        }
+        else
+            return null;
     }
 
     private IEnumerator AttackRoutine(UnitInstance attacker, UnitInstance defender)
     {
         attacker.Attack(defender);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.75f);
     }
 
     private void RemoveAllWalkables()
