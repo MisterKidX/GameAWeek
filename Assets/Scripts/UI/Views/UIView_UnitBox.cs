@@ -51,21 +51,6 @@ public class UIView_UnitBox : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
         Active = false;
     }
 
-    //public void TransferData(UIView_UnitBox other)
-    //{
-    //    other.Init(this._portrait.sprite, this._amountInternal, this._endDrag);
-    //}
-
-    //public void SwitchData(UIView_UnitBox other)
-    //{
-    //    var s = other._portrait.sprite;
-    //    var a = other._amountInternal;
-    //    var e = other._endDrag;
-
-    //    other.Init(this._portrait.sprite, this._amountInternal, this._endDrag);
-    //    this.Init(s, a, e);
-    //}
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         _copy = Instantiate(this.gameObject, transform.parent);

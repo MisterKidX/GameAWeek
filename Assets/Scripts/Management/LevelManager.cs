@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     GameplayUI _gameplayUI;
 
+    private const string COMBAT_SCENE_NAME = "Combat";
+
     private static LevelManager _instance;
     public static LevelManager Instance
     {
@@ -49,13 +51,20 @@ public class LevelManager : MonoBehaviour
     {
         if (CurrentLevel == null)
         {
-            Rect r = new Rect(Screen.width/2f, Screen.height/2f, 500, 150);
             GUIStyle g = new GUIStyle(GUI.skin.button);
             g.fontSize = 72;
 
-            if (GUI.Button(r,"Quick Load", g))
+            Vector2 size = new Vector2(500, 150);
+            Rect r1 = new Rect(Screen.width / 2f - size.x/2f, Screen.height / 2f + size.y/2f, size.x, size.y);
+            Rect r2 = new Rect(Screen.width / 2f - size.x/2f, Screen.height / 2f - size.y/2f, size.x, size.y);
+
+            if (GUI.Button(r1, "Quick Load", g))
             {
                 LoadTestLevel();
+            }
+            if (GUI.Button(r2, "Quick Combat", g))
+            {
+                EDITORONLY_LoadCombat();
             }
         }
     }
@@ -72,6 +81,21 @@ public class LevelManager : MonoBehaviour
             PlayerModel.Create("p2", 1, Resources.LoadAll<CastleModel>("")[0], Color.green),
         };
         LoadLevel(pInstances, null);
+    }
+
+    [ContextMenu("Quick Load + Combat")]
+    public void EDITORONLY_LoadCombat()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        var pInstances = new PlayerInstace[]
+        {
+            PlayerModel.Create("p1", 0, Resources.LoadAll<CastleModel>("")[0], Color.blue),
+            PlayerModel.Create("p2", 1, Resources.LoadAll<CastleModel>("")[0], Color.green),
+        };
+        LoadLevel(pInstances, null);
+        EnterCombat(pInstances[0].Heroes[0], pInstances[1].Heroes[0]);
     }
 #endif
 
@@ -133,24 +157,59 @@ public class LevelManager : MonoBehaviour
                 var mine = _interactionLayer.GetTile(pos) as MineTile;
                 if (mine != null)
                 {
-                    _metadataLayer.SetTile(pos + new Vector3Int(1,0), hiddenBlocker);
-                    _metadataLayer.SetTile(pos + new Vector3Int(-1,0), hiddenBlocker);
-                    _metadataLayer.SetTile(pos + new Vector3Int(1,1), hiddenBlocker);
-                    _metadataLayer.SetTile(pos + new Vector3Int(0,1), hiddenBlocker);
-                    _metadataLayer.SetTile(pos + new Vector3Int(-1,1), hiddenBlocker);
-                }    
+                    _metadataLayer.SetTile(pos + new Vector3Int(1, 0), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(-1, 0), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(1, 1), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(0, 1), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(-1, 1), hiddenBlocker);
+                }
             }
         }
     }
 
     public T GetInstance<T>(Vector3Int pos)
-    { 
+    {
         return default(T);
     }
 
     public void EnlistTimeObject(ITimeableReactor timeableReactor)
     {
         _timeManagement.TimeableReactors.Add(timeableReactor, 0);
+    }
+
+    internal void EnterCombat(HeroInstance selectedHero, HeroInstance hero)
+    {
+        StartCoroutine(EnterCombatroutine(selectedHero, hero));
+    }
+
+    GameObject[] _root;
+    private IEnumerator EnterCombatroutine(HeroInstance attacker, HeroInstance defender)
+    {
+        _root = SceneManager.GetActiveScene().GetRootGameObjects();
+
+        foreach (var go in _root)
+        {
+            if (go != gameObject)
+                go.SetActive(false);
+        }
+
+        SceneManager.LoadScene(COMBAT_SCENE_NAME, LoadSceneMode.Additive);
+
+        yield return null;
+
+
+        var combatScene = SceneManager.GetSceneByName(COMBAT_SCENE_NAME);
+        SceneManager.SetActiveScene(combatScene);
+
+        var root = combatScene.GetRootGameObjects();
+        foreach (var go in root)
+        {
+            if (go.TryGetComponent(out CombatManager cm))
+            {
+                cm.Init(attacker, defender);
+                break;
+            }
+        }
     }
 
     #region Validation
@@ -206,6 +265,7 @@ public class LevelManager : MonoBehaviour
 
         _playerSetupIndex++;
     }
+
     #endregion
 }
 
@@ -244,8 +304,8 @@ internal class TimeManagement
         }
     }
 
-    public TimeManagement() 
-    { 
+    public TimeManagement()
+    {
         TotalDays = 1;
     }
 

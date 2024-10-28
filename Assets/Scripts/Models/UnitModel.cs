@@ -21,6 +21,8 @@ public class UnitModel : ScriptableObject
     // This will be an array in the future
     public ResourceCost Cost;
 
+    public UnitCombatView p_combatView;
+
     public UnitInstance Create(int amount)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class HeroInstance : ScriptableObject
+public class HeroInstance : ScriptableObject, ITimeableReactor
 {
     public HeroModel Model;
     public Vector3Int Position;
@@ -13,6 +13,15 @@ public class HeroInstance : ScriptableObject
     public float NormalizedMovementPoints => (float)RemainingMovementPoints / MovementPointsForCurrentTurn;
 
     public HeroView View { get; private set; }
+
+    private void Awake() => (this as ITimeableReactor).EnlistToTimeManager();
+
+    public int ReactionTime => 1;
+
+    public void React(int totalDays)
+    {
+        RemainingMovementPoints = MovementPointsForCurrentTurn;
+    }
 
     internal void Init(HeroModel heroModel, Vector3Int pos, PlayerInstace player, UnitInstance[] units)
     {

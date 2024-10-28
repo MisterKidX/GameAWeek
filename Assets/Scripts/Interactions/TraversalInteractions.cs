@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,23 +65,15 @@ public class TraversalInteractions : MonoBehaviour
 
         for (int i = 1; i < _path.Count; i++)
         {
-            var aquirable = _obstacles.GetTile(_path[i].Position) as AquirableTile;
-            if (i == _path.Count -1 && aquirable != null)
+            if (i == _path.Count -1)
             {
-                aquirable.Aquire(LevelManager.CurrentLevel.CurrentPlayer);
-                var instObject = _obstacles.GetInstantiatedObject(_path[i].Position);
-                if (instObject != null)
-                {
-                    var mineView = instObject.GetComponent<MineView>();
-                    if (mineView != null)
-                        mineView.Capture(LevelManager.CurrentLevel.CurrentPlayer);
-                }
-                if (!aquirable.CanStepOver)
-                {
-                    _obstacles.SetTile(_path[i].Position, null);
+                if (!CanMove_DestinationAsAquirable())
                     break;
-                }
+                if (!CanMove_DestinationAsAnotherHero())
+                    break;
             }
+
+            // movement
             var moveCost = _path[i].MovemventCost;
             if (selectedHero.RemainingMovementPoints >= moveCost)
             {
@@ -96,6 +89,61 @@ public class TraversalInteractions : MonoBehaviour
 
         _path = null;
         _camController.UnstickToObject();
+    }
+
+    private bool CanMove_DestinationAsAnotherHero()
+    {
+        var destination = _path[_path.Count - 1].Position;
+        var currentPlayerHeroes = LevelManager.CurrentLevel.CurrentPlayer.Heroes;
+
+        foreach (var hero in currentPlayerHeroes)
+        {
+            // can't walk over your own hero
+            // EXTRA: implement trading mechanic
+            if (hero.Position == destination)
+                return false;
+        }
+
+        foreach (var player in LevelManager.CurrentLevel.Players)
+        {
+            if (player == LevelManager.CurrentLevel.CurrentPlayer)
+                continue;
+
+            foreach (var hero in player.Heroes)
+            {
+                if (hero.Position == destination)
+                {
+                    LevelManager.CurrentLevel.EnterCombat(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero, hero);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /// <returns> wether the hero can occupy the last tile</returns>
+    private bool CanMove_DestinationAsAquirable()
+    {
+        var aquirable = _obstacles.GetTile(_path[_path.Count -1].Position) as AquirableTile;
+        if (aquirable != null)
+        {
+            aquirable.Aquire(LevelManager.CurrentLevel.CurrentPlayer);
+            var instObject = _obstacles.GetInstantiatedObject(_path[_path.Count -1].Position);
+            if (instObject != null)
+            {
+                var mineView = instObject.GetComponent<MineView>();
+                if (mineView != null)
+                    mineView.Capture(LevelManager.CurrentLevel.CurrentPlayer);
+            }
+            if (!aquirable.CanStepOver)
+            {
+                _obstacles.SetTile(_path[_path.Count -1].Position, null);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private bool MoveMapRight()
