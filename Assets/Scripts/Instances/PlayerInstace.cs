@@ -17,7 +17,7 @@ public class PlayerInstace : ScriptableObject
     public bool HasCastle => Castles.Count > 0;
 
     //cheat!
-    public HeroInstance SelectedHero => Heroes[0];
+    public HeroInstance SelectedHero => Heroes == null || Heroes.Count == 0 ? null : Heroes[0];
     public bool HasHeroSelected => SelectedHero != null;
 
     internal void Init(PlayerModel model, string name, int order, CastleModel startingCastle, Color color)

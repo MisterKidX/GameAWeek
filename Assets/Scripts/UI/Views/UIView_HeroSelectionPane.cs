@@ -15,5 +15,9 @@ public class UIView_HeroSelectionPane : MonoBehaviour
         {
             HeroCards[i].Init(heroes[i]);
         }
+        for (int i = heroes.Count;i < HeroCards.Length; i++)
+        {
+            HeroCards[i].Disable();
+        }
     }
 }

@@ -15,6 +15,13 @@ public class UIView_HeroCard : MonoBehaviour
         Portrait.gameObject.SetActive(true);
     }
 
+    public void Disable()
+    {
+        Instance = null;
+        Portrait.sprite = null;
+        Portrait.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (Instance == null) return;

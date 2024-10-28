@@ -139,7 +139,7 @@ public class CombatManager : MonoBehaviour
                         defenderCasualties[i] = (unit.Model, _defenderStartingUnits[i].Item2);
                 }
 
-                ui.Init(attackerWon, Exit,_attacker.Model.Portrait,
+                ui.Init(attackerWon, () => Exit(attackerWon),_attacker.Model.Portrait,
                     _defender.Model.Portrait, _attacker.Model.Name, _defender.Model.Name,
                     attackerCasualties, defenderCasualties);
                 break;
@@ -147,10 +147,10 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    private void Exit()
+    private void Exit(bool attackerWon)
     {
-        LevelManager.CurrentLevel.BackFromCombat();
-        SceneManager.UnloadSceneAsync("Combat");
+        LevelManager.CurrentLevel.BackFromCombat(attackerWon);
+        SceneManager.UnloadScene("Combat");
     }
 
     private IEnumerator UnitTurnRoutine()
@@ -310,37 +310,14 @@ public class CombatManager : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    //private void OnGUI()
-    //{
-    //    if (_attacker != null)
-    //        return;
 
-    //    GUIStyle g = new GUIStyle(GUI.skin.button);
-    //    g.fontSize = 72;
-
-    //    Vector2 size = new Vector2(500, 150);
-    //    Rect r1 = new Rect(Screen.width / 2f - size.x / 2f, Screen.height / 2f + size.y / 2f, size.x, size.y);
-
-    //    if (GUI.Button(r1, "Quick Load", g))
-    //    {
-    //        StartCoroutine(EDITOR_LoadRoutine());
-    //    }
-    //}
-
-    private IEnumerator EDITOR_LoadRoutine()
+    [ContextMenu("Attacker Win")]
+    private void AttackerAutoWin()
     {
-        SceneManager.LoadScene("DemoLevel", LoadSceneMode.Additive);
-        yield return new WaitForSeconds(.5f);
-
-        var scene = SceneManager.GetSceneByName("DemoLevel");
-        var root = scene.GetRootGameObjects();
-
-        foreach (var go in root)
+        foreach (var unit in _defender.Units)
         {
-            if (go.TryGetComponent(out LevelManager levelManager))
-            {
-                levelManager.EDITORONLY_LoadCombat();
-            }
+            if (unit != null)
+                unit.Die();
         }
     }
 

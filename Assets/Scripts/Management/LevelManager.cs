@@ -129,8 +129,19 @@ public class LevelManager : MonoBehaviour
 
     private void PlayerturnSequence()
     {
+        if (CurrentPlayer.Heroes.Count == 0 && CurrentPlayer.Castles.Count == 0)
+        {
+            Debug.Log($"Player {CurrentPlayer.Name} Lost!");
+            return;
+        }
+
         _gameplayUI.InitializePlayer(CurrentPlayer, FinishedTurn);
-        _camController.PointAt(CurrentPlayer.Heroes[0].View.gameObject);
+
+        if (CurrentPlayer.SelectedHero != null)
+            _camController.PointAt(CurrentPlayer.SelectedHero.View.gameObject);
+        else
+            _camController.PointAt(CurrentPlayer.Castles[0].View.gameObject);
+
         CurrentPlayer.NewTurn();
     }
 
@@ -185,6 +196,8 @@ public class LevelManager : MonoBehaviour
     GameObject[] _root;
     private IEnumerator EnterCombatroutine(HeroInstance attacker, HeroInstance defender)
     {
+        _attacker = attacker;
+        _defender = defender;
         _root = SceneManager.GetActiveScene().GetRootGameObjects();
 
         foreach (var go in _root)
@@ -211,15 +224,23 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    internal void BackFromCombat()
+    HeroInstance _attacker;
+    HeroInstance _defender;
+    internal void BackFromCombat(bool attackerWon)
     {
+        if (attackerWon)
+            _defender.Die();
+        else
+            _attacker.Die();
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("DemoLevel"));
         _root = SceneManager.GetActiveScene().GetRootGameObjects();
 
         foreach (var go in _root)
-        {
             go.SetActive(true);
-        }
+
+        _attacker = null;
+        _defender = null;
     }
 
 

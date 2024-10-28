@@ -71,14 +71,14 @@ public class UnitInstance : ScriptableObject
             return;
         }
 
-        if (HasRetaliation)
+        if (HasRetaliation && !attacker.Model.IsRanged)
         {
             HasRetaliation = false;
             attacker.Defend(this);
         }
     }
 
-    private void Die()
+    public void Die()
     {
         OnDie?.Invoke(this);
         Destroy(this);

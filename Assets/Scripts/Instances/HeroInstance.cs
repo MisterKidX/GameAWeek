@@ -45,4 +45,13 @@ public class HeroInstance : ScriptableObject, ITimeableReactor
             View.Init(this);
         }
     }
+
+    internal void Die()
+    {
+        if (View != null)
+            Destroy(View.gameObject);
+
+        Holder.Heroes.Remove(this);
+        Destroy(this);
+    }
 }

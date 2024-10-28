@@ -43,7 +43,7 @@ public class CastleInstance : ScriptableObject
 
     public Dictionary<BuildingModel, BuildingInstance> BuiltBuildings = new();
 
-    CastleView _view;
+    public CastleView View;
 
     public bool HasCastledHero => CastledHero != null;
     public bool HasVisitingHero => VisitingHero != null;
@@ -77,12 +77,12 @@ public class CastleInstance : ScriptableObject
 
     internal void Show()
     {
-        if (_view ==null)
+        if (View ==null)
         {
-            _view = Instantiate(Model.p_View);
+            View = Instantiate(Model.p_View);
         }
 
-        _view.Init(this);
+        View.Init(this);
     }
 
     public bool HasEnoughResourcesForBuilding(BuildingModel bmodel)
