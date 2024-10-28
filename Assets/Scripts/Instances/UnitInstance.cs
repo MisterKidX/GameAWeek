@@ -8,6 +8,7 @@ public class UnitInstance : ScriptableObject
     public UnitModel Model;
     public int Amount;
     public int CurrentHealth;
+    public bool HasRetaliation;
 
     public bool Selected { get; set; }
     public int CumulativeHP => (Amount - 1) * Model.Health + CurrentHealth;
@@ -44,7 +45,10 @@ public class UnitInstance : ScriptableObject
         damage = Mathf.Ceil(damage * multi);
 
         if (damage > CumulativeHP)
+        {
             Die();
+            return;
+        }
         else
         {
             var health = Model.Health;
@@ -57,6 +61,17 @@ public class UnitInstance : ScriptableObject
                 Amount -= 1;
                 CurrentHealth = Model.Health;
             }
+        }
+        if (Amount == 0)
+        {
+            Die();
+            return;
+        }
+
+        if (HasRetaliation)
+        {
+            HasRetaliation = false;
+            attacker.Defend(this);
         }
     }
 

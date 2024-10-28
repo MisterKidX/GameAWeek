@@ -88,6 +88,7 @@ public class CombatManager : MonoBehaviour
                 continue;
             }
 
+            _currentUnit.HasRetaliation = true;
             _currentUnit.Selected = true;
             yield return UnitTurnRoutine();
             if (_currentUnit != null)
