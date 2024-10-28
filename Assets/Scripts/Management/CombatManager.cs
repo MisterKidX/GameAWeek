@@ -77,7 +77,7 @@ public class CombatManager : MonoBehaviour
         _turnOrder = attacker.Units.
             Concat(defender.Units).
             Where(u => u != null).
-            OrderBy(u => u.Model.Speed).
+            OrderByDescending(u => u.Model.Speed).
             ToList();
 
         StartCoroutine(CombatSequenceRoutine());
@@ -87,10 +87,34 @@ public class CombatManager : MonoBehaviour
     {
         while (true)
         {
+            if (_currentUnit == null)
+            {
+                _turnOrder.RemoveAt(_currentUnitIndex);
+                if (_currentUnitIndex >= _turnOrder.Count)
+                    _currentUnitIndex = 0;
+                continue;
+            }
+
             _currentUnit.Selected = true;
             yield return UnitTurnRoutine();
-            _currentUnit.Selected = false;
+            if (_currentUnit != null)
+                _currentUnit.Selected = false;
+            else
+                _turnOrder.RemoveAt(_currentUnitIndex);
+
             _currentUnitIndex = (_currentUnitIndex + 1) % _turnOrder.Count;
+
+            if (_attacker.Units.All(u => u == null))
+            {
+                Debug.Log("Attacker Loses");
+                break;
+            }
+
+            if (_defender.Units.All(u => u == null))
+            {
+                Debug.Log("Defender Loses");
+                break;
+            }
         }
     }
 
@@ -101,7 +125,37 @@ public class CombatManager : MonoBehaviour
         var ienum = GetUnitCommandRoutine();
         yield return StartCoroutine(ienum);
         var pos = (Vector3Int)ienum.Current;
-        yield return StartCoroutine(MoveUnitRoutine(_currentUnit, pos));
+        var opposition = AreOpposingUnits(_currentUnit, pos);
+        if (opposition != null && GetAttackPosition(_currentUnit, opposition) != null)
+        {
+            yield return StartCoroutine(MoveUnitRoutine(_currentUnit, GetAttackPosition(_currentUnit, opposition).Value));
+            yield return StartCoroutine(AttackRoutine(_currentUnit, opposition));
+        }
+        else
+            yield return StartCoroutine(MoveUnitRoutine(_currentUnit, pos));
+    }
+
+    private Vector3Int? GetAttackPosition(UnitInstance attacker, UnitInstance defender)
+    {
+        var neighbors = _pathfinder.GetNeighbors(defender.CombatCellPosition);
+        if (neighbors.Contains(attacker.CombatCellPosition))
+            return attacker.CombatCellPosition;
+
+        foreach (var neighbor in neighbors)
+        {
+            if (_ui.GetTile(neighbor) != null)
+            {
+                return neighbor;
+            }
+        }
+
+        return null;
+    }
+
+    private IEnumerator AttackRoutine(UnitInstance attacker, UnitInstance defender)
+    {
+        attacker.Attack(defender);
+        yield return new WaitForSeconds(1.5f);
     }
 
     private void RemoveAllWalkables()
@@ -118,6 +172,8 @@ public class CombatManager : MonoBehaviour
     private IEnumerator MoveUnitRoutine(UnitInstance unit, Vector3Int end)
     {
         var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end);
+        if (path == null || path.Count == 0)
+            yield break;
 
         for (int i = 1; i < path.Count; i++)
         {
@@ -125,15 +181,38 @@ public class CombatManager : MonoBehaviour
             unit.CombatWorldPosition = _walkable.CellToWorld(unit.CombatCellPosition);
             yield return new WaitForSeconds(unit.Model.HexAnimationSpeed);
         }
+
+        yield return new WaitForSeconds(unit.Model.HexAnimationSpeed);
     }
 
     private IEnumerator GetUnitCommandRoutine()
     {
         Vector3Int pos;
         while (!TraversalInteractions.CilckedOnMap(out pos, _camera, _ui))
+        {
+            if (Input.GetMouseButton(0) && AreOpposingUnits(_currentUnit, pos) != null)
+                break;
+
             yield return null;
+        }
 
         yield return pos;
+    }
+
+    private UnitInstance AreOpposingUnits(UnitInstance unit, Vector3Int otherUnit)
+    {
+        var unitClicked = _turnOrder.FirstOrDefault(u => u.CombatCellPosition == otherUnit);
+        if (unitClicked != null)
+        {
+            // i.e. opposite unit clicked
+            if ((_attacker.Units.Contains(_currentUnit) && !_attacker.Units.Contains(unitClicked))
+                || (_attacker.Units.Contains(unitClicked) && !_attacker.Units.Contains(_currentUnit)))
+            {
+                return unitClicked;
+            }
+        }
+
+        return null;
     }
 
     private void ShowUnitWalkables(UnitInstance unit)
@@ -153,11 +232,11 @@ public class CombatManager : MonoBehaviour
                     continue;
                 if (_obstacles.GetTile(pos) != null)
                     continue;
+                if (_turnOrder.Any(u => u.CombatCellPosition == pos))
+                    continue;
 
                 if (_walkable.GetTile(pos) != null)
-                {
                     _ui.SetTile(pos, MovableTile);
-                }
             }
         }
     }

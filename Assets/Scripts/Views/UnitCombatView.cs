@@ -20,6 +20,27 @@ public class UnitCombatView : MonoBehaviour
         transform.position = _instance.CombatWorldPosition;
         if (flip)
             RootView.transform.localScale = new Vector3(-1, 1, 1);
+
+        _instance.OnAttack += _instance_OnAttack;
+        _instance.OnDefend += _instance_OnDefend;
+        _instance.OnDie += _instance_OnDie;
+    }
+
+    private void _instance_OnDie(UnitInstance instance)
+    {
+        _animator.SetTrigger("4_Death");
+        Selection.gameObject.SetActive(false);
+        this.enabled = false;
+    }
+
+    private void _instance_OnDefend()
+    {
+        _animator.SetTrigger("3_Damaged");
+    }
+
+    private void _instance_OnAttack()
+    {
+        _animator.SetTrigger("2_Attack");
     }
 
     private void Update()

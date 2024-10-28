@@ -112,7 +112,7 @@ public class CombatPathfinder : MonoBehaviour
         return IsWalkable(end);
     }
 
-    List<Vector3Int> GetNeighbors(Vector3Int position)
+    public List<Vector3Int> GetNeighbors(Vector3Int position)
     {
         if (position.y % 2 == 0)
         {

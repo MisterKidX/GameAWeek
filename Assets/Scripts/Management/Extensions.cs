@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Random = System.Random;
 
 public static class Extensions
 {
@@ -14,5 +16,10 @@ public static class Extensions
         var index = _random.Next(collection.Count());
         
         return collection.ElementAt(index);
+    }
+
+    public static int Roll(this Vector2 range)
+    {
+        return (int)UnityEngine.Random.Range(range.x, range.y);
     }
 }

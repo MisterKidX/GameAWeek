@@ -19,10 +19,11 @@ MonoBehaviour:
   AttackRange: 1
   Flying: 1
   Damage: {x: 2, y: 5}
-  Health: 18
-  Speed: 15
+  Health: 10
+  Speed: 7
   Growth: 8
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 150
   p_combatView: {fileID: 8148081437322904011, guid: cdd683f9eb53c2c4a860bcfc95138419, type: 3}
+  HexAnimationSpeed: 0.2
