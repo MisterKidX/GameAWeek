@@ -21,7 +21,9 @@ public class UnitModel : ScriptableObject
     // This will be an array in the future
     public ResourceCost Cost;
 
+    [Header("View")]
     public UnitCombatView p_combatView;
+    public float HexAnimationSpeed = 0.2f;
 
     public UnitInstance Create(int amount)
     {

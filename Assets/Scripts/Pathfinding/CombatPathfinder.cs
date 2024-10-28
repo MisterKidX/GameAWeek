@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,6 +8,7 @@ public class CombatPathfinder : MonoBehaviour
     [SerializeField]
     public Tilemap _walkable;
     public Tilemap _blockers;
+    public Tilemap _ui;
 
     public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end)
     {
@@ -43,7 +45,7 @@ public class CombatPathfinder : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Contains(new Node(neighbor, null, 0, 0)))
+                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Any(n => n.Position == neighbor))
                     continue;
                 else if (neighbor == end && !IsTargetable(neighbor))
                     continue;
@@ -100,25 +102,41 @@ public class CombatPathfinder : MonoBehaviour
 
     bool IsWalkable(Vector3Int position)
     {
-        return _blockers.GetTile(position) == null && _walkable.GetTile(position) != null;
+        return _blockers.GetTile(position) == null &&
+            _walkable.GetTile(position) != null &&
+            _ui.GetTile(position) != null;
     }
 
     bool IsTargetable(Vector3Int end)
     {
-        return _blockers.GetTile(end) == null && _walkable.GetTile(end) != null;
+        return IsWalkable(end);
     }
 
     List<Vector3Int> GetNeighbors(Vector3Int position)
     {
-        List<Vector3Int> neighbors = new List<Vector3Int>
+        if (position.y % 2 == 0)
         {
-            new Vector3Int(position.x, position.y + 1, 0),
-            new Vector3Int(position.x, position.y - 1, 0),
-            new Vector3Int(position.x + 1, position.y, 0),
-            new Vector3Int(position.x + 1, position.y + 1, 0),
-            new Vector3Int(position.x + 1, position.y - 1, 0),
-            new Vector3Int(position.x - 1, position.y, 0),
-        };
-        return neighbors;
+            return new List<Vector3Int>
+            {
+                new Vector3Int(position.x, position.y + 1, 0),
+                new Vector3Int(position.x, position.y - 1, 0),
+                new Vector3Int(position.x + 1, position.y, 0),
+                new Vector3Int(position.x - 1, position.y + 1, 0),
+                new Vector3Int(position.x - 1, position.y - 1, 0),
+                new Vector3Int(position.x - 1, position.y, 0),
+            };
+        }
+        else
+        {
+            return new List<Vector3Int>
+            {
+                new Vector3Int(position.x, position.y + 1, 0),
+                new Vector3Int(position.x, position.y - 1, 0),
+                new Vector3Int(position.x + 1, position.y, 0),
+                new Vector3Int(position.x + 1, position.y + 1, 0),
+                new Vector3Int(position.x + 1, position.y - 1, 0),
+                new Vector3Int(position.x - 1, position.y, 0),
+            };
+        }
     }
 }

@@ -194,4 +194,22 @@ public class TraversalInteractions : MonoBehaviour
 
         return true;
     }
+
+    public static bool CilckedOnMap(out Vector3Int pos, Camera cam, Tilemap tilemap)
+    {
+        pos = Vector3Int.zero;
+
+        if (!Input.GetMouseButtonDown(0)) return false;
+
+        var mousePos = Input.mousePosition;
+        mousePos.z = 0;
+        var worldPoint = cam.ScreenToWorldPoint(mousePos);
+        pos = tilemap.WorldToCell(worldPoint);
+        pos.z = 0;
+        var tile = tilemap.GetTile(pos);
+
+        if (tile == null) return false;
+
+        return true;
+    }
 }

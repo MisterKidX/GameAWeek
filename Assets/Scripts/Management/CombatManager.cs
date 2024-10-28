@@ -12,6 +12,8 @@ public class CombatManager : MonoBehaviour
     CombatPathfinder _pathfinder;
     [SerializeField]
     Tile MovableTile;
+    [SerializeField]
+    Camera _camera;
 
     public Tilemap _walkable;
     public Tilemap _obstacles;
@@ -83,13 +85,55 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator CombatSequenceRoutine()
     {
-        _currentUnit.Selected = true;
+        while (true)
+        {
+            _currentUnit.Selected = true;
+            yield return UnitTurnRoutine();
+            _currentUnit.Selected = false;
+            _currentUnitIndex = (_currentUnitIndex + 1) % _turnOrder.Count;
+        }
+    }
 
+    private IEnumerator UnitTurnRoutine()
+    {
+        RemoveAllWalkables();
         ShowUnitWalkables(_currentUnit);
+        var ienum = GetUnitCommandRoutine();
+        yield return StartCoroutine(ienum);
+        var pos = (Vector3Int)ienum.Current;
+        yield return StartCoroutine(MoveUnitRoutine(_currentUnit, pos));
+    }
 
-        yield return null;
+    private void RemoveAllWalkables()
+    {
+        for (int i = XMin; i <= XMax; i++)
+        {
+            for (int j = YMin; j <= YMax; j++)
+            {
+                _ui.SetTile(new Vector3Int(i, j, 0), null);
+            }
+        }
+    }
 
-        _currentUnitIndex++;
+    private IEnumerator MoveUnitRoutine(UnitInstance unit, Vector3Int end)
+    {
+        var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end);
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            unit.CombatCellPosition = path[i].Position;
+            unit.CombatWorldPosition = _walkable.CellToWorld(unit.CombatCellPosition);
+            yield return new WaitForSeconds(unit.Model.HexAnimationSpeed);
+        }
+    }
+
+    private IEnumerator GetUnitCommandRoutine()
+    {
+        Vector3Int pos;
+        while (!TraversalInteractions.CilckedOnMap(out pos, _camera, _ui))
+            yield return null;
+
+        yield return pos;
     }
 
     private void ShowUnitWalkables(UnitInstance unit)
@@ -101,7 +145,7 @@ public class CombatManager : MonoBehaviour
 
         for (int i = posXMin; i <= posXMax; i++)
         {
-            for (int j = posYMin; j < posYMax; j++)
+            for (int j = posYMin; j <= posYMax; j++)
             {
                 var pos = new Vector3Int(i, j);
 
