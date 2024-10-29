@@ -9,6 +9,8 @@ public class GameplayUI : MonoBehaviour
     UIView_Castle p_castleView;
     [SerializeField]
     UIView_GameTime _gameTime;
+    [SerializeField]
+    UIView_PlayerOutcomeModal p_playerOutcomeModal;
 
     public UIView_HeroSelectionPane HeroSelectionPane;
     public UIView_CastleSelectionPane CastleSelectionPane;
@@ -63,5 +65,17 @@ public class GameplayUI : MonoBehaviour
 
         _passTurnButton.onClick.RemoveAllListeners();
         _passTurnButton.onClick.AddListener(() => passTurn());
+    }
+
+    internal void ShowPlayerLostModal(PlayerInstace player)
+    {
+        var modal = Instantiate(p_playerOutcomeModal);
+        modal.Init(player, false, null);
+    }
+
+    internal void ShowPlayerWonModal(PlayerInstace player, Action confirm)
+    {
+        var modal = Instantiate(p_playerOutcomeModal);
+        modal.Init(player, true, confirm);
     }
 }

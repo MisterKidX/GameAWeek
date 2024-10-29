@@ -17,8 +17,9 @@ public class PlayerInstace : ScriptableObject
     public bool HasCastle => Castles.Count > 0;
 
     //cheat!
-    public HeroInstance SelectedHero => Heroes == null || Heroes.Count == 0 ? null : Heroes[0];
+    public HeroInstance SelectedHero => HasHeroes ? Heroes[0] : null;
     public bool HasHeroSelected => SelectedHero != null;
+    public bool HasHeroes => Heroes != null && Heroes.Count > 0;
 
     internal void Init(PlayerModel model, string name, int order, CastleModel startingCastle, Color color)
     {
@@ -112,5 +113,33 @@ public class PlayerInstace : ScriptableObject
     {
         foreach (var cost in model.Cost)
             Resources.First(r => r.Model == cost.Resource).Amount -= cost.Amount;
+    }
+
+    private void OnDestroy()
+    {
+        if (HasCastle)
+        {
+            while (Castles.Count != 0)
+            {
+                Destroy(Castles[0]);
+                Castles.RemoveAt(0);
+            }
+        }
+        if (HasHeroes)
+        {
+            while (Heroes.Count != 0)
+            {
+                Destroy(Heroes[0]);
+                Heroes.RemoveAt(0);
+            }
+        }
+        if (Resources.Count > 0)
+        {
+            foreach (var r in Resources)
+            {
+                Destroy(r);
+            }
+            Resources.Clear();
+        }
     }
 }

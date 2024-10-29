@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +27,7 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager CurrentLevel { get; private set; }
 
-    public PlayerInstace[] Players;
+    public List<PlayerInstace> Players;
 
     private Grid _grid;
     private Tilemap[] _tilemaps;
@@ -106,7 +107,7 @@ public class LevelManager : MonoBehaviour
         CurrentLevel = Instance;
         _timeManagement = new();
 
-        Players = playerInstances;
+        Players = playerInstances.ToList();
 
         _grid = FindObjectsByType<Grid>(FindObjectsSortMode.None)[0];
         _tilemaps = _grid.GetComponentsInChildren<Tilemap>();
@@ -121,7 +122,7 @@ public class LevelManager : MonoBehaviour
 
     public void FinishedTurn()
     {
-        _turnOrder = ++_turnOrder % Players.Length;
+        _turnOrder = ++_turnOrder % Players.Count;
         if (_turnOrder == 0)
             _timeManagement.RoundOver();
 
@@ -133,7 +134,7 @@ public class LevelManager : MonoBehaviour
     {
         if (CurrentPlayer.Heroes.Count == 0 && CurrentPlayer.Castles.Count == 0)
         {
-            Debug.Log($"Player {CurrentPlayer.Name} Lost!");
+            CheckGameOutcomes();
             return;
         }
 
@@ -278,6 +279,40 @@ public class LevelManager : MonoBehaviour
         }
         else
             losingCombatant.Die();
+
+        _gameplayUI.Refresh();
+
+        CheckGameOutcomes();
+    }
+
+    private void CheckGameOutcomes()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            PlayerInstace player = Players[i];
+            if (!player.HasCastle && !player.HasHeroes)
+            {
+                if (player == CurrentPlayer)
+                {
+                    _turnOrder--;
+                    FinishedTurn();
+                }
+
+                Players.RemoveAt(i);
+                --i;
+
+                if (Players.Count != 1)
+                    _gameplayUI.ShowPlayerLostModal(player);
+
+                Destroy(player);
+                continue;
+            }
+        }
+
+        if (Players.Count == 1)
+        {
+            _gameplayUI.ShowPlayerWonModal(Players[0], () => SceneManager.LoadScene("MainMenu"));
+        }
     }
 
     public void GiveCastleTo(CastleInstance castle, PlayerInstace toPlayer)
@@ -288,7 +323,9 @@ public class LevelManager : MonoBehaviour
         castle.Holder = toPlayer;
         toPlayer.Castles.Add(castle);
         _gameplayUI.Refresh();
-        OpenCastleUIView(castle);
+        CheckGameOutcomes();
+        if (Players.Count != 1)
+            OpenCastleUIView(castle);
     }
 
 
@@ -301,7 +338,7 @@ public class LevelManager : MonoBehaviour
 
     private void ValidateAllPlayersHaveCastles()
     {
-        if (_playerSetupIndex != Players.Length)
+        if (_playerSetupIndex != Players.Count)
             Debug.LogError("All players must have castles at the beginning of the game.");
 
         foreach (var player in Players)
