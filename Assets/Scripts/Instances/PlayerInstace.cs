@@ -100,7 +100,7 @@ public class PlayerInstace : ScriptableObject
             {
                 if (atCastle.CastledUnits[i] == null)
                 {
-                    var inst = unit.Create(amount);
+                    var inst = unit.Create(amount, true);
                     atCastle.CastledUnits[i] = inst;
                     break;
                 }

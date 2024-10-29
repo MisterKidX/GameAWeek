@@ -41,11 +41,13 @@ public class CombatManager : MonoBehaviour
 
     Vector3Int[] _leftPositions;
     Vector3Int[] _rightPositions;
+    UnitAI _ai;
 
     public void Init(ICombatant attacker, ICombatant defender)
     {
         _attacker = attacker;
         _defender = defender;
+        _ai = new UnitAI(this);
 
         for (int i = 0; i < _attacker.Units.Length; i++)
         {
@@ -108,7 +110,14 @@ public class CombatManager : MonoBehaviour
 
             _currentUnit.HasRetaliation = true;
             _currentUnit.Selected = true;
-            yield return UnitTurnRoutine();
+            RemoveAllWalkables();
+            ShowUnitWalkables(_currentUnit);
+
+            if (_currentUnit.Controlled)
+                yield return StartCoroutine(PlayerUnitTurnRoutine());
+            else
+                yield return StartCoroutine(UnitAIRoutine());
+
             if (_currentUnit != null)
                 _currentUnit.Selected = false;
             else
@@ -139,7 +148,7 @@ public class CombatManager : MonoBehaviour
                         defenderCasualties[i] = (unit.Model, _defenderStartingUnits[i].Item2);
                 }
 
-                ui.Init(attackerWon, () => Exit(attackerWon),_attacker.Portrait,
+                ui.Init(attackerWon, () => Exit(attackerWon), _attacker.Portrait,
                     _defender.Portrait, _attacker.Name, _defender.Name,
                     attackerCasualties, defenderCasualties);
                 break;
@@ -153,13 +162,22 @@ public class CombatManager : MonoBehaviour
         SceneManager.UnloadScene("Combat");
     }
 
-    private IEnumerator UnitTurnRoutine()
+    private IEnumerator UnitAIRoutine()
     {
-        RemoveAllWalkables();
-        ShowUnitWalkables(_currentUnit);
+        var cell = _ai.GetCellClosestToUnit(_currentUnit);
+        yield return StartCoroutine(GoToTargetRoutine(cell));
+    }
+
+    private IEnumerator PlayerUnitTurnRoutine()
+    {
         var ienum = GetUnitCommandRoutine();
         yield return StartCoroutine(ienum);
         var pos = (Vector3Int)ienum.Current;
+        yield return StartCoroutine(GoToTargetRoutine(pos));
+    }
+
+    private IEnumerator GoToTargetRoutine(Vector3Int pos)
+    {
         var opposition = AreOpposingUnits(_currentUnit, pos);
         if (opposition != null)
         {
@@ -308,6 +326,17 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    private bool SameCombatant(UnitInstance u1, UnitInstance u2)
+    {
+        if ((_attacker.Units.Contains(u1) && _attacker.Units.Contains(u2))
+            || (_defender.Units.Contains(u1) && !_defender.Units.Contains(u2)))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
 #if UNITY_EDITOR
 
 
@@ -322,4 +351,89 @@ public class CombatManager : MonoBehaviour
     }
 
 #endif
+
+    private class UnitAI
+    {
+        CombatManager _cm;
+
+        private bool IsAttackerUnit(UnitInstance unit) => _cm._attacker.Units.Contains(unit);
+
+        public UnitAI(CombatManager cm)
+        {
+            _cm = cm;
+        }
+
+        public Vector3Int GetCellClosestToUnit(UnitInstance unit)
+        {
+            var target = FindTarget(unit);
+
+            Vector3Int[] positions = GetValidPositions(unit);
+            return GetClosestToTarget(positions, target);
+        }
+
+        private Vector3Int GetClosestToTarget(Vector3Int[] positions, UnitInstance target)
+        {
+            return positions.Aggregate((p1, p2) =>
+                (p1 - target.CombatCellPosition).magnitude < (p2 - target.CombatCellPosition).magnitude ?
+                p1 : p2);
+        }
+
+        private Vector3Int[] GetValidPositions(UnitInstance unit)
+        {
+            var ret = new List<Vector3Int>();
+
+            var posXMin = unit.CombatCellPosition.x - unit.Model.Speed;
+            var posXMax = unit.CombatCellPosition.x + unit.Model.Speed;
+            var posYMin = unit.CombatCellPosition.y - unit.Model.Speed;
+            var posYMax = unit.CombatCellPosition.y + unit.Model.Speed;
+
+            for (int i = posXMin; i <= posXMax; i++)
+            {
+                for (int j = posYMin; j <= posYMax; j++)
+                {
+                    var pos = new Vector3Int(i, j);
+
+                    if (Mathf.Abs(unit.CombatCellPosition.x - i) + Mathf.Abs(unit.CombatCellPosition.y - j) > unit.Model.Speed + 1)
+                        continue;
+                    if (_cm._obstacles.GetTile(pos) != null)
+                        continue;
+                    if (_cm._turnOrder.Any(u => u.CombatCellPosition == pos && _cm.SameCombatant(u, unit)))
+                        continue;
+
+                    if (_cm._walkable.GetTile(pos) != null)
+                        ret.Add(pos);
+                }
+            }
+
+            return ret.ToArray();
+        }
+
+        private UnitInstance FindTarget(UnitInstance unit)
+        {
+            if (IsAttackerUnit(unit))
+                return FindTarget(unit, _cm._defender.Units);
+            else
+                return FindTarget(unit, _cm._attacker.Units);
+        }
+
+        private UnitInstance FindTarget(UnitInstance toUnit, UnitInstance[] fromUnits)
+        {
+            UnitInstance closest = null;
+            foreach (var unit in fromUnits)
+            {
+                if (unit == null)
+                    continue;
+                if (closest == null)
+                    closest = unit;
+
+                if ((unit.CombatCellPosition - toUnit.CombatCellPosition).magnitude <
+                    (closest.CombatCellPosition - toUnit.CombatCellPosition).magnitude)
+                {
+                    closest = unit;
+                }
+            }
+
+            return closest;
+        }
+    }
 }

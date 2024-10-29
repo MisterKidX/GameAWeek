@@ -29,10 +29,10 @@ public class UnitModel : ScriptableObject
 
     public bool IsRanged => AttackRange > 1;
 
-    public UnitInstance Create(int amount)
+    public UnitInstance Create(int amount, bool controlled)
     {
         var inst = ScriptableObject.CreateInstance<UnitInstance>();
-        inst.Init(this, amount);
+        inst.Init(this, amount, controlled);
         return inst;
     }
 }

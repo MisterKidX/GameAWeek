@@ -9,6 +9,7 @@ public class HeroInstance : ScriptableObject, ITimeableReactor, ICombatant
     public UnitInstance[] Units { get; private set; }
     public string Name => Model.Name;
     public Sprite Portrait => Model.Portrait;
+    public bool Controlled => true;
 
     public float RemainingMovementPoints { get; set; }
     public float MovementPointsForCurrentTurn { get; private set; }

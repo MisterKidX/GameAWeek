@@ -11,10 +11,10 @@ public static class GameLogic
     public static HeroInstance CreateRandomHeroInstanceFromCastle(CastleModel castleModel, Vector3Int position, PlayerInstace holder)
     {
         var unitInstances = new UnitInstance[7];
-        unitInstances[0] = castleModel.Units[0].Create(Random.Range(1, 25));
-        unitInstances[1] = castleModel.Units[1].Create(Random.Range(1, 10));
-        unitInstances[2] = castleModel.Units[1].Create(Random.Range(1, 5));
-        unitInstances[3] = castleModel.Units[2].Create(Random.Range(1, 3));
+        unitInstances[0] = castleModel.Units[0].Create(Random.Range(1, 25), true);
+        unitInstances[1] = castleModel.Units[1].Create(Random.Range(1, 10), true);
+        unitInstances[2] = castleModel.Units[1].Create(Random.Range(1, 5), true);
+        unitInstances[3] = castleModel.Units[2].Create(Random.Range(1, 3), true);
 
         var inst = castleModel.Heroes.
             Where(heroModel => !_heroesInGameplay.
@@ -32,7 +32,7 @@ public static class GameLogic
     {
         var model = GameConfig.Units.Where(u => u.Tier == tier).GetRandom();
         var creatureAmount = GetRandomFromCount(count);
-        var inst = model.Create(creatureAmount);
+        var inst = model.Create(creatureAmount, false);
 
         inst.WorldPosition = position;
         inst.CellPosition = cell;

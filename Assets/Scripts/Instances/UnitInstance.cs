@@ -14,6 +14,7 @@ public class UnitInstance : ScriptableObject, ICombatant
 
     public string Name => Model.Name;
     public Sprite Portrait => Model.Portrait;
+    public bool Controlled { get; private set; }
 
     public bool Selected { get; set; }
     public int CumulativeHP => (Amount - 1) * Model.Health + CurrentHealth;
@@ -29,7 +30,7 @@ public class UnitInstance : ScriptableObject, ICombatant
             _combatUnits = new UnitInstance[7];
             for (int i = 0; i < count; i++)
             {
-                _combatUnits[i] = Model.Create(Amount / count);
+                _combatUnits[i] = Model.Create(Amount / count, false);
             }
             return _combatUnits;
         }
@@ -119,11 +120,12 @@ public class UnitInstance : ScriptableObject, ICombatant
         Destroy(this);
     }
 
-    internal void Init(UnitModel model, int amount)
+    internal void Init(UnitModel model, int amount, bool controlled)
     {
         Model = model;
         Amount = amount;
         CurrentHealth = model.Health;
+        Controlled = controlled;
     }
 
     internal void ShowMap()
