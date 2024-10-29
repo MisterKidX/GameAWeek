@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -245,6 +246,12 @@ public class LevelManager : MonoBehaviour
                 Neutrals.Remove(pos + Vector3Int.down);
                 Neutrals.Remove(pos + Vector3Int.right);
                 Neutrals.Remove(pos + Vector3Int.left);
+
+                _metadataLayer.SetTile(pos, null);
+                _metadataLayer.SetTile(pos + Vector3Int.up, null);
+                _metadataLayer.SetTile(pos + Vector3Int.down, null);
+                _metadataLayer.SetTile(pos + Vector3Int.right, null);
+                _metadataLayer.SetTile(pos + Vector3Int.left, null);
             }
             _defender.Die();
         }
