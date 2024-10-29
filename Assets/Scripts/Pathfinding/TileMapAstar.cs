@@ -10,17 +10,13 @@ public class TileMapAstar : MonoBehaviour
 
     public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end)
     {
-        var gEnd = groundTilemap.GetTile(end);
-        var pEnd = placementTilemap.GetTile(end) as BaseTile;
-        var aquirable = placementTilemap.GetTile(end) as AquirableTile;
-
         if (start == end)
             return new List<PathPoint>() { new PathPoint(start, 0, 0) };
         else if (!IsTargetable(end))
             return null;
 
         List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
 
         Node startNode = new Node(start, null, 0, GetHCost(start, end));
         openSet.Add(startNode);
@@ -38,7 +34,7 @@ public class TileMapAstar : MonoBehaviour
             }
 
             openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
+            closedSet.Add(currentNode.Position);
 
             if (currentNode.Position == end)
             {
@@ -47,7 +43,7 @@ public class TileMapAstar : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Contains(new Node(neighbor, null, 0, 0)))
+                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Contains(neighbor))
                     continue;
                 else if (neighbor == end && !IsTargetable(neighbor))
                     continue;
@@ -116,11 +112,13 @@ public class TileMapAstar : MonoBehaviour
         BaseTile tile = groundTilemap.GetTile(position) as BaseTile;
         BaseTile tile2 = placementTilemap.GetTile(position) as BaseTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(position) as BaseTile;
+        var threatTile = metadataTilemap.GetTile(position) as ThreatTile;
         if (tile == null) return false;
         if (tile.TileType != TileType.Ground) return false;
         if (tile2 != null && !tile2.GroundTraversable) return false;
         if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable)
             return false;
+        if (threatTile != null) return false;
 
         return true;
     }
@@ -131,6 +129,7 @@ public class TileMapAstar : MonoBehaviour
         BaseTile tile2 = placementTilemap.GetTile(end) as BaseTile;
         BaseTile aquirable = placementTilemap.GetTile(end) as AquirableTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(end) as BaseTile;
+        var threatTile = metadataTilemap.GetTile(end) as ThreatTile;
         if (tile == null) return false;
         if (tile.TileType != TileType.Ground) return false;
         if (tile2 != null && !tile2.GroundTraversable && aquirable == null) return false;

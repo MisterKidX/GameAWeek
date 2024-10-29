@@ -27,7 +27,7 @@ public class TraversalInteractions : MonoBehaviour
         Vector3Int cellPos;
 
         if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
-            (_path == null || cellPos != _path[_path.Count - 1].Position))
+            ((_path == null || _path.Count == 0) || cellPos != _path[_path.Count - 1].Position))
         {
             StopAllCoroutines();
             _camController.UnstickToObject();
@@ -71,6 +71,8 @@ public class TraversalInteractions : MonoBehaviour
                     break;
                 if (!CanMove_DestinationAsAnotherHero())
                     break;
+                if (!CanMove_DestinationAsNeutralUnit())
+                    break;
             }
 
             // movement
@@ -89,6 +91,21 @@ public class TraversalInteractions : MonoBehaviour
 
         _path = null;
         _camController.UnstickToObject();
+    }
+
+    private bool CanMove_DestinationAsNeutralUnit()
+    {
+        var destination = _path[_path.Count - 1].Position;
+        var neutrals = LevelManager.CurrentLevel.Neutrals;
+
+        if (!neutrals.ContainsKey(destination))
+            return true;
+        else
+        {
+            LevelManager.CurrentLevel.
+                EnterCombat(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero, neutrals[destination]);
+            return true;
+        }
     }
 
     private bool CanMove_DestinationAsAnotherHero()

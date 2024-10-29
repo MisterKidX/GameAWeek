@@ -34,15 +34,15 @@ public class CombatManager : MonoBehaviour
     int _currentUnitIndex = 0;
     UnitInstance _currentUnit => _turnOrder[_currentUnitIndex];
 
-    HeroInstance _attacker;
+    ICombatant _attacker;
     (UnitModel, int)[] _attackerStartingUnits = new (UnitModel, int)[7];
-    HeroInstance _defender;
+    ICombatant _defender;
     (UnitModel, int)[] _defenderStartingUnits = new (UnitModel, int)[7];
 
     Vector3Int[] _leftPositions;
     Vector3Int[] _rightPositions;
 
-    public void Init(HeroInstance attacker, HeroInstance defender)
+    public void Init(ICombatant attacker, ICombatant defender)
     {
         _attacker = attacker;
         _defender = defender;
@@ -139,8 +139,8 @@ public class CombatManager : MonoBehaviour
                         defenderCasualties[i] = (unit.Model, _defenderStartingUnits[i].Item2);
                 }
 
-                ui.Init(attackerWon, () => Exit(attackerWon),_attacker.Model.Portrait,
-                    _defender.Model.Portrait, _attacker.Model.Name, _defender.Model.Name,
+                ui.Init(attackerWon, () => Exit(attackerWon),_attacker.Portrait,
+                    _defender.Portrait, _attacker.Name, _defender.Name,
                     attackerCasualties, defenderCasualties);
                 break;
             }
@@ -291,11 +291,11 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    private void InitializeUnits(HeroInstance hero, UnitCombatView[] combatViews, Vector3Int[] positions, bool flip)
+    private void InitializeUnits(ICombatant combatant, UnitCombatView[] combatViews, Vector3Int[] positions, bool flip)
     {
-        for (int i = 0; i < hero.Units.Length; i++)
+        for (int i = 0; i < combatant.Units.Length; i++)
         {
-            UnitInstance unit = hero.Units[i];
+            UnitInstance unit = combatant.Units[i];
 
             if (unit == null)
                 continue;
@@ -304,7 +304,7 @@ public class CombatManager : MonoBehaviour
             unit.CombatWorldPosition = _walkable.CellToWorld(positions[i]);
             combatViews[i] = Instantiate(unit.Model.p_combatView);
             combatViews[i].Init(unit, flip);
-            combatViews[i].name = hero.Holder.Name + "_" + i;
+            combatViews[i].name = combatant.Name + "_" + i;
         }
     }
 

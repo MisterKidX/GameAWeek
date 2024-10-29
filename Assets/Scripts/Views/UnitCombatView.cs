@@ -31,6 +31,13 @@ public class UnitCombatView : MonoBehaviour
         _instance.OnDie += _instance_OnDie;
     }
 
+    public void MapInit(Vector3 position)
+    {
+        transform.position = position;
+        _canvas.gameObject.SetActive(false);
+        Selection.gameObject.SetActive(false);
+    }
+
     private void _instance_OnDie(UnitInstance instance)
     {
         StartCoroutine(DieRoutine());
@@ -63,6 +70,9 @@ public class UnitCombatView : MonoBehaviour
 
     private void Update()
     {
+        if (_instance == null)
+            return;
+
         MovePosition();
 
         if (_instance.Selected)

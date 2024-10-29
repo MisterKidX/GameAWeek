@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Cavalier
   Portrait: {fileID: 21300000, guid: 546ec80a4e274804288348d6a78edbae, type: 3}
+  Tier: 6
   Attack: 15
   Defense: 15
   AttackRange: 1
@@ -26,3 +27,4 @@ MonoBehaviour:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 350
   p_combatView: {fileID: 8148081437322904011, guid: cdd683f9eb53c2c4a860bcfc95138419, type: 3}
+  HexAnimationSpeed: 0.2

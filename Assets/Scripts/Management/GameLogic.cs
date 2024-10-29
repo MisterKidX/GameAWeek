@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class GameLogic
 {
@@ -24,6 +26,45 @@ public static class GameLogic
         holder.Heroes.Add(inst);
 
         return inst;
+    }
+
+    internal static UnitInstance CreateRandomUnit(int tier, CreatureCount count, Vector3 position, Vector3Int cell)
+    {
+        var model = GameConfig.Units.Where(u => u.Tier == tier).GetRandom();
+        var creatureAmount = GetRandomFromCount(count);
+        var inst = model.Create(creatureAmount);
+
+        inst.WorldPosition = position;
+        inst.CellPosition = cell;
+
+        return inst;
+    }
+
+    public static int GetRandomFromCount(CreatureCount count)
+    {
+        switch (count)
+        {
+            case CreatureCount.Few:
+                return Random.Range(1, (int)CreatureCount.Few);
+            case CreatureCount.Several:
+                return Random.Range((int)CreatureCount.Few, (int)CreatureCount.Several);
+            case CreatureCount.Pack:
+                return Random.Range((int)CreatureCount.Several, (int)CreatureCount.Pack);
+            case CreatureCount.Lots:
+                return Random.Range((int)CreatureCount.Pack, (int)CreatureCount.Lots);
+            case CreatureCount.Horde:
+                return Random.Range((int)CreatureCount.Lots, (int)CreatureCount.Horde);
+            case CreatureCount.Throng:
+                return Random.Range((int)CreatureCount.Horde, (int)CreatureCount.Throng);
+            case CreatureCount.Swarm:
+                return Random.Range((int)CreatureCount.Throng, (int)CreatureCount.Swarm);
+            case CreatureCount.Zounds:
+                return Random.Range((int)CreatureCount.Swarm, (int)CreatureCount.Zounds);
+            case CreatureCount.Legion:
+                return Random.Range((int)CreatureCount.Zounds, (int)CreatureCount.Legion);
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     internal static CastleInstance CreateStartingCastle(PlayerInstace player, Vector3 pos)

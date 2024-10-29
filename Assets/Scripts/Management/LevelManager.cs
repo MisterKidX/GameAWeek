@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class LevelManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class LevelManager : MonoBehaviour
     private Grid _grid;
     private Tilemap[] _tilemaps;
     private int _turnOrder = 0;
+    public Dictionary<Vector3Int, UnitInstance> Neutrals = new();
 
     public PlayerInstace CurrentPlayer => Players[_turnOrder];
     private Tilemap _metadataLayer => _tilemaps[2];
@@ -188,13 +190,13 @@ public class LevelManager : MonoBehaviour
         _timeManagement.TimeableReactors.Add(timeableReactor, 0);
     }
 
-    internal void EnterCombat(HeroInstance selectedHero, HeroInstance hero)
+    internal void EnterCombat(ICombatant attacker, ICombatant defender)
     {
-        StartCoroutine(EnterCombatroutine(selectedHero, hero));
+        StartCoroutine(EnterCombatroutine(attacker, defender));
     }
 
     GameObject[] _root;
-    private IEnumerator EnterCombatroutine(HeroInstance attacker, HeroInstance defender)
+    private IEnumerator EnterCombatroutine(ICombatant attacker, ICombatant defender)
     {
         _attacker = attacker;
         _defender = defender;
@@ -224,12 +226,24 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    HeroInstance _attacker;
-    HeroInstance _defender;
+    ICombatant _attacker;
+    ICombatant _defender;
     internal void BackFromCombat(bool attackerWon)
     {
         if (attackerWon)
+        {
+            if (_defender is UnitInstance unit)
+            {
+                var pos = unit.CellPosition;
+
+                Neutrals.Remove(pos);
+                Neutrals.Remove(pos + Vector3Int.up);
+                Neutrals.Remove(pos + Vector3Int.down);
+                Neutrals.Remove(pos + Vector3Int.right);
+                Neutrals.Remove(pos + Vector3Int.left);
+            }
             _defender.Die();
+        }
         else
             _attacker.Die();
 
@@ -276,9 +290,36 @@ public class LevelManager : MonoBehaviour
             case CastleEntranceTile ce:
                 HandleCastleEntrance(ce, pos);
                 break;
+            case UnitTile unit:
+                HandleUnit(unit, pos);
+                break;
+            case ThreatTile threat:
+                break;
             default:
                 throw new NotImplementedException(tile.GetType() + " - was not implemented.");
         }
+    }
+
+    private void HandleUnit(UnitTile unit, Vector3Int pos)
+    {
+        var position = _metadataLayer.CellToWorld(pos);
+        UnitInstance unitInstance = GameLogic.CreateRandomUnit(unit.Tier, unit.Count, position + Vector3.right * 0.5f, pos);
+        unitInstance.ShowMap();
+        _metadataLayer.SetTile(pos, null);
+
+        // threat tiles
+        var threat = ScriptableObject.CreateInstance<ThreatTile>();
+        _metadataLayer.SetTile(pos, threat);
+        _metadataLayer.SetTile(pos + Vector3Int.up, threat);
+        _metadataLayer.SetTile(pos + Vector3Int.down, threat);
+        _metadataLayer.SetTile(pos + Vector3Int.right, threat);
+        _metadataLayer.SetTile(pos + Vector3Int.left, threat);
+        Neutrals.Add(pos, unitInstance);
+        Neutrals.Add(pos + Vector3Int.up, unitInstance);
+        Neutrals.Add(pos + Vector3Int.down, unitInstance);
+        Neutrals.Add(pos + Vector3Int.right, unitInstance);
+        Neutrals.Add(pos + Vector3Int.left, unitInstance);
+
     }
 
     int _playerSetupIndex = 0;

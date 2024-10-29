@@ -27,6 +27,18 @@ public static class GameConfig
         }
     }
 
+    private static UnitModel[] _unitModels;
+    public static UnitModel[] Units
+    {
+        get
+        {
+            if (_unitModels == null)
+                _unitModels = UnityEngine.Resources.LoadAll<UnitModel>("");
+
+            return _unitModels;
+        }
+    }
+
     public static ResourceInstance[] GetStartingResouces()
     {
         var models = Resources;

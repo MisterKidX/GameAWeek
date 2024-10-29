@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-public class HeroInstance : ScriptableObject, ITimeableReactor
+public class HeroInstance : ScriptableObject, ITimeableReactor, ICombatant
 {
     public HeroModel Model;
     public Vector3Int Position;
     public PlayerInstace Holder;
-    public UnitInstance[] Units;
+    public UnitInstance[] Units { get; private set; }
+    public string Name => Model.Name;
+    public Sprite Portrait => Model.Portrait;
 
     public float RemainingMovementPoints { get; set; }
     public float MovementPointsForCurrentTurn { get; private set; }
@@ -46,7 +48,7 @@ public class HeroInstance : ScriptableObject, ITimeableReactor
         }
     }
 
-    internal void Die()
+    public void Die()
     {
         if (View != null)
             Destroy(View.gameObject);

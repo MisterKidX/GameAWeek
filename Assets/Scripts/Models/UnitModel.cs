@@ -5,8 +5,10 @@ public class UnitModel : ScriptableObject
 {
     public string Name;
     public Sprite Portrait;
+    public int Tier;
     [Space]
 
+    [Header("Combat")]
     public int Attack;
     public int Defense;
     public int AttackRange = 1;

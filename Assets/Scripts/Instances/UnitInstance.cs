@@ -1,21 +1,45 @@
 ﻿using System;
 using UnityEngine;
 
-public class UnitInstance : ScriptableObject
+public class UnitInstance : ScriptableObject, ICombatant
 {
     public Vector3 CombatWorldPosition;
     public Vector3Int CombatCellPosition;
+    public Vector3 WorldPosition;
+    public Vector3Int CellPosition;
     public UnitModel Model;
     public int Amount;
     public int CurrentHealth;
     public bool HasRetaliation;
 
+    public string Name => Model.Name;
+    public Sprite Portrait => Model.Portrait;
+
     public bool Selected { get; set; }
     public int CumulativeHP => (Amount - 1) * Model.Health + CurrentHealth;
+
+    public UnitInstance[] _combatUnits;
+    public UnitInstance[] Units
+    {
+        get
+        {
+            if (_combatUnits != null) return _combatUnits;
+
+            var count = UnityEngine.Random.Range(1, 5);
+            _combatUnits = new UnitInstance[7];
+            for (int i = 0; i < count; i++)
+            {
+                _combatUnits[i] = Model.Create(Amount / count);
+            }
+            return _combatUnits;
+        }
+    }
 
     public event Action OnAttack;
     public event Action OnDefend;
     public event Action<UnitInstance> OnDie;
+
+    public UnitCombatView RuntimeMapView;
 
     public void Attack(UnitInstance defender)
     {
@@ -81,6 +105,17 @@ public class UnitInstance : ScriptableObject
     public void Die()
     {
         OnDie?.Invoke(this);
+        if (RuntimeMapView != null)
+            Destroy(RuntimeMapView.gameObject);
+        if (_combatUnits != null)
+        {
+            for (int i = 0; i < _combatUnits.Length; i++)
+            {
+                if (_combatUnits[i] != null)
+                    Destroy(_combatUnits[i]);
+            }
+        }
+
         Destroy(this);
     }
 
@@ -89,5 +124,14 @@ public class UnitInstance : ScriptableObject
         Model = model;
         Amount = amount;
         CurrentHealth = model.Health;
+    }
+
+    internal void ShowMap()
+    {
+        if (RuntimeMapView == null)
+        {
+            RuntimeMapView = Instantiate(Model.p_combatView);
+            RuntimeMapView.MapInit(WorldPosition);
+        }
     }
 }

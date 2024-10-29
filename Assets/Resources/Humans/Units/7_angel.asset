@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Angel
   Portrait: {fileID: 21300000, guid: f6ff4be58de064845866073b6190dc31, type: 3}
+  Tier: 7
   Attack: 18
   Defense: 20
   AttackRange: 1
@@ -26,3 +27,4 @@ MonoBehaviour:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 2000
   p_combatView: {fileID: 8148081437322904011, guid: cdd683f9eb53c2c4a860bcfc95138419, type: 3}
+  HexAnimationSpeed: 0.2
