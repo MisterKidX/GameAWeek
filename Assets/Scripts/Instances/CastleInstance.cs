@@ -3,8 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CastleInstance : ScriptableObject
+public class CastleInstance : ScriptableObject, ICombatant
 {
+    #region ICombatant
+    string ICombatant.Name => Name;
+
+    public Sprite Portrait => Model.Portrait;
+
+    public bool Controlled => true;
+
+    public UnitInstance[] Units => CastledUnits;
+
+    public void Die()
+    {
+        Holder.Castles.Remove(this);
+        Holder = null;
+    }
+
+    #endregion
+
     public Vector3 Position;
     public CastleModel Model;
     public PlayerInstace Holder;

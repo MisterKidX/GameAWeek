@@ -92,6 +92,10 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 239a43113ee293d4a9570ed50fdaf9a7, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 63e581279cbe8d342816c8e18d336787, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: 7216056460113515720, guid: 27b17e266fa2b25438386717382ebdab, type: 3}
@@ -101,6 +105,10 @@ Tilemap:
     m_Data: {fileID: -1605326131, guid: 2539c7e5ca69d3a4eb49310837b0f9a3, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 8df92bc5137ef994fb60e528816a0e10, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 4
     m_Data:
@@ -127,7 +135,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -2, y: 0, z: 0}
-  m_Size: {x: 4, y: 1, z: 1}
+  m_Size: {x: 8, y: 1, z: 1}
   m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -192,7 +200,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0.09166664, z: 0}
+  m_ChunkCullingBounds: {x: 0.041666687, y: 0.24166667, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -240,11 +248,11 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8149045429201302981}
   m_Enabled: 1
-  m_CellSize: {x: 0.96666664, y: 1.1833333, z: 0}
+  m_CellSize: {x: 1, y: 1.1833333, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 1
   m_CellSwizzle: 0
---- !u!114 &5880344136881472565
+--- !u!114 &411025266554975509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,6 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 12395, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Palette Settings
   m_EditorClassIdentifier: 
-  cellSizing: 0
+  cellSizing: 100
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 0, z: 1}

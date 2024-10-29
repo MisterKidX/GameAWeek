@@ -23,7 +23,7 @@ public class GameplayUI : MonoBehaviour
         CastleSelectionPane.Init(currentPlayer.Castles, ShowCastleView);
     }
 
-    private void ShowCastleView(CastleInstance instance)
+    public void ShowCastleView(CastleInstance instance)
     {
         var go = Instantiate(p_castleView);
         go.Init(instance, _uiPanelClose);
@@ -47,11 +47,19 @@ public class GameplayUI : MonoBehaviour
         _gameTime.Init(1);
     }
 
+    public void Refresh()
+    {
+        ShowHeroes(_currentPlayer);
+        ShowCastles(_currentPlayer);
+        ShowResources(_currentPlayer);
+    }
+
+    PlayerInstace _currentPlayer;
     public void InitializePlayer(PlayerInstace currentPlayer, Action passTurn)
     {
-        ShowHeroes(currentPlayer);
-        ShowCastles(currentPlayer);
-        ShowResources(currentPlayer);
+        _currentPlayer = currentPlayer;
+
+        Refresh();
 
         _passTurnButton.onClick.RemoveAllListeners();
         _passTurnButton.onClick.AddListener(() => passTurn());

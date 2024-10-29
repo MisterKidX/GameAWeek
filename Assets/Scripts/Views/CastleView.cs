@@ -12,6 +12,11 @@ public class CastleView : MonoBehaviour
         PaintColor(_instance.Holder.Color);
     }
 
+    private void Update()
+    {
+        PaintColor(_instance.Holder.Color);
+    }
+
     private void PaintColor(Color color)
     {
         _colorer.color = color;

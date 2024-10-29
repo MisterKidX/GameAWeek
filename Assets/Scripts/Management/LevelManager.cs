@@ -5,7 +5,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
-using static UnityEditor.PlayerSettings;
 
 public class LevelManager : MonoBehaviour
 {
@@ -236,27 +235,10 @@ public class LevelManager : MonoBehaviour
     internal void BackFromCombat(bool attackerWon)
     {
         if (attackerWon)
-        {
-            if (_defender is UnitInstance unit)
-            {
-                var pos = unit.CellPosition;
-
-                Neutrals.Remove(pos);
-                Neutrals.Remove(pos + Vector3Int.up);
-                Neutrals.Remove(pos + Vector3Int.down);
-                Neutrals.Remove(pos + Vector3Int.right);
-                Neutrals.Remove(pos + Vector3Int.left);
-
-                _metadataLayer.SetTile(pos, null);
-                _metadataLayer.SetTile(pos + Vector3Int.up, null);
-                _metadataLayer.SetTile(pos + Vector3Int.down, null);
-                _metadataLayer.SetTile(pos + Vector3Int.right, null);
-                _metadataLayer.SetTile(pos + Vector3Int.left, null);
-            }
-            _defender.Die();
-        }
+            ResolveCombatFor(_attacker, _defender);
         else
-            _attacker.Die();
+            ResolveCombatFor(_defender, _attacker);
+
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("DemoLevel"));
         _root = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -264,8 +246,49 @@ public class LevelManager : MonoBehaviour
         foreach (var go in _root)
             go.SetActive(true);
 
+        _traversalInteraction.gameObject.SetActive(true);
+
         _attacker = null;
         _defender = null;
+    }
+
+    private void ResolveCombatFor(ICombatant winningCombatant, ICombatant losingCombatant)
+    {
+        if (losingCombatant is UnitInstance unit)
+        {
+            var pos = unit.CellPosition;
+
+            Neutrals.Remove(pos);
+            Neutrals.Remove(pos + Vector3Int.up);
+            Neutrals.Remove(pos + Vector3Int.down);
+            Neutrals.Remove(pos + Vector3Int.right);
+            Neutrals.Remove(pos + Vector3Int.left);
+
+            _metadataLayer.SetTile(pos, null);
+            _metadataLayer.SetTile(pos + Vector3Int.up, null);
+            _metadataLayer.SetTile(pos + Vector3Int.down, null);
+            _metadataLayer.SetTile(pos + Vector3Int.right, null);
+            _metadataLayer.SetTile(pos + Vector3Int.left, null);
+
+            losingCombatant.Die();
+        }
+        if (losingCombatant is CastleInstance castle && winningCombatant is HeroInstance hero)
+        {
+            GiveCastleTo(castle, hero.Holder);
+        }
+        else
+            losingCombatant.Die();
+    }
+
+    public void GiveCastleTo(CastleInstance castle, PlayerInstace toPlayer)
+    {
+        if (castle.Holder != null)
+            castle.Holder.Castles.Remove(castle);
+
+        castle.Holder = toPlayer;
+        toPlayer.Castles.Add(castle);
+        _gameplayUI.Refresh();
+        OpenCastleUIView(castle);
     }
 
 
@@ -349,6 +372,26 @@ public class LevelManager : MonoBehaviour
 
         _playerSetupIndex++;
     }
+
+    public void OpenCastleUIView(CastleInstance castleInstance)
+    {
+        _gameplayUI.ShowCastleView(castleInstance);
+    }
+
+    internal CastleInstance[] GetAllCastles()
+    {
+        List<CastleInstance> result = new List<CastleInstance>();
+        foreach (var player in Players)
+        {
+            foreach (var castle in player.Castles)
+            {
+                result.Add(castle);
+            }
+        }
+
+        return result.ToArray();
+    }
+
     #endregion
 }
 

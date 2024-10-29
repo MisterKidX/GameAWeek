@@ -34,7 +34,10 @@ public class TileMapAstar : MonoBehaviour
             }
 
             openSet.Remove(currentNode);
-            closedSet.Add(currentNode.Position, currentNode.FCost);
+            if (!closedSet.ContainsKey(currentNode.Position))
+                closedSet.Add(currentNode.Position, currentNode.FCost);
+            else if (currentNode.FCost < closedSet[currentNode.Position])
+                closedSet[currentNode.Position] = currentNode.FCost;
 
             if (currentNode.Position == end)
             {

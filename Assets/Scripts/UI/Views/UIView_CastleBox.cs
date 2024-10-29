@@ -12,6 +12,7 @@ public class UIView_CastleBox : MonoBehaviour
     public void Init(Sprite view, Action click)
     {
         _portrait.sprite = view;
+        _click.interactable = true;
         _click.onClick.RemoveAllListeners();
         _click.onClick.AddListener(() => click());
     }

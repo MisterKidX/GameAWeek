@@ -101,4 +101,14 @@ public class UnitCombatView : MonoBehaviour
             transform.position = _instance.CombatWorldPosition;
         }
     }
+
+    private void OnDestroy()
+    {
+        if (_instance != null)
+        {
+            _instance.OnAttack -= _instance_OnAttack;
+            _instance.OnDefend -= _instance_OnDefend;
+            _instance.OnDie -= _instance_OnDie;
+        }
+    }
 }

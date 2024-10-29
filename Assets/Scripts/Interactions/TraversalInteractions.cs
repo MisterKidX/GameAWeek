@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,6 +15,7 @@ public class TraversalInteractions : MonoBehaviour
     Tilemap _ground;
     [SerializeField]
     Tilemap _obstacles;
+
     [SerializeField]
     TileMapAstar _astar;
     [SerializeField]
@@ -61,6 +63,7 @@ public class TraversalInteractions : MonoBehaviour
 
     private IEnumerator MoveSelectedHero(HeroInstance selectedHero)
     {
+        bool openCastle = false;
         _camController.StickToObject(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.View.gameObject);
 
         for (int i = 1; i < _path.Count; i++)
@@ -69,9 +72,11 @@ public class TraversalInteractions : MonoBehaviour
             {
                 if (!CanMove_DestinationAsAquirable())
                     break;
-                if (!CanMove_DestinationAsAnotherHero())
+                else if (!CanMove_DestinationAsNeutralUnit())
                     break;
-                if (!CanMove_DestinationAsNeutralUnit())
+                else if (!CanMove_DestinationAsAnotherHero())
+                    break;
+                else if (!CanMove_DestinationAsCastle(selectedHero))
                     break;
             }
 
@@ -91,6 +96,43 @@ public class TraversalInteractions : MonoBehaviour
 
         _path = null;
         _camController.UnstickToObject();
+    }
+
+    private bool CanMove_DestinationAsCastle(HeroInstance hero)
+    {
+        var destination = _path[_path.Count - 1].Position;
+        CastleInstance[] castles = LevelManager.CurrentLevel.GetAllCastles();
+
+        var castle = castles.FirstOrDefault(c => c.Position == _grid.CellToWorld(destination));
+        if (castle == null)
+            return true;
+
+        // i.e., players castle
+        if (castle.Holder.Heroes.Contains(hero))
+        {
+            hero.Position = destination;
+            LevelManager.CurrentLevel.OpenCastleUIView(castle);
+            return true;
+        }
+        else
+        {
+            bool hasUnits = false;
+            foreach (var unit in castle.Units)
+            {
+                if (unit != null)
+                {
+                    hasUnits = true;
+                    break;
+                }
+            }
+
+            if (hasUnits)
+                LevelManager.CurrentLevel.EnterCombat(hero, castle);
+            else
+                LevelManager.CurrentLevel.GiveCastleTo(castle, hero.Holder);
+        }
+
+        return true;
     }
 
     private bool CanMove_DestinationAsNeutralUnit()
