@@ -380,6 +380,9 @@ public class CombatManager : MonoBehaviour
 
         private Vector3Int[] GetValidPositions(UnitInstance unit)
         {
+            if (unit.Model.IsRanged)
+                return _cm._turnOrder.Where(u => !_cm.SameCombatant(u, unit)).Select(u => u.CombatCellPosition).ToArray();
+
             var ret = new List<Vector3Int>();
 
             var posXMin = unit.CombatCellPosition.x - unit.Model.Speed;
