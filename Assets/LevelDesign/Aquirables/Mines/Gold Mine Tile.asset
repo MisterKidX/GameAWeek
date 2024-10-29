@@ -34,8 +34,9 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 5784510588808727603, guid: 17d3a8ad8e6452c4c9d63b4be72b0785, type: 3}
   m_Flags: 1
   m_ColliderType: 1
-  TileType: 0
+  TileType: 3
   MovementCost: 1
   GroundTraversable: 1
   FlightTraversable: 1
   CanStepOver: 1
+  ResourceGeneratorModel: {fileID: 11400000, guid: 1a00b02b9b3754e44a0c9b5b6de662a1, type: 2}

@@ -149,7 +149,7 @@ public class TraversalInteractions : MonoBehaviour
             var instObject = _obstacles.GetInstantiatedObject(_path[_path.Count -1].Position);
             if (instObject != null)
             {
-                var mineView = instObject.GetComponent<MineView>();
+                var mineView = instObject.GetComponent<ResourceGeneratorView>();
                 if (mineView != null)
                     mineView.Capture(LevelManager.CurrentLevel.CurrentPlayer);
             }

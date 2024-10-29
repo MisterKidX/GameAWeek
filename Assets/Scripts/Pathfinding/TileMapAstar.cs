@@ -16,7 +16,7 @@ public class TileMapAstar : MonoBehaviour
             return null;
 
         List<Node> openSet = new List<Node>();
-        HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
+        Dictionary<Vector3Int, float> closedSet = new();
 
         Node startNode = new Node(start, null, 0, GetHCost(start, end));
         openSet.Add(startNode);
@@ -34,7 +34,7 @@ public class TileMapAstar : MonoBehaviour
             }
 
             openSet.Remove(currentNode);
-            closedSet.Add(currentNode.Position);
+            closedSet.Add(currentNode.Position, currentNode.FCost);
 
             if (currentNode.Position == end)
             {
@@ -43,9 +43,9 @@ public class TileMapAstar : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Contains(neighbor))
+                if (neighbor != end && !IsWalkable(neighbor))
                     continue;
-                else if (neighbor == end && !IsTargetable(neighbor))
+                if (closedSet.ContainsKey(neighbor) && closedSet[neighbor] < currentNode.FCost)
                     continue;
 
                 float newMovementCostToNeighbor = currentNode.GCost + GetGCost(currentNode.Position, neighbor);
@@ -109,15 +109,14 @@ public class TileMapAstar : MonoBehaviour
 
     bool IsWalkable(Vector3Int position)
     {
-        BaseTile tile = groundTilemap.GetTile(position) as BaseTile;
-        BaseTile tile2 = placementTilemap.GetTile(position) as BaseTile;
+        BaseTile groundTile = groundTilemap.GetTile(position) as BaseTile;
+        BaseTile palcementTile = placementTilemap.GetTile(position) as BaseTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(position) as BaseTile;
         var threatTile = metadataTilemap.GetTile(position) as ThreatTile;
-        if (tile == null) return false;
-        if (tile.TileType != TileType.Ground) return false;
-        if (tile2 != null && !tile2.GroundTraversable) return false;
-        if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable)
-            return false;
+        if (groundTile == null) return false;
+        if (groundTile.TileType != TileType.Ground) return false;
+        if (palcementTile != null && !palcementTile.GroundTraversable) return false;
+        if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable) return false;
         if (threatTile != null) return false;
 
         return true;
@@ -125,14 +124,14 @@ public class TileMapAstar : MonoBehaviour
 
     bool IsTargetable(Vector3Int end)
     {
-        BaseTile tile = groundTilemap.GetTile(end) as BaseTile;
-        BaseTile tile2 = placementTilemap.GetTile(end) as BaseTile;
-        BaseTile aquirable = placementTilemap.GetTile(end) as AquirableTile;
+        BaseTile groundTile = groundTilemap.GetTile(end) as BaseTile;
+        BaseTile placementTile = placementTilemap.GetTile(end) as BaseTile;
+        BaseTile aquirableTile = placementTilemap.GetTile(end) as AquirableTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(end) as BaseTile;
         var threatTile = metadataTilemap.GetTile(end) as ThreatTile;
-        if (tile == null) return false;
-        if (tile.TileType != TileType.Ground) return false;
-        if (tile2 != null && !tile2.GroundTraversable && aquirable == null) return false;
+        if (groundTile == null) return false;
+        if (groundTile.TileType != TileType.Ground) return false;
+        if (placementTile != null && !placementTile.GroundTraversable && aquirableTile == null) return false;
         if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable)
             return false;
 

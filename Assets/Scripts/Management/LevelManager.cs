@@ -167,13 +167,17 @@ public class LevelManager : MonoBehaviour
             {
                 var pos = new Vector3Int(i, j);
                 var tile = _interactionLayer.GetTile(pos);
-                var mine = _interactionLayer.GetTile(pos) as MineTile;
+                var mine = _interactionLayer.GetTile(pos) as ResuorceGeneratorTile;
                 if (mine != null)
                 {
+                    var inst = mine.ResourceGeneratorModel.Create(null);
+                    var view = _interactionLayer.GetInstantiatedObject(pos).GetComponent<ResourceGeneratorView>();
+                    view.Init(inst);
+
                     _metadataLayer.SetTile(pos + new Vector3Int(1, 0), hiddenBlocker);
                     _metadataLayer.SetTile(pos + new Vector3Int(-1, 0), hiddenBlocker);
-                    _metadataLayer.SetTile(pos + new Vector3Int(1, 1), hiddenBlocker);
                     _metadataLayer.SetTile(pos + new Vector3Int(0, 1), hiddenBlocker);
+                    _metadataLayer.SetTile(pos + new Vector3Int(1, 1), hiddenBlocker);
                     _metadataLayer.SetTile(pos + new Vector3Int(-1, 1), hiddenBlocker);
                 }
             }
