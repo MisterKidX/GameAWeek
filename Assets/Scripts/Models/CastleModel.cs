@@ -11,7 +11,7 @@ public class CastleModel : ScriptableObject
     public UnitModel[] Units;
     public BuildingModel[] Buildings;
 
-    internal CastleInstance Create(Vector3 position, PlayerInstace holder = null, string name = null)
+    internal CastleInstance Create(Vector3Int position, PlayerInstace holder = null, string name = null)
     {
         var inst = ScriptableObject.CreateInstance<CastleInstance>();
         name ??= holder.Name + "'s Castle";

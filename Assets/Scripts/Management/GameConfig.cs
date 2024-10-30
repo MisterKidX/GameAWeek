@@ -27,6 +27,18 @@ public static class GameConfig
         }
     }
 
+    static HeroModel[] _heroes;
+    public static HeroModel[] Heroes
+    {
+        get
+        {
+            if (_heroes == null)
+                _heroes = UnityEngine.Resources.LoadAll<HeroModel>("");
+
+            return _heroes;
+        }
+    }
+
     private static UnitModel[] _unitModels;
     public static UnitModel[] Units
     {

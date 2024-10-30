@@ -115,6 +115,27 @@ public class PlayerInstace : ScriptableObject
             Resources.First(r => r.Model == cost.Resource).Amount -= cost.Amount;
     }
 
+    internal void Purchase(ResourceCost[] costs)
+    {
+        foreach (ResourceCost cost in costs)
+        {
+            var resource = Resources.First(r => r.Model == cost.Resource);
+            resource.Amount -= cost.Amount;
+        }
+    }
+
+    public bool HasEnoughResources(ResourceCost[] costs)
+    {
+        foreach (ResourceCost cost in costs)
+        {
+            var resource = Resources.First(r => r.Model == cost.Resource);
+            if (resource.Amount < cost.Amount)
+                return false;
+        }
+
+        return true;
+    }
+
     private void OnDestroy()
     {
         if (HasCastle)

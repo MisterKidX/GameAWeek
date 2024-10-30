@@ -339,6 +339,29 @@ public class CombatManager : MonoBehaviour
 
 #if UNITY_EDITOR
 
+    private void OnGUI()
+    {
+        if (GUILayout.Button("Attacker Win"))
+        {
+            AttackerAutoWin();
+        }
+        if (GUILayout.Button("Defender Win"))
+        {
+            DefenderAutoWin();
+        }
+    }
+
+    [ContextMenu("Defender Win")]
+    private void DefenderAutoWin()
+    {
+        foreach (var unit in _attacker.Units)
+        {
+            if (unit != null)
+                unit.Die();
+        }
+
+        Exit(false);
+    }
 
     [ContextMenu("Attacker Win")]
     private void AttackerAutoWin()
@@ -348,6 +371,7 @@ public class CombatManager : MonoBehaviour
             if (unit != null)
                 unit.Die();
         }
+        Exit(true);
     }
 
 #endif

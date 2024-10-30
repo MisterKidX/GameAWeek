@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bc751788200d7f48ac996a75f4e1d92, type: 3}
-  m_Name: Steve
+  m_Name: Jillian
   m_EditorClassIdentifier: 
-  Name: Steve
+  Name: Jillian
   p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}
-  Portrait: {fileID: 21300000, guid: 6330ae5da18beb7498da1fe26eaf9cfb, type: 3}
-  BaseMovementPoints: 30
+  Portrait: {fileID: 21300000, guid: b3634cbca5e72574a9997bad0667d035, type: 3}
+  BaseMovementPoints: 21

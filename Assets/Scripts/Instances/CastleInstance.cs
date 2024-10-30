@@ -22,7 +22,7 @@ public class CastleInstance : ScriptableObject, ICombatant
 
     #endregion
 
-    public Vector3 Position;
+    public Vector3Int Position;
     public CastleModel Model;
     public PlayerInstace Holder;
     public string Name;
@@ -67,7 +67,7 @@ public class CastleInstance : ScriptableObject, ICombatant
 
     public bool BuiltThisTurn { get; private set; }
 
-    public void Init(CastleModel model, Vector3 postion, PlayerInstace holder, string name, UnitInstance[] castledUnits = null)
+    public void Init(CastleModel model, Vector3Int postion, PlayerInstace holder, string name, UnitInstance[] castledUnits = null)
     {
         Model = model;
         Name = name;

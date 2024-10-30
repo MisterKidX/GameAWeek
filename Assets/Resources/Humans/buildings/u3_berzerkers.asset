@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
-  m_Name: u3_griffins
+  m_Name: u3_berzerkers
   m_EditorClassIdentifier: 
   Name: Griffin Tower
   Description: allowes you to purchase griffins.

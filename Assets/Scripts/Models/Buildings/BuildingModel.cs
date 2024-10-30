@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class BuildingModel : ScriptableObject
 {
+    public UIView_Building BuildingView;
     public string Name;
     [Multiline]
     public string Description;

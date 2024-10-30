@@ -28,6 +28,22 @@ public static class GameLogic
         return inst;
     }
 
+    public static HeroInstance CreateHeroInstanceFromCastle(HeroModel hero, CastleModel castleModel, Vector3Int position, PlayerInstace holder)
+    {
+        var unitInstances = new UnitInstance[7];
+        unitInstances[0] = castleModel.Units[0].Create(Random.Range(1, 25), true);
+        unitInstances[1] = castleModel.Units[1].Create(Random.Range(1, 10), true);
+        unitInstances[2] = castleModel.Units[1].Create(Random.Range(1, 5), true);
+        unitInstances[3] = castleModel.Units[2].Create(Random.Range(1, 3), true);
+
+        var inst = hero.Create(position, holder, unitInstances);
+
+        _heroesInGameplay.Add(inst.Model);
+        holder.Heroes.Add(inst);
+
+        return inst;
+    }
+
     internal static UnitInstance CreateRandomUnit(int tier, CreatureCount count, Vector3 position, Vector3Int cell)
     {
         var model = GameConfig.Units.Where(u => u.Tier == tier).GetRandom();
@@ -67,10 +83,21 @@ public static class GameLogic
         }
     }
 
-    internal static CastleInstance CreateStartingCastle(PlayerInstace player, Vector3 pos)
+    internal static CastleInstance CreateStartingCastle(PlayerInstace player, Vector3Int pos)
     {
         var castleInst = player.StartingCastle.Create(pos, player);
         player.Castles.Add(castleInst);
         return castleInst;
+    }
+
+    internal static HeroModel[] GetRandomAvailableHeroes(int amount)
+    {
+        var ret = new HeroModel[amount];
+        var available = GameConfig.Heroes.Where(h => !_heroesInGameplay.Contains(h)).ToList();
+
+        if (available.Count < amount)
+            throw new InvalidOperationException("No more available heroes for purchase, please create more!");
+
+        return available.GetRandoms(amount);
     }
 }

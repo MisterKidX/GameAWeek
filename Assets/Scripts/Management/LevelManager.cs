@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     TraversalInteractions _traversalInteraction;
     [SerializeField]
-    GameplayUI _gameplayUI;
+    public GameplayUI _gameplayUI;
 
     private const string COMBAT_SCENE_NAME = "Combat";
 
@@ -397,8 +397,8 @@ public class LevelManager : MonoBehaviour
     private void HandleCastleEntrance(CastleEntranceTile castleEntranceTile, Vector3Int pos)
     {
         var player = Players[_playerSetupIndex];
-        var position = _metadataLayer.CellToWorld(pos);
-        CastleInstance castleInstance = GameLogic.CreateStartingCastle(player, position);
+        // var position = _metadataLayer.CellToWorld(pos);
+        CastleInstance castleInstance = GameLogic.CreateStartingCastle(player, pos);
         castleInstance.Show();
 
         HeroInstance heroInstance = GameLogic.CreateRandomHeroInstanceFromCastle(

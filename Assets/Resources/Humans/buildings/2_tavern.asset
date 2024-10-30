@@ -9,18 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
-  m_Name: u1_pikemen
+  m_Script: {fileID: 11500000, guid: 8c869cf088e1a2b4aaa2cc9bcb8be5a2, type: 3}
+  m_Name: 2_tavern
   m_EditorClassIdentifier: 
-  BuildingView: {fileID: 0}
-  Name: Guardhouse
-  Description: Allowes you to purchase pikemen.
-  View: {fileID: 1390685767406630478, guid: b4ec009f8f62f3047920bc6b281e07c0, type: 3}
-  Order: 30
+  BuildingView: {fileID: 7806126990814205269, guid: 524293b5282bca047a167bc31a79eda2, type: 3}
+  Name: Tavern
+  Description: Allows you to build heroes
+  View: {fileID: -3719163014518916081, guid: cca11a73b3afdce47b574e3d4a97c5cb, type: 3}
+  Order: 2
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 1000
+    Amount: 500
   - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
     Amount: 5
-  Unit: {fileID: 11400000, guid: 6c08030238f35684e8bc8ec7e5613f3d, type: 2}
+  HeroCost:
+  - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
+    Amount: 2500

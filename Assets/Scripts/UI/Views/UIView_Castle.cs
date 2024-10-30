@@ -60,7 +60,7 @@ public class UIView_Castle : MonoBehaviour
         {
             item.Image.gameObject.SetActive(false);
         }
-        foreach (var building in _instance.BuiltBuildings)
+        foreach (System.Collections.Generic.KeyValuePair<BuildingModel, BuildingInstance> building in _instance.BuiltBuildings)
         {
             if (building.Value == null)
                 continue;
@@ -72,6 +72,24 @@ public class UIView_Castle : MonoBehaviour
 
             sceneObject.Image.gameObject.SetActive(true);
             sceneObject.Image.sprite = building.Key.View;
+
+            if (building.Key.BuildingView != null && sceneObject.Image.TryGetComponent<Button>(out Button btn))
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => InstantiateBuildingView(building.Value));
+            }
+        }
+    }
+
+    private void InstantiateBuildingView(BuildingInstance instance)
+    {
+        switch (instance)
+        {
+            case HeroRecruitBuildingInstance heroRecruitBuildingInstance:
+                heroRecruitBuildingInstance.ShowUIView(ShowUnits);
+                break;
+            default:
+                break;
         }
     }
 

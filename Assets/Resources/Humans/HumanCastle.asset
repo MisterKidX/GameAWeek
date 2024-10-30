@@ -18,6 +18,8 @@ MonoBehaviour:
   Heroes:
   - {fileID: 11400000, guid: 5dd9ba274a0482b44b921772304489f5, type: 2}
   - {fileID: 11400000, guid: 41627f982bff83c418213ad38df23f0d, type: 2}
+  - {fileID: 11400000, guid: 0d6c9aad3004b8f419534f3a72fbcc8e, type: 2}
+  - {fileID: 11400000, guid: fa3032e2457c1a0429d340029b224947, type: 2}
   Units:
   - {fileID: 11400000, guid: 6c08030238f35684e8bc8ec7e5613f3d, type: 2}
   - {fileID: 11400000, guid: 30d08a55987cea84ea5f2d21ca0c1c9e, type: 2}
@@ -28,6 +30,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 09e6af3d90858ca4486c55cce0b2ed9c, type: 2}
   Buildings:
   - {fileID: 11400000, guid: 863c623c4f2b80e4e929f91b7d2e7378, type: 2}
+  - {fileID: 11400000, guid: 47c2c0141c776e14c896254603ef92b7, type: 2}
   - {fileID: 11400000, guid: e7ee796f77a430a46bd021f80c56f8ed, type: 2}
   - {fileID: 11400000, guid: 2b8be4bdf378df94fba21033c2cbcbf9, type: 2}
   - {fileID: 11400000, guid: d30837e56aa3ca74ab840f56a227356b, type: 2}
