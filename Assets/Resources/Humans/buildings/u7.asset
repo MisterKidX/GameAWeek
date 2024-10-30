@@ -10,17 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
-  m_Name: u1_pikemen
+  m_Name: u7
   m_EditorClassIdentifier: 
   BuildingView: {fileID: 0}
-  Name: Guardhouse
-  Description: Allowes you to purchase pikemen.
-  View: {fileID: 1390685767406630478, guid: b4ec009f8f62f3047920bc6b281e07c0, type: 3}
-  Order: 30
+  Name: Dark Plateu
+  Description: allowes you to purchase Dark Knights
+  View: {fileID: -6716505471649985064, guid: 0ebce5abdc1d8a2449815afed3f129db, type: 3}
+  Order: 42
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 1000
+    Amount: 20000
+  - Resource: {fileID: 11400000, guid: e2282df6662d11a418685505400f959e, type: 2}
+    Amount: 10
+  - Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 20
   - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
-    Amount: 5
-  Unit: {fileID: 11400000, guid: 6c08030238f35684e8bc8ec7e5613f3d, type: 2}
+    Amount: 20
+  Unit: {fileID: 11400000, guid: 09e6af3d90858ca4486c55cce0b2ed9c, type: 2}

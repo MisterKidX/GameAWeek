@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 4_knight
   m_EditorClassIdentifier: 
   Name: Knight
-  Portrait: {fileID: 21300000, guid: f5e3ab8bf69f0bb48a6248904c1fb970, type: 3}
+  Portrait: {fileID: 21300000, guid: 06fd7b75262e041e1a78baecb78cd2ef, type: 3}
   Tier: 4
   Attack: 5
   Defense: 9

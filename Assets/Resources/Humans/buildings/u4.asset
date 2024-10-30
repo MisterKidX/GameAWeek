@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
+  m_Name: u4
+  m_EditorClassIdentifier: 
+  BuildingView: {fileID: 0}
+  Name: Barracks
+  Description: allowes you to purchase Knights
+  View: {fileID: 7698253521543340847, guid: cc28e7e7770899547a728e364cc86d90, type: 3}
+  Order: 34
+  Upgrade: {fileID: 0}
+  Cost:
+  - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
+    Amount: 6000
+  - Resource: {fileID: 11400000, guid: e2282df6662d11a418685505400f959e, type: 2}
+    Amount: 3
+  - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
+    Amount: 5
+  - Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 5
+  Unit: {fileID: 11400000, guid: d98ee31c15ed3e04c90545141c9006bb, type: 2}

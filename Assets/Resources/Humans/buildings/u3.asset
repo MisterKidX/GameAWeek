@@ -9,18 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958650dc4b907d14e9b8cc368f246891, type: 3}
-  m_Name: 1.2_CityHall
+  m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
+  m_Name: u3
   m_EditorClassIdentifier: 
   BuildingView: {fileID: 0}
-  Name: City Hall
-  Description: Provides 2000 gold for your kingdom.
-  View: {fileID: 4530166555765881610, guid: 948a7d7940ccf1b4abb28daea15b8980, type: 3}
-  Order: 0
+  Name: Ruins
+  Description: allowes you to purchase griffins.
+  View: {fileID: 21300000, guid: 07415a7b28e50a7418e100688d53d4b4, type: 3}
+  Order: 32
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 4000
-  Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-  Income: 2000
-  OverTime: 1
+  Unit: {fileID: 11400000, guid: 136f514ac98a40d4c8513ce494f6cf56, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1_Pikeman
   m_EditorClassIdentifier: 
   Name: Swordsman
-  Portrait: {fileID: 21300000, guid: 018184d60874c98459db3610565f1bb2, type: 3}
+  Portrait: {fileID: 21300000, guid: 296fa0f52e1fd47109c6fb6f17968669, type: 3}
   Tier: 1
   Attack: 1
   Defense: 2

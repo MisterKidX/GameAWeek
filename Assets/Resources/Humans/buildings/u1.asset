@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
-  m_Name: u2_archers
+  m_Name: u1
   m_EditorClassIdentifier: 
-  Name: Archer Tower
-  Description: Allows you to purchase archers.
-  View: {fileID: -5830397675949700229, guid: b8768858eaabbb64a9a29e77a79e995e, type: 3}
-  Order: 31
+  BuildingView: {fileID: 0}
+  Name: Guardhouse
+  Description: Allowes you to purchase pikemen.
+  View: {fileID: 1390685767406630478, guid: b4ec009f8f62f3047920bc6b281e07c0, type: 3}
+  Order: 30
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 3000
-  Unit: {fileID: 11400000, guid: 30d08a55987cea84ea5f2d21ca0c1c9e, type: 2}
+    Amount: 1000
+  - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
+    Amount: 5
+  Unit: {fileID: 11400000, guid: 6c08030238f35684e8bc8ec7e5613f3d, type: 2}

@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9042d04bb0f8994eb0d9ed2f063df27, type: 3}
-  m_Name: u3_berzerkers
+  m_Name: u6
   m_EditorClassIdentifier: 
-  Name: Griffin Tower
-  Description: allowes you to purchase griffins.
-  View: {fileID: -8274196694388497642, guid: 88eb73694f545f143a1f6e6b4cf027e7, type: 3}
-  Order: 32
+  BuildingView: {fileID: 0}
+  Name: Cathedral
+  Description: allowes you to purchase Paladins
+  View: {fileID: -7556678662545553520, guid: 8f249084222d3e642a27a81549c3eb95, type: 3}
+  Order: 41
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 4000
-  Unit: {fileID: 11400000, guid: 136f514ac98a40d4c8513ce494f6cf56, type: 2}
+    Amount: 10000
+  - Resource: {fileID: 11400000, guid: e2282df6662d11a418685505400f959e, type: 2}
+    Amount: 5
+  Unit: {fileID: 11400000, guid: 10a5897297cf85b4a8278f5d85bf7cf7, type: 2}

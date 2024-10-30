@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8105191f491d384fa9ad809c575b490, type: 3}
-  m_Name: 7_angel
+  m_Name: 7_darkKnights
   m_EditorClassIdentifier: 
-  Name: Angel
-  Portrait: {fileID: 21300000, guid: f6ff4be58de064845866073b6190dc31, type: 3}
+  Name: Dark Knight
+  Portrait: {fileID: 21300000, guid: 9794293e4605a44d0826e3814ddc8431, type: 3}
   Tier: 7
-  Attack: 18
+  Attack: 25
   Defense: 20
   AttackRange: 1
   Flying: 1
   Damage: {x: 40, y: 50}
-  Health: 10
-  Speed: 30
+  Health: 100
+  Speed: 10
   Growth: 2
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 2000
-  p_combatView: {fileID: 8148081437322904011, guid: cdd683f9eb53c2c4a860bcfc95138419, type: 3}
+  p_combatView: {fileID: 8148081437322904011, guid: 42946b24ee1732e43bead4baf71ea5c8, type: 3}
   HexAnimationSpeed: 0.2

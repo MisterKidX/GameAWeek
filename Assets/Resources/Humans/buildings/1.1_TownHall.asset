@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958650dc4b907d14e9b8cc368f246891, type: 3}
   m_Name: 1.1_TownHall
   m_EditorClassIdentifier: 
+  BuildingView: {fileID: 0}
   Name: Town Hall
   Description: Provides even more gold for your kingdom.
-  View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
+  View: {fileID: -1656166294940094332, guid: 101fdcc110347304f93cb1f898204612, type: 3}
   Order: 0
   Upgrade: {fileID: 11400000, guid: 127211a9a98f9174c8aaed5b068d923c, type: 2}
   Cost:
