@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75dd7ce17172fd0458ff66fa23d3a21e, type: 3}
-  m_Name: Gold Mine Tile
+  m_Name: goldMineTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -5933715298724706184, guid: 7b0475ea0f4bb614886181f37e18a2f9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: add5877f8ae168342af688b71c6a3e70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

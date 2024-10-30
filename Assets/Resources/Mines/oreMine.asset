@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1de78802af08d04689ab77af88f1760, type: 3}
+  m_Name: oreMine
+  m_EditorClassIdentifier: 
+  p_View: {fileID: 6203888242026832236, guid: bc6b3682e48441145b90dcd4dd344ed4, type: 3}
+  IncomeDelta: 1
+  Resource:
+    Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 2
