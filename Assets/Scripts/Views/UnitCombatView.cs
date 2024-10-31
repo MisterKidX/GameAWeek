@@ -15,6 +15,8 @@ public class UnitCombatView : MonoBehaviour
     GameObject Selection;
     [SerializeField]
     GameObject _canvas;
+    [SerializeField]
+    ProjectileView p_projectile;
 
     UnitInstance _instance;
     public void Init(UnitInstance unitInstance, bool flip)
@@ -63,9 +65,16 @@ public class UnitCombatView : MonoBehaviour
         _animator.SetTrigger("3_Damaged");
     }
 
-    private void _instance_OnAttack()
+    private void _instance_OnAttack(UnitInstance defender)
     {
         _animator.SetTrigger("2_Attack");
+
+        if (_instance.Model.IsRanged)
+        {
+            var proj = Instantiate(p_projectile);
+            proj.transform.position = transform.position + Vector3.up * 0.5f;
+            proj.Init(defender.CombatWorldPosition + Vector3.up * 0.5f);
+        }
     }
 
     private void Update()

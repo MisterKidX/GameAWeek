@@ -36,7 +36,7 @@ public class UnitInstance : ScriptableObject, ICombatant
         }
     }
 
-    public event Action OnAttack;
+    public event Action<UnitInstance> OnAttack;
     public event Action OnDefend;
     public event Action<UnitInstance> OnDie;
 
@@ -44,7 +44,7 @@ public class UnitInstance : ScriptableObject, ICombatant
 
     public void Attack(UnitInstance defender)
     {
-        OnAttack?.Invoke();
+        OnAttack?.Invoke(defender);
         defender.Defend(this);
     }
 

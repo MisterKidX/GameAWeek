@@ -331,6 +331,7 @@ MonoBehaviour:
   RootView: {fileID: 0}
   Selection: {fileID: 2117658032401852958}
   _canvas: {fileID: 7614493682685019187}
+  p_projectile: {fileID: 5553805924757397114, guid: 631a162b3b0377246b5e91d43ce593f2, type: 3}
 --- !u!1 &7614493682685019187
 GameObject:
   m_ObjectHideFlags: 0
