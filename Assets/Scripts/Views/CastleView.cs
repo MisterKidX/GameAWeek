@@ -3,7 +3,7 @@
 public class CastleView : MonoBehaviour
 {
     [SerializeField]
-    SpriteRenderer _colorer;
+    SpriteRenderer[] _colorers;
     CastleInstance _instance;
     public void Init(CastleInstance instance)
     {
@@ -19,6 +19,7 @@ public class CastleView : MonoBehaviour
 
     private void PaintColor(Color color)
     {
-        _colorer.color = color;
+        foreach (var item in _colorers)
+            item.color = color;
     }
 }

@@ -260,7 +260,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: forest_ [resources]_0
+      name: forest_tree_
       rect:
         serializedVersion: 2
         x: 17
@@ -282,7 +282,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: forest_ [resources]_1
+      name: forest_tree_1
       rect:
         serializedVersion: 2
         x: 33
@@ -304,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: forest_ [resources]_2
+      name: forest_tree_2
       rect:
         serializedVersion: 2
         x: 61
@@ -326,11 +326,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: forest_tree_0
+      name: forest_tree_3
       rect:
         serializedVersion: 2
         x: 97
-        y: 113
+        y: 114
         width: 14
         height: 24
       alignment: 0
@@ -1373,8 +1373,6 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      forest_ [resources]_0: 7894740091292667399
-      forest_ [resources]_1: 3019040352853377591
       forest_ [resources]_10: 309223966863900782
       forest_ [resources]_11: -8396024627381086057
       forest_ [resources]_12: 8611860373421387872
@@ -1385,7 +1383,6 @@ TextureImporter:
       forest_ [resources]_17: 5094672898379893057
       forest_ [resources]_18: 7933584912820182276
       forest_ [resources]_19: -4878340616857800940
-      forest_ [resources]_2: -6605258144222842400
       forest_ [resources]_20: 1808139627112315629
       forest_ [resources]_21: -2899189577595985405
       forest_ [resources]_22: -5780623273772650115
@@ -1422,7 +1419,10 @@ TextureImporter:
       forest_ [resources]_7: -961870665426790156
       forest_ [resources]_8: 7513275199330600606
       forest_ [resources]_9: 6932624107524769134
-      forest_tree_0: -3608815245255208948
+      forest_tree_: 7894740091292667399
+      forest_tree_1: 3019040352853377591
+      forest_tree_2: -6605258144222842400
+      forest_tree_3: -3608815245255208948
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

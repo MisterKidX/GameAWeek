@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dbf4775856b9a5408e8a916c8ae0ff9, type: 3}
-  m_Name: tier1Pack
+  m_Script: {fileID: 11500000, guid: 80f4eeb0788080d43b1efd61824dcc3d, type: 3}
+  m_Name: ground_edge_TR_tundraFroest
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1092193355370073605, guid: aef4b8853481c1940b82824e0bb6468c, type: 3}
+  m_Sprite: {fileID: 1333830099, guid: 454041512dde21340a9b8dd916d665d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,5 +34,7 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  Tier: 1
-  Count: 19
+  TileType: 0
+  MovementCost: 1
+  GroundTraversable: 1
+  FlightTraversable: 1
