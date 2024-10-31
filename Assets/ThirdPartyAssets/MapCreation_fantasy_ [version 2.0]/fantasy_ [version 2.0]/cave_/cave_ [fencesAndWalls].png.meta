@@ -103,7 +103,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -697,7 +697,30 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cave_ [fencesAndWalls]_0: 8762491866718931971
+      cave_ [fencesAndWalls]_1: -6010421144406211658
+      cave_ [fencesAndWalls]_10: -3414008503374460129
+      cave_ [fencesAndWalls]_11: 7248378402273683420
+      cave_ [fencesAndWalls]_12: 2419197588442403815
+      cave_ [fencesAndWalls]_13: -6800199285079976299
+      cave_ [fencesAndWalls]_14: 2848539039867372972
+      cave_ [fencesAndWalls]_15: -3632385556426091877
+      cave_ [fencesAndWalls]_16: 3141440008559462314
+      cave_ [fencesAndWalls]_17: -2451975975253084200
+      cave_ [fencesAndWalls]_18: 6347485749397599608
+      cave_ [fencesAndWalls]_19: -525516574448910307
+      cave_ [fencesAndWalls]_2: 4448501908257618873
+      cave_ [fencesAndWalls]_20: -6072438422510464904
+      cave_ [fencesAndWalls]_21: -4954539382273490880
+      cave_ [fencesAndWalls]_22: 6316722741842597892
+      cave_ [fencesAndWalls]_3: -8687471488533493756
+      cave_ [fencesAndWalls]_4: -571744531043005967
+      cave_ [fencesAndWalls]_5: 4822468264833790878
+      cave_ [fencesAndWalls]_6: 2268019723530772303
+      cave_ [fencesAndWalls]_7: 7431633517931289705
+      cave_ [fencesAndWalls]_8: -4294437322689067771
+      cave_ [fencesAndWalls]_9: -6262656949783589049
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

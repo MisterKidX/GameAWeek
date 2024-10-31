@@ -49,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -247,7 +247,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      railway__0: 8979152593205876873
+      railway__1: 3019981365307385280
+      railway__2: -7708340096180155243
+      railway__3: -7229554734570756415
+      railway__4: 5726471705381959787
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

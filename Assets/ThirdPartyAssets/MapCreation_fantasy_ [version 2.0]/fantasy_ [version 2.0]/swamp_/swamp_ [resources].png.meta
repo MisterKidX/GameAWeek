@@ -142,7 +142,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -1022,7 +1022,43 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      swamp_ [resources]_0: 8361041470487643040
+      swamp_ [resources]_1: 8870574640263093349
+      swamp_ [resources]_10: -572431170490783239
+      swamp_ [resources]_11: 6983252313430297421
+      swamp_ [resources]_12: -230384976131297786
+      swamp_ [resources]_13: -6025296277715328429
+      swamp_ [resources]_14: 6419211820380508089
+      swamp_ [resources]_15: -2599889246126828080
+      swamp_ [resources]_16: -522272393418887910
+      swamp_ [resources]_17: 5913380175869940823
+      swamp_ [resources]_18: -6760020210314333907
+      swamp_ [resources]_19: -2238747434509764315
+      swamp_ [resources]_2: -2419404128634267330
+      swamp_ [resources]_20: 939678841462294882
+      swamp_ [resources]_21: -5227138182092380220
+      swamp_ [resources]_22: -4477867120684023244
+      swamp_ [resources]_23: 4432594077136841554
+      swamp_ [resources]_24: 4016415658247339253
+      swamp_ [resources]_25: -2308015855762985905
+      swamp_ [resources]_26: -7962202102447523989
+      swamp_ [resources]_27: 2711147576831745131
+      swamp_ [resources]_28: 5325546534220882852
+      swamp_ [resources]_29: -6658805634919547236
+      swamp_ [resources]_3: 7954925120519826059
+      swamp_ [resources]_30: -403556449848066194
+      swamp_ [resources]_31: 7215058210650309795
+      swamp_ [resources]_32: -7682704957008722631
+      swamp_ [resources]_33: -1919761629494433778
+      swamp_ [resources]_34: 2822898437882057467
+      swamp_ [resources]_35: -6183256000034094239
+      swamp_ [resources]_4: 6135828693344334389
+      swamp_ [resources]_5: -3154197355063984763
+      swamp_ [resources]_6: 22762118675580664
+      swamp_ [resources]_7: 8159098416310500151
+      swamp_ [resources]_8: -1090107617240058045
+      swamp_ [resources]_9: -5752471633809139285
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

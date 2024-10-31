@@ -103,7 +103,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -697,7 +697,30 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      taiga_ [fencesAndWalls]_0: -5623969972284148728
+      taiga_ [fencesAndWalls]_1: 2109781402320851875
+      taiga_ [fencesAndWalls]_10: -2549531865034523940
+      taiga_ [fencesAndWalls]_11: -6618975048118836961
+      taiga_ [fencesAndWalls]_12: 1154899767072460208
+      taiga_ [fencesAndWalls]_13: 5791670079156375225
+      taiga_ [fencesAndWalls]_14: 8150283830544647075
+      taiga_ [fencesAndWalls]_15: 2601032772305720200
+      taiga_ [fencesAndWalls]_16: 5009065710961569097
+      taiga_ [fencesAndWalls]_17: -7224588829457222394
+      taiga_ [fencesAndWalls]_18: -8641636650221003824
+      taiga_ [fencesAndWalls]_19: -9047466374057082129
+      taiga_ [fencesAndWalls]_2: -7085096519875300371
+      taiga_ [fencesAndWalls]_20: -8612285681408119430
+      taiga_ [fencesAndWalls]_21: 7937229027606275094
+      taiga_ [fencesAndWalls]_22: -172488569697705157
+      taiga_ [fencesAndWalls]_3: 5267543732631889424
+      taiga_ [fencesAndWalls]_4: -8516311219477215830
+      taiga_ [fencesAndWalls]_5: -2542538134052356578
+      taiga_ [fencesAndWalls]_6: -4217236491555844564
+      taiga_ [fencesAndWalls]_7: -2462250778059758077
+      taiga_ [fencesAndWalls]_8: -8546738250425029923
+      taiga_ [fencesAndWalls]_9: 4896576732359691982
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

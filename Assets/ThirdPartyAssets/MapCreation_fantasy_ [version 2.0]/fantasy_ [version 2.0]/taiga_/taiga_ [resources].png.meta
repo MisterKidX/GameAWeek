@@ -136,7 +136,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -972,7 +972,41 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      taiga_ [resources]_0: 985975417790035077
+      taiga_ [resources]_1: -1945367317591020527
+      taiga_ [resources]_10: -2216054413408220544
+      taiga_ [resources]_11: -6626638754301538722
+      taiga_ [resources]_12: -2018450986699485185
+      taiga_ [resources]_13: 982664068331366459
+      taiga_ [resources]_14: 1294334652045428709
+      taiga_ [resources]_15: -3810643578810094004
+      taiga_ [resources]_16: 7305615724472098162
+      taiga_ [resources]_17: 2610953585111408773
+      taiga_ [resources]_18: -3400068119412916930
+      taiga_ [resources]_19: 6357036823488568731
+      taiga_ [resources]_2: -2916777591084867985
+      taiga_ [resources]_20: 6689010842453659964
+      taiga_ [resources]_21: -3417730999604330855
+      taiga_ [resources]_22: 289428351111513764
+      taiga_ [resources]_23: -3488387961815821492
+      taiga_ [resources]_24: 3594825955675737093
+      taiga_ [resources]_25: -1236906199805523182
+      taiga_ [resources]_26: 5399311674632367457
+      taiga_ [resources]_27: 5303206859202333093
+      taiga_ [resources]_28: -2236742112701329506
+      taiga_ [resources]_29: -62276864367680631
+      taiga_ [resources]_3: 3158756117836573027
+      taiga_ [resources]_30: 8905801398054171787
+      taiga_ [resources]_31: -8667484118230045288
+      taiga_ [resources]_32: -6602211141129547426
+      taiga_ [resources]_33: 1895397953171336574
+      taiga_ [resources]_4: -1505480977439700759
+      taiga_ [resources]_5: -9171885617424852709
+      taiga_ [resources]_6: 1880574919732719808
+      taiga_ [resources]_7: 5154809925748485010
+      taiga_ [resources]_8: 7793772126828612351
+      taiga_ [resources]_9: 9047122017014873179
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

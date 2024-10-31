@@ -103,7 +103,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -697,7 +697,30 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      swamp_ [fencesAndWalls]_0: -7230516358856727598
+      swamp_ [fencesAndWalls]_1: -3437714497774117812
+      swamp_ [fencesAndWalls]_10: 4326974416632868665
+      swamp_ [fencesAndWalls]_11: 3723341588553369634
+      swamp_ [fencesAndWalls]_12: 208444188564736515
+      swamp_ [fencesAndWalls]_13: 6261867443978092690
+      swamp_ [fencesAndWalls]_14: 814946260183812020
+      swamp_ [fencesAndWalls]_15: -1747342253731646637
+      swamp_ [fencesAndWalls]_16: 2846242760037467206
+      swamp_ [fencesAndWalls]_17: 801698277467964886
+      swamp_ [fencesAndWalls]_18: -1710623108492377869
+      swamp_ [fencesAndWalls]_19: -7080607708361101736
+      swamp_ [fencesAndWalls]_2: 4384890982944099244
+      swamp_ [fencesAndWalls]_20: 3556130154370205035
+      swamp_ [fencesAndWalls]_21: -7278544635550190999
+      swamp_ [fencesAndWalls]_22: -5990222176635594465
+      swamp_ [fencesAndWalls]_3: 1508019621736744688
+      swamp_ [fencesAndWalls]_4: -3923376781521304168
+      swamp_ [fencesAndWalls]_5: 6560603007870544519
+      swamp_ [fencesAndWalls]_6: 8640789216541116912
+      swamp_ [fencesAndWalls]_7: 6242782140580064680
+      swamp_ [fencesAndWalls]_8: -7892728313474850238
+      swamp_ [fencesAndWalls]_9: -4309454833314772453
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

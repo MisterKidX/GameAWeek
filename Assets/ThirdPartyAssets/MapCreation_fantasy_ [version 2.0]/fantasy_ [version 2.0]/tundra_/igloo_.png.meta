@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -322,7 +322,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      igloo__0: -6425935729278849980
+      igloo__1: 7050103811506897796
+      igloo__2: -2797431583223727216
+      igloo__3: -451907643964028590
+      igloo__4: -1192694629697062369
+      igloo__5: 4912158424505357842
+      igloo__6: 4152097966726547046
+      igloo__7: -7204902514680982509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

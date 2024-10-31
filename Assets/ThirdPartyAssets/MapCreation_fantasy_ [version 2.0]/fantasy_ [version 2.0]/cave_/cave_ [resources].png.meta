@@ -136,7 +136,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -972,7 +972,41 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cave_ [resources]_0: -442989051175937411
+      cave_ [resources]_1: -6716928177243342493
+      cave_ [resources]_10: -821055588956945737
+      cave_ [resources]_11: -8863677528763416619
+      cave_ [resources]_12: -460693446889949166
+      cave_ [resources]_13: -7010170261676906734
+      cave_ [resources]_14: 6253284456908958616
+      cave_ [resources]_15: 1643496469323029434
+      cave_ [resources]_16: -6142945131103239072
+      cave_ [resources]_17: -1902945028337882286
+      cave_ [resources]_18: 400191744495060468
+      cave_ [resources]_19: -3810417734301258306
+      cave_ [resources]_2: 4653109971943166610
+      cave_ [resources]_20: 2119836159768226672
+      cave_ [resources]_21: -76214738335011562
+      cave_ [resources]_22: -8988727129939402254
+      cave_ [resources]_23: -8535824666734515766
+      cave_ [resources]_24: 8908726552972934716
+      cave_ [resources]_25: 8073354429591949731
+      cave_ [resources]_26: -61827015919402111
+      cave_ [resources]_27: 5877912999980022090
+      cave_ [resources]_28: 2583791598256623268
+      cave_ [resources]_29: -5072442294101057474
+      cave_ [resources]_3: -4374187605612903277
+      cave_ [resources]_30: 6639940932373556146
+      cave_ [resources]_31: 447110929089369998
+      cave_ [resources]_32: -3763510217918308687
+      cave_ [resources]_33: -2130583597463845720
+      cave_ [resources]_4: 1623603798922372897
+      cave_ [resources]_5: 3670203608980711832
+      cave_ [resources]_6: -113292525416366797
+      cave_ [resources]_7: 5409114663414957783
+      cave_ [resources]_8: 4147933057317564419
+      cave_ [resources]_9: 2135656384302438150
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
