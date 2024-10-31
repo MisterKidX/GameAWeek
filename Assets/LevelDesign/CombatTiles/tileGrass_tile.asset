@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tileGrass_tile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 7216056460113515720, guid: 27b17e266fa2b25438386717382ebdab, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.48235297, g: 0.5372549, b: 0.27450982, a: 0.3764706}
   m_Transform:
     e00: 1
     e01: 0

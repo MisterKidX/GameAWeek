@@ -17,6 +17,8 @@ public class CombatManager : MonoBehaviour
     Camera _camera;
     [SerializeField]
     UIView_SumBattle _sumBattleUI;
+    [SerializeField]
+    GroundTypeGameobjectTuple[] _backgrounds;
 
     public Tilemap _walkable;
     public Tilemap _obstacles;
@@ -44,8 +46,16 @@ public class CombatManager : MonoBehaviour
     Vector3Int[] _rightPositions;
     UnitAI _ai;
 
-    public void Init(ICombatant attacker, ICombatant defender)
+    public void Init(ICombatant attacker, ICombatant defender, GroundType type)
     {
+        foreach (var bg in _backgrounds)
+        {
+            if (bg.GroundType == type)
+                bg.Go.SetActive(true);
+            else
+                bg.Go.SetActive(false);
+        }
+
         _attacker = attacker;
         _defender = defender;
         _ai = new UnitAI(this);
@@ -465,4 +475,17 @@ public class CombatManager : MonoBehaviour
             return closest;
         }
     }
+
+    [Serializable]
+    private class GroundTypeGameobjectTuple
+    {
+        public GroundType GroundType;
+        public GameObject Go;
+    }
+}
+
+public enum GroundType
+{
+    Forest,
+    Tundra
 }

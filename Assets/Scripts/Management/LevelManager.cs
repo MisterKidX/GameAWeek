@@ -225,7 +225,17 @@ public class LevelManager : MonoBehaviour
         {
             if (go.TryGetComponent(out CombatManager cm))
             {
-                cm.Init(attacker, defender);
+                var hero = attacker as HeroInstance;
+                if (hero != null)
+                {
+                    var tile = _groundLayer.GetTile(hero.Position);
+                    if (tile.name.Contains("tundra", StringComparison.OrdinalIgnoreCase))
+                        cm.Init(attacker, defender, GroundType.Tundra);
+                    else
+                        cm.Init(attacker, defender, GroundType.Forest);
+                }
+                else
+                    cm.Init(attacker, defender, GroundType.Forest);
                 break;
             }
         }
