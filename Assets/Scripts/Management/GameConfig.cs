@@ -53,21 +53,13 @@ public static class GameConfig
 
     public static ResourceInstance[] GetStartingResouces()
     {
-        var models = Resources;
-        var insts = new ResourceInstance[models.Length];
+        var startingResources =  Configuration.StartingResources;
+        var insts = new ResourceInstance[startingResources.Length];
 
-        for (int i = 0; i < models.Length; i++)
+        for (int i = 0; i < startingResources.Length; i++)
         {
-            ResourceModel rm = models[i];
-            switch (rm.Name)
-            {
-                case "Gold":
-                    insts[i] = rm.Create(10_000);
-                    break;
-                default:
-                    insts[i] = rm.Create(10);
-                    break;
-            }
+            ResourceCost res = startingResources[i];
+            insts[i] = res.Resource.Create(res.Amount);
         }
 
         return insts;

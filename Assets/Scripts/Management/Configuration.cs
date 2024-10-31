@@ -9,6 +9,9 @@ public class Configuration : ScriptableObject
 
     [SerializeField]
     internal StatIcon[] StatIcons;
+
+    [field: SerializeField]
+    public ResourceCost[] StartingResources { get; internal set; }
 }
 
 [Serializable]

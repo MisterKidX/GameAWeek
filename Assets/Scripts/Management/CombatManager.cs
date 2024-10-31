@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.U2D;
 
 public class CombatManager : MonoBehaviour
 {
@@ -158,6 +159,7 @@ public class CombatManager : MonoBehaviour
 
     private void Exit(bool attackerWon)
     {
+        Destroy(FindFirstObjectByType<Light2DBase>());
         LevelManager.CurrentLevel.BackFromCombat(attackerWon);
         SceneManager.UnloadScene("Combat");
     }
