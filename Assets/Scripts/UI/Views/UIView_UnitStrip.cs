@@ -63,16 +63,19 @@ public class UIView_UnitStrip : MonoBehaviour
         if (fromIndex == -1 || toIndex == -1)
             return;
 
+        // empty box
         if (!to.Active)
         {
             to.Manager._units[toIndex] = _units[fromIndex];
             _units[fromIndex] = null;
         }
+        // same unit: then merge
         else if (_units[fromIndex].Model == to.Manager._units[toIndex].Model)
         {
             to.Manager._units[toIndex].Amount += _units[fromIndex].Amount;
             _units[fromIndex] = null;
         }
+        // swap units
         else
         {
             var temp = _units[fromIndex];

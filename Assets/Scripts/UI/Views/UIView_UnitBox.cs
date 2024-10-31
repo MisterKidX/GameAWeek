@@ -73,7 +73,7 @@ public class UIView_UnitBox : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     {
         Destroy(_copy);
         var first = eventData.hovered.FirstOrDefault(go => go.TryGetComponent(out UIView_UnitBox _));
-        if (first == null) return;
+        if (first == null || first == this.gameObject) return;
         var box = first.GetComponent<UIView_UnitBox>();
         _endDrag?.Invoke(this, box);
     }
