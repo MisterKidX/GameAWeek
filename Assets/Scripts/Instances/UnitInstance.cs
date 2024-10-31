@@ -52,7 +52,8 @@ public class UnitInstance : ScriptableObject, ICombatant
     {
         OnDefend?.Invoke();
         var d = attacker.Model.Attack - Model.Defense;
-        float damage = attacker.Model.Damage.Roll() * attacker.Amount;
+        var roll = attacker.Model.Damage.Roll();
+        float damage =  roll * attacker.Amount;
 
         if (attacker.Model.IsRanged)
         {
@@ -61,16 +62,16 @@ public class UnitInstance : ScriptableObject, ICombatant
                 damage /= 2f;
         }
 
-        // i.e. attacker has bigger attack
-        float multi = damage * (1 + d * 0.05f);
+        float multi = 1 + d * 0.05f;
 
         multi = Mathf.Max(multi, 0.3f);
         multi = Mathf.Min(multi, 3f);
 
         damage = Mathf.Ceil(damage * multi);
 
-        Debug.Log(attacker.Model.Name + " attacks " + Model.Name + " for " + damage +
-            $" damage. {(float)damage / Model.Health} perish.");
+        Debug.Log($"{attacker.Model.Name} attacks {Model.Name} for {damage} damage " +
+            $"[ATD: {d}, Roll: {Model.Damage.x}-{Model.Damage.y} ({roll}), Amount: {attacker.Amount}]. " +
+            $"{(float)damage / Model.Health} perish.");
 
         if (damage > CumulativeHP)
         {
