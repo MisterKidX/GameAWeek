@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8105191f491d384fa9ad809c575b490, type: 3}
+  m_Name: 3_archer
+  m_EditorClassIdentifier: 
+  Name: Skeleton Archer
+  Portrait: {fileID: 21300000, guid: b703d7727b08947219074023baf91225, type: 3}
+  Tier: 3
+  Attack: 6
+  Defense: 1
+  AttackRange: 10
+  Flying: 1
+  Damage: {x: 3, y: 4}
+  Health: 5
+  Speed: 6
+  Growth: 11
+  Cost:
+    Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
+    Amount: 175
+  p_combatView: {fileID: 8148081437322904011, guid: dc795bc7496c1ee4c9dd2214ac37461e, type: 3}
+  HexAnimationSpeed: 0.2

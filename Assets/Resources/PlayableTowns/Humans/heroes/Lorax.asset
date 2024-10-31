@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Lorax
   p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}
-  Portrait: {fileID: 21300000, guid: 225be3949783349409a04e63feea0826, type: 3}
+  Portrait: {fileID: 3996552399842662648, guid: 3555b212bf7c2ef44a3a23530de1b129, type: 3}
   BaseMovementPoints: 16

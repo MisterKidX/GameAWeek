@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Humans
   Portrait: {fileID: 21300000, guid: 258ce021a8af1124eae659f7b92c3605, type: 3}
   p_View: {fileID: 5698095400311141323, guid: 7b273875e405d8d4bad20c91702523d9, type: 3}
+  p_UIView: {fileID: 6091607690450970199, guid: e32dd43900ccca140a20a1f903dc5814, type: 3}
   Heroes:
   - {fileID: 11400000, guid: 5dd9ba274a0482b44b921772304489f5, type: 2}
   - {fileID: 11400000, guid: 41627f982bff83c418213ad38df23f0d, type: 2}

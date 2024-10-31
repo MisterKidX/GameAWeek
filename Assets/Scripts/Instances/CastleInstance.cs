@@ -112,7 +112,7 @@ public class CastleInstance : ScriptableObject, ICombatant
             resourceInstance => resourceInstance.Model,
             resourceCost => resourceCost.Resource,
             (ri,rc) => new { playerHas = ri.Amount, buildingDemands = rc.Amount })
-            .All(r => r.playerHas > r.buildingDemands);
+            .All(r => r.playerHas >= r.buildingDemands);
     }
 
     public void Reset()

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc751788200d7f48ac996a75f4e1d92, type: 3}
+  m_Name: Steve
+  m_EditorClassIdentifier: 
+  Name: Steve
+  p_View: {fileID: 113232959994942539, guid: 9cf75910baf251545b210b6b46ea5e47, type: 3}
+  Portrait: {fileID: -8808808571646476259, guid: 99b83e99d385d2443b9aa2e98f08d4be, type: 3}
+  BaseMovementPoints: 20

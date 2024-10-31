@@ -6,7 +6,8 @@ public class CastleModel : ScriptableObject
 {
     public string Name;
     public Sprite Portrait;
-    public CastleView p_View;   
+    public CastleView p_View;
+    public UIView_Castle p_UIView;
     public HeroModel[] Heroes;
     public UnitModel[] Units;
     public BuildingModel[] Buildings;

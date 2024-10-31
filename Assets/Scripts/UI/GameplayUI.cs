@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class GameplayUI : MonoBehaviour
 {
     [SerializeField]
-    UIView_Castle p_castleView;
-    [SerializeField]
     UIView_GameTime _gameTime;
     [SerializeField]
     UIView_PlayerOutcomeModal p_playerOutcomeModal;
@@ -27,7 +25,7 @@ public class GameplayUI : MonoBehaviour
 
     public void ShowCastleView(CastleInstance instance)
     {
-        var go = Instantiate(p_castleView);
+        var go = Instantiate(instance.Model.p_UIView);
         go.Init(instance, _uiPanelClose);
         _uiPanelOpen();
     }

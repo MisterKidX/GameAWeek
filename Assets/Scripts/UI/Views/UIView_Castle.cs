@@ -99,6 +99,19 @@ public class UIView_Castle : MonoBehaviour
         _castledUnitsStrip.Init(_instance, true);
         _visitingUnitsStrip.Init(_instance, false);
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        foreach (ImageBuildingModelTuple building in Scene)
+        {
+            if (building.BModel != null)
+            {
+                building.Image.sprite = building.BModel.View;
+            }
+        }
+    }
+#endif
 }
 
 [Serializable]
