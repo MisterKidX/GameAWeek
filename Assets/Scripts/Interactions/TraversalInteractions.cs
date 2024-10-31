@@ -22,6 +22,10 @@ public class TraversalInteractions : MonoBehaviour
     TraversalUI _traversalUI;
     [SerializeField]
     private float _cameraScrollSpeed;
+    [SerializeField]
+    AudioSource _sfx;
+    [SerializeField]
+    AudioClip _heroMovement;
 
     private List<PathPoint> _path = null;
     public void Update()
@@ -31,6 +35,9 @@ public class TraversalInteractions : MonoBehaviour
         if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
             ((_path == null || _path.Count == 0) || cellPos != _path[_path.Count - 1].Position))
         {
+            if (_sfx.clip == _heroMovement)
+                _sfx.Stop();
+
             StopAllCoroutines();
             _camController.UnstickToObject();
             _path = _astar.CalculatePath(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero.Position, cellPos);
@@ -41,6 +48,9 @@ public class TraversalInteractions : MonoBehaviour
             // if the cell position which was clicked is the X
             if (cellPos == _path[_path.Count - 1].Position)
             {
+                _sfx.clip = _heroMovement;
+                _sfx.volume = 0.2f;
+                _sfx.Play();
                 StartCoroutine(MoveSelectedHero(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero));
             }
         }
@@ -68,8 +78,11 @@ public class TraversalInteractions : MonoBehaviour
 
         for (int i = 1; i < _path.Count; i++)
         {
-            if (i == _path.Count -1)
+            if (i == _path.Count - 1)
             {
+                if (_sfx.clip == _heroMovement)
+                    _sfx.Stop();
+
                 if (!CanMove_DestinationAsAquirable())
                     break;
                 else if (!CanMove_DestinationAsNeutralUnit())
@@ -93,6 +106,9 @@ public class TraversalInteractions : MonoBehaviour
 
             yield return new WaitForSeconds(GameConfig.Configuration.HeroMovementSpeed);
         }
+
+        if (_sfx.clip == _heroMovement)
+            _sfx.Stop();
 
         _path = null;
         _camController.UnstickToObject();
@@ -184,11 +200,11 @@ public class TraversalInteractions : MonoBehaviour
     /// <returns> wether the hero can occupy the last tile</returns>
     private bool CanMove_DestinationAsAquirable()
     {
-        var aquirable = _obstacles.GetTile(_path[_path.Count -1].Position) as AquirableTile;
+        var aquirable = _obstacles.GetTile(_path[_path.Count - 1].Position) as AquirableTile;
         if (aquirable != null)
         {
             aquirable.Aquire(LevelManager.CurrentLevel.CurrentPlayer);
-            var instObject = _obstacles.GetInstantiatedObject(_path[_path.Count -1].Position);
+            var instObject = _obstacles.GetInstantiatedObject(_path[_path.Count - 1].Position);
             if (instObject != null)
             {
                 var mineView = instObject.GetComponent<ResourceGeneratorView>();
@@ -197,7 +213,7 @@ public class TraversalInteractions : MonoBehaviour
             }
             if (!aquirable.CanStepOver)
             {
-                _obstacles.SetTile(_path[_path.Count -1].Position, null);
+                _obstacles.SetTile(_path[_path.Count - 1].Position, null);
                 return false;
             }
         }

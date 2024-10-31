@@ -15,6 +15,10 @@ public class LevelManager : MonoBehaviour
     TraversalInteractions _traversalInteraction;
     [SerializeField]
     public GameplayUI _gameplayUI;
+    [SerializeField]
+    AudioSource _sfxSource;
+    [SerializeField]
+    AudioClip _newDay;
 
     private const string COMBAT_SCENE_NAME = "Combat";
 
@@ -146,6 +150,7 @@ public class LevelManager : MonoBehaviour
             _camController.PointAt(CurrentPlayer.Castles[0].View.gameObject);
 
         CurrentPlayer.NewTurn();
+        _sfxSource.PlayOneShot(_newDay, 0.2f);
     }
 
     private void DecompileLevel()
