@@ -4354,7 +4354,7 @@ PrefabInstance:
     - target: {fileID: 5055059223642979953, guid: 6f59f1ee809a28d409c1352612d02998, type: 3}
       propertyPath: Selection
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3051065274184471972}
     - target: {fileID: 5055059223642979953, guid: 6f59f1ee809a28d409c1352612d02998, type: 3}
       propertyPath: _animator
       value: 
