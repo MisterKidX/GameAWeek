@@ -37,6 +37,7 @@ public class UnitCombatView : MonoBehaviour
     {
         transform.position = position;
         _canvas.gameObject.SetActive(false);
+        Selection.gameObject.SetActive(false);
         transform.localScale = Vector3.one * 1.6f;
     }
 

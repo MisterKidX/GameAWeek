@@ -41,3 +41,4 @@ MonoBehaviour:
   CanStepOver: 0
   Amount: 5
   ResourceModel: {fileID: 11400000, guid: e2282df6662d11a418685505400f959e, type: 2}
+  PickupSFX: {fileID: 8300000, guid: 8ae88638039e48c4fbc502beb2f8a483, type: 3}

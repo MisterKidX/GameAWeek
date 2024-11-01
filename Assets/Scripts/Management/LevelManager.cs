@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     AudioSource _sfxSource;
     [SerializeField]
-    AudioClip _newDay;
+    AudioClip[] _newDay;
 
     private const string COMBAT_SCENE_NAME = "Combat";
 
@@ -150,7 +150,8 @@ public class LevelManager : MonoBehaviour
             _camController.PointAt(CurrentPlayer.Castles[0].View.gameObject);
 
         CurrentPlayer.NewTurn();
-        _sfxSource.PlayOneShot(_newDay, 0.2f);
+        foreach (var sfx in _newDay)
+            _sfxSource.PlayOneShot(sfx, 1f);
     }
 
     private void DecompileLevel()
@@ -274,17 +275,12 @@ public class LevelManager : MonoBehaviour
         {
             var pos = unit.CellPosition;
 
-            Neutrals.Remove(pos);
-            Neutrals.Remove(pos + Vector3Int.up);
-            Neutrals.Remove(pos + Vector3Int.down);
-            Neutrals.Remove(pos + Vector3Int.right);
-            Neutrals.Remove(pos + Vector3Int.left);
-
-            _metadataLayer.SetTile(pos, null);
-            _metadataLayer.SetTile(pos + Vector3Int.up, null);
-            _metadataLayer.SetTile(pos + Vector3Int.down, null);
-            _metadataLayer.SetTile(pos + Vector3Int.right, null);
-            _metadataLayer.SetTile(pos + Vector3Int.left, null);
+            var neighbors = GetNeighborsAndSelf(pos);
+            for (int i = 0; i < neighbors.Length; i++)
+            {
+                _metadataLayer.SetTile(neighbors[i], null);
+                Neutrals.Remove(neighbors[i]);
+            }
 
             losingCombatant.Die();
         }
@@ -344,6 +340,23 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    private Vector3Int[] GetNeighborsAndSelf(Vector3Int pos)
+    {
+        return new Vector3Int[]
+        {
+            pos,
+            pos + Vector3Int.up,
+            pos + Vector3Int.up + Vector3Int.right,
+            pos + Vector3Int.up + Vector3Int.left,
+            pos + Vector3Int.down,
+            pos + Vector3Int.down + Vector3Int.right,
+            pos + Vector3Int.down + Vector3Int.left,
+            pos + Vector3Int.right,
+            pos + Vector3Int.left,
+        };
+    }
+
+
     #region Validation
 
     private void ValidateLevelSetup()
@@ -395,17 +408,13 @@ public class LevelManager : MonoBehaviour
 
         // threat tiles
         var threat = ScriptableObject.CreateInstance<ThreatTile>();
-        _metadataLayer.SetTile(pos, threat);
-        _metadataLayer.SetTile(pos + Vector3Int.up, threat);
-        _metadataLayer.SetTile(pos + Vector3Int.down, threat);
-        _metadataLayer.SetTile(pos + Vector3Int.right, threat);
-        _metadataLayer.SetTile(pos + Vector3Int.left, threat);
-        Neutrals.Add(pos, unitInstance);
-        Neutrals.Add(pos + Vector3Int.up, unitInstance);
-        Neutrals.Add(pos + Vector3Int.down, unitInstance);
-        Neutrals.Add(pos + Vector3Int.right, unitInstance);
-        Neutrals.Add(pos + Vector3Int.left, unitInstance);
 
+        var neighbors = GetNeighborsAndSelf(pos);
+        for (int i = 0; i < neighbors.Length; i++)
+        {
+            _metadataLayer.SetTile(neighbors[i], threat);
+            Neutrals.Add(neighbors[i], unitInstance);
+        }
     }
 
     int _playerSetupIndex = 0;

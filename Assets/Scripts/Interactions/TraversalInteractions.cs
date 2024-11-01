@@ -83,9 +83,9 @@ public class TraversalInteractions : MonoBehaviour
                 if (_sfx.clip == _heroMovement)
                     _sfx.Stop();
 
-                if (!CanMove_DestinationAsAquirable())
+                if (!CanMove_DestinationAsNeutralUnit())
                     break;
-                else if (!CanMove_DestinationAsNeutralUnit())
+                if (!CanMove_DestinationAsAquirable())
                     break;
                 else if (!CanMove_DestinationAsAnotherHero())
                     break;
