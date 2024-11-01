@@ -20,7 +20,7 @@ MonoBehaviour:
   AttackRange: 1
   Flying: 1
   Damage: {x: 2, y: 6}
-  Health: 10
+  Health: 12
   Speed: 7
   Growth: 8
   Cost:

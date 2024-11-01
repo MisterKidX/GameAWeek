@@ -15,6 +15,8 @@ public class TraversalInteractions : MonoBehaviour
     Tilemap _ground;
     [SerializeField]
     Tilemap _obstacles;
+    [SerializeField]
+    Tilemap _metadata;
 
     [SerializeField]
     TileMapAstar _astar;
@@ -31,6 +33,8 @@ public class TraversalInteractions : MonoBehaviour
     public void Update()
     {
         Vector3Int cellPos;
+
+        SetMouseCursor();
 
         if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
             ((_path == null || _path.Count == 0) || cellPos != _path[_path.Count - 1].Position))
@@ -162,7 +166,8 @@ public class TraversalInteractions : MonoBehaviour
         {
             LevelManager.CurrentLevel.
                 EnterCombat(LevelManager.CurrentLevel.CurrentPlayer.SelectedHero, neutrals[destination]);
-            return true;
+
+            return false;
         }
     }
 
@@ -251,6 +256,32 @@ public class TraversalInteractions : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    private void SetMouseCursor()
+    {
+        var mousePos = Input.mousePosition;
+        mousePos.z = 0;
+        var worldPoint = _camController.Camera.ScreenToWorldPoint(mousePos);
+        var pos = _grid.WorldToCell(worldPoint);
+
+        var ground = _ground.GetTile(pos);
+        var placement = _obstacles.GetTile(pos);
+        var metadata = _metadata.GetTile(pos);
+        var threat = metadata as ThreatTile;
+        var castle = metadata as CastleEntranceTile;
+        var aquirable = placement as AquirableTile;
+
+        if (threat != null)
+            GameLogic.ChangeCursor(CursorIcon.EnterCombat);
+        else if (castle != null)
+            GameLogic.ChangeCursor(CursorIcon.EnterCastle);
+        else if (aquirable != null)
+            GameLogic.ChangeCursor(CursorIcon.HeroAquirable);
+        else if (placement != null)
+            GameLogic.ChangeCursor(CursorIcon.Regular);
+        else if (ground != null)
+            GameLogic.ChangeCursor(CursorIcon.HeroMove);
     }
 
     private bool CilckedOnMap(out Vector3Int pos)

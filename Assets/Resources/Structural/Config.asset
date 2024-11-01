@@ -36,3 +36,28 @@ MonoBehaviour:
     Amount: 5
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 5000
+  Cursors:
+  - Type: 0
+    hotSpot: {x: 0, y: 0}
+    View: {fileID: 2800000, guid: 40b3a9fdbdf396d418afaa2abfdfd625, type: 3}
+  - Type: 1
+    hotSpot: {x: 20, y: 25}
+    View: {fileID: 2800000, guid: bed0bf9bff12943499cc92140981db12, type: 3}
+  - Type: 2
+    hotSpot: {x: 40, y: 0}
+    View: {fileID: 2800000, guid: f956a3222f365584ebad228ccb4e3856, type: 3}
+  - Type: 3
+    hotSpot: {x: 30, y: 0}
+    View: {fileID: 2800000, guid: 12a3455a9a5d9f74a90ae1a8bfe635fa, type: 3}
+  - Type: 4
+    hotSpot: {x: 0, y: 0}
+    View: {fileID: 2800000, guid: 9f9ff1b633b19e64ca7d30d530e2c4eb, type: 3}
+  - Type: 5
+    hotSpot: {x: 30, y: 10}
+    View: {fileID: 2800000, guid: 85ae7a3669f9fe14aa9681f84ecad1f9, type: 3}
+  - Type: 6
+    hotSpot: {x: 0, y: 0}
+    View: {fileID: 2800000, guid: 12a3455a9a5d9f74a90ae1a8bfe635fa, type: 3}
+  - Type: 7
+    hotSpot: {x: 0, y: 0}
+    View: {fileID: 2800000, guid: bceb3998e2eb34543a2c21cf75d53b17, type: 3}

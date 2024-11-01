@@ -132,6 +132,7 @@ public class TileMapAstar : MonoBehaviour
         BaseTile aquirableTile = placementTilemap.GetTile(end) as AquirableTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(end) as BaseTile;
         var threatTile = metadataTilemap.GetTile(end) as ThreatTile;
+
         if (groundTile == null) return false;
         if (groundTile.TileType != TileType.Ground) return false;
         if (placementTile != null && !placementTile.GroundTraversable && aquirableTile == null) return false;

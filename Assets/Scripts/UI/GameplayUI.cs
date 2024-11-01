@@ -28,6 +28,7 @@ public class GameplayUI : MonoBehaviour
         var go = Instantiate(instance.Model.p_UIView);
         go.Init(instance, _uiPanelClose);
         _uiPanelOpen();
+        GameLogic.ChangeCursor(CursorIcon.Regular);
     }
 
     private void ShowHeroes(PlayerInstace currentPlayer)
@@ -69,11 +70,13 @@ public class GameplayUI : MonoBehaviour
     {
         var modal = Instantiate(p_playerOutcomeModal);
         modal.Init(player, false, null);
+        GameLogic.ChangeCursor(CursorIcon.Regular);
     }
 
     internal void ShowPlayerWonModal(PlayerInstace player, Action confirm)
     {
         var modal = Instantiate(p_playerOutcomeModal);
         modal.Init(player, true, confirm);
+        GameLogic.ChangeCursor(CursorIcon.Regular);
     }
 }

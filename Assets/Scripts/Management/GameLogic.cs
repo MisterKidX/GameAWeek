@@ -100,4 +100,10 @@ public static class GameLogic
 
         return available.GetRandoms(amount);
     }
+
+    public static void ChangeCursor(CursorIcon icon)
+    {
+        var config = GameConfig.Configuration.Cursors.First(c => c.Type == icon);
+        Cursor.SetCursor(config.View, config.hotSpot, CursorMode.Auto);
+    }
 }

@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
+using UnityEditor;
 
 public class CombatManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     GroundTypeGameobjectTuple[] _backgrounds;
 
+    public Grid Grid;
     public Tilemap _walkable;
     public Tilemap _obstacles;
     public Tilemap _ui;
@@ -270,6 +272,7 @@ public class CombatManager : MonoBehaviour
         Vector3Int pos;
         while (!TraversalInteractions.CilckedOnMap(out pos, _camera, _ui))
         {
+            SetMouseCursor(_currentUnit);
             if (Input.GetMouseButton(0) && AreOpposingUnits(_currentUnit, pos) != null)
                 break;
 
@@ -347,6 +350,33 @@ public class CombatManager : MonoBehaviour
         }
         else
             return false;
+    }
+
+    private void SetMouseCursor(UnitInstance unit)
+    {
+        var mousePos = Input.mousePosition;
+        mousePos.z = 0;
+        var worldPoint = _camera.ScreenToWorldPoint(mousePos);
+        worldPoint.z = 0;
+
+        var cellPos = Grid.WorldToCell(worldPoint);
+        var unitClicked = _turnOrder.FirstOrDefault(u => u.CombatCellPosition == cellPos);
+        var ground = _walkable.GetTile(cellPos);
+        var placement = _obstacles.GetTile(cellPos);
+        var walkable = _ui.GetTile(cellPos);
+
+        if (ground == null)
+            GameLogic.ChangeCursor(CursorIcon.Regular);
+        if (ground != null && walkable == null)
+            GameLogic.ChangeCursor(CursorIcon.Regular);
+        if (unitClicked != null && unitClicked == unit)
+            GameLogic.ChangeCursor(CursorIcon.Regular);
+        else if (unitClicked != null && unitClicked != unit && !unit.Model.IsRanged && GetAttackPosition(unit, unitClicked) != null)
+            GameLogic.ChangeCursor(CursorIcon.UnitMeleeAttack);
+        else if (unitClicked != null && unitClicked != unit && unit.Model.IsRanged)
+            GameLogic.ChangeCursor(CursorIcon.UnitRangedAttack);
+        else if (walkable != null)
+            GameLogic.ChangeCursor(CursorIcon.UnitMove);
     }
 
 #if UNITY_EDITOR
