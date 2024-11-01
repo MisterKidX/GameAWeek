@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
 
     internal void StickToObject(GameObject go)
     {
+        UnstickToObject();
         StartCoroutine(StickToObjectRoutine(go));
     }
 
@@ -23,8 +24,9 @@ public class CameraController : MonoBehaviour
     {
         while (true)
         {
-            PointAt(go);
             yield return null;
+            yield return new WaitForEndOfFrame();
+            PointAt(go);
         }
     }
 
