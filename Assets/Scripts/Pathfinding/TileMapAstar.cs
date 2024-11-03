@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -46,7 +47,7 @@ public class TileMapAstar : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor))
+                if (neighbor != end && !IsWalkable(neighbor, end))
                     continue;
                 if (closedSet.ContainsKey(neighbor) && closedSet[neighbor] < currentNode.FCost)
                     continue;
@@ -110,17 +111,23 @@ public class TileMapAstar : MonoBehaviour
         return (diagonals * 1.6f + straights) * 0.8f;
     }
 
-    bool IsWalkable(Vector3Int position)
+    bool IsWalkable(Vector3Int position, Vector3Int end)
     {
         BaseTile groundTile = groundTilemap.GetTile(position) as BaseTile;
-        BaseTile palcementTile = placementTilemap.GetTile(position) as BaseTile;
+        BaseTile placementTile = placementTilemap.GetTile(position) as BaseTile;
         BaseTile hiddenBlocker = metadataTilemap.GetTile(position) as BaseTile;
         var threatTile = metadataTilemap.GetTile(position) as ThreatTile;
+        bool nearEnd = false;
+
+        if (threatTile != null)
+            nearEnd = GetNeighbors(position).Any(pos => pos == end);
+
         if (groundTile == null) return false;
         if (groundTile.TileType != TileType.Ground) return false;
-        if (palcementTile != null && !palcementTile.GroundTraversable) return false;
+        if (placementTile != null && !placementTile.GroundTraversable) return false;
         if (hiddenBlocker != null && !hiddenBlocker.GroundTraversable) return false;
-        if (threatTile != null) return false;
+        if (threatTile != null && !nearEnd)
+            return false;
 
         return true;
     }
