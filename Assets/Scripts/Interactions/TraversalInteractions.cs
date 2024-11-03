@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
 public class TraversalInteractions : MonoBehaviour
@@ -35,7 +36,9 @@ public class TraversalInteractions : MonoBehaviour
 
         SetMouseCursor();
 
-        if (CilckedOnMap(out cellPos) && LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
+        if (CilckedOnMap(out cellPos) &&
+            LevelManager.CurrentLevel.CurrentPlayer.HasHeroSelected &&
+            !EventSystem.current.IsPointerOverGameObject() &&
             ((_path == null || _path.Count == 0) || cellPos != _path[_path.Count - 1].Position))
         {
             if (_sfx.clip == _heroMovement)

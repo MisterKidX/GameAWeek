@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    internal void PointAt(GameObject go)
+    public void PointAt(GameObject go)
     {
         var pos = Camera.transform.position;
         pos.x = go.transform.position.x;

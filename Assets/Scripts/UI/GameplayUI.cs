@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GameplayUI : MonoBehaviour
 {
     [SerializeField]
+    CameraController _camController;
+    [SerializeField]
     UIView_GameTime _gameTime;
     [SerializeField]
     UIView_PlayerOutcomeModal p_playerOutcomeModal;
@@ -28,6 +30,7 @@ public class GameplayUI : MonoBehaviour
         var go = Instantiate(instance.Model.p_UIView);
         go.Init(instance, _uiPanelClose);
         _uiPanelOpen();
+        _camController.PointAt(instance.View.gameObject);
         GameLogic.ChangeCursor(CursorIcon.Regular);
     }
 
