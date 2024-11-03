@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8105191f491d384fa9ad809c575b490, type: 3}
-  m_Name: 1_Pikeman
+  m_Name: 1_swordsmen
   m_EditorClassIdentifier: 
   Name: Swordsman
   Portrait: {fileID: 21300000, guid: 296fa0f52e1fd47109c6fb6f17968669, type: 3}
   Tier: 1
-  Attack: 1
+  Attack: 2
   Defense: 2
   AttackRange: 1
   Flying: 0
   Damage: {x: 1, y: 2}
   Health: 3
-  Speed: 3
-  Growth: 15
+  Speed: 4
+  Growth: 16
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 50

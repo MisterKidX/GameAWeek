@@ -22,7 +22,7 @@ MonoBehaviour:
   Damage: {x: 3, y: 8}
   Health: 20
   Speed: 5
-  Growth: 7
+  Growth: 9
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 250

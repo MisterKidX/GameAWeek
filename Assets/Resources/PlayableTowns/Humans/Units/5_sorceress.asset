@@ -15,9 +15,9 @@ MonoBehaviour:
   Name: Sorceress
   Portrait: {fileID: 21300000, guid: b1c6b014ee8384bde8873e80c5b3784c, type: 3}
   Tier: 5
-  Attack: 10
+  Attack: 7
   Defense: 5
-  AttackRange: 10
+  AttackRange: 7
   Flying: 0
   Damage: {x: 8, y: 8}
   Health: 15

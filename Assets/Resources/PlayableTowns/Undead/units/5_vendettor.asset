@@ -21,7 +21,7 @@ MonoBehaviour:
   Flying: 0
   Damage: {x: 6, y: 12}
   Health: 21
-  Speed: 9
+  Speed: 6
   Growth: 5
   Cost:
     Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
