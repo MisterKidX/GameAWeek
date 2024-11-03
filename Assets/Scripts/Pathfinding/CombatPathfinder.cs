@@ -10,15 +10,15 @@ public class CombatPathfinder : MonoBehaviour
     public Tilemap _blockers;
     public Tilemap _ui;
 
-    public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end)
+    public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end, bool finalMove)
     {
         if (start == end)
             return new List<PathPoint>() { new PathPoint(start, 0, 0) };
-        else if (!IsTargetable(end))
+        else if (!IsTargetable(end, finalMove))
             return null;
 
         List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        Dictionary<Vector3Int, float> closedSet = new();
 
         Node startNode = new Node(start, null, 0, GetHCost(start, end));
         openSet.Add(startNode);
@@ -36,7 +36,10 @@ public class CombatPathfinder : MonoBehaviour
             }
 
             openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
+            if (!closedSet.ContainsKey(currentNode.Position))
+                closedSet.Add(currentNode.Position, currentNode.FCost);
+            else if (currentNode.FCost < closedSet[currentNode.Position])
+                closedSet[currentNode.Position] = currentNode.FCost;
 
             if (currentNode.Position == end)
             {
@@ -45,9 +48,9 @@ public class CombatPathfinder : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor) || closedSet.Any(n => n.Position == neighbor))
+                if (neighbor != end && !IsWalkable(neighbor, finalMove))
                     continue;
-                else if (neighbor == end && !IsTargetable(neighbor))
+                if (closedSet.ContainsKey(neighbor) && closedSet[neighbor] < currentNode.FCost)
                     continue;
 
                 float newMovementCostToNeighbor = currentNode.GCost + GetGCost(currentNode.Position, neighbor);
@@ -100,16 +103,20 @@ public class CombatPathfinder : MonoBehaviour
         return (diagonals * 1.6f + straights) * 0.8f;
     }
 
-    bool IsWalkable(Vector3Int position)
+    bool IsWalkable(Vector3Int position, bool checkUI)
     {
-        return _blockers.GetTile(position) == null &&
-            _walkable.GetTile(position) != null &&
-            _ui.GetTile(position) != null;
+        if (checkUI)
+            return _blockers.GetTile(position) == null &&
+                _walkable.GetTile(position) != null &&
+                _ui.GetTile(position) != null;
+        else
+            return _blockers.GetTile(position) == null &&
+                _walkable.GetTile(position) != null;
     }
 
-    bool IsTargetable(Vector3Int end)
+    bool IsTargetable(Vector3Int end, bool checkUI)
     {
-        return IsWalkable(end);
+        return IsWalkable(end, checkUI);
     }
 
     public List<Vector3Int> GetNeighbors(Vector3Int position)

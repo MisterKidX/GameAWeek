@@ -253,7 +253,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator MoveUnitRoutine(UnitInstance unit, Vector3Int end)
     {
-        var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end);
+        var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end, true);
         if (path == null || path.Count == 0)
             yield break;
 
@@ -275,6 +275,11 @@ public class CombatManager : MonoBehaviour
             SetMouseCursor(_currentUnit);
             if (Input.GetMouseButton(0) && AreOpposingUnits(_currentUnit, pos) != null)
                 break;
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                pos = _currentUnit.CombatCellPosition;
+                break;
+            }
 
             yield return null;
         }
@@ -318,7 +323,8 @@ public class CombatManager : MonoBehaviour
                 if (_turnOrder.Any(u => u.CombatCellPosition == pos))
                     continue;
 
-                if (_walkable.GetTile(pos) != null)
+                var path = _pathfinder.CalculatePath(unit.CombatCellPosition, pos, false);
+                if (_walkable.GetTile(pos) != null && path != null && path.Count >0)
                     _ui.SetTile(pos, MovableTile);
             }
         }
@@ -360,20 +366,21 @@ public class CombatManager : MonoBehaviour
         worldPoint.z = 0;
 
         var cellPos = Grid.WorldToCell(worldPoint);
-        var unitClicked = _turnOrder.FirstOrDefault(u => u.CombatCellPosition == cellPos);
+        var unitHover = _turnOrder.FirstOrDefault(u => u.CombatCellPosition == cellPos);
         var ground = _walkable.GetTile(cellPos);
         var placement = _obstacles.GetTile(cellPos);
         var walkable = _ui.GetTile(cellPos);
+        var opposition = AreOpposingUnits(unit, cellPos);
 
         if (ground == null)
             GameLogic.ChangeCursor(CursorIcon.Regular);
         if (ground != null && walkable == null)
             GameLogic.ChangeCursor(CursorIcon.Regular);
-        if (unitClicked != null && unitClicked == unit)
+        if (unitHover != null && opposition == null)
             GameLogic.ChangeCursor(CursorIcon.Regular);
-        else if (unitClicked != null && unitClicked != unit && !unit.Model.IsRanged && GetAttackPosition(unit, unitClicked) != null)
+        else if (unitHover != null && !unit.Model.IsRanged && GetAttackPosition(unit, unitHover) != null)
             GameLogic.ChangeCursor(CursorIcon.UnitMeleeAttack);
-        else if (unitClicked != null && unitClicked != unit && unit.Model.IsRanged)
+        else if (unitHover != null && unit.Model.IsRanged)
             GameLogic.ChangeCursor(CursorIcon.UnitRangedAttack);
         else if (walkable != null)
             GameLogic.ChangeCursor(CursorIcon.UnitMove);
