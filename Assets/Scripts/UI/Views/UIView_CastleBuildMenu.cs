@@ -75,10 +75,19 @@ public class UIView_CastleBuildMenu : MonoBehaviour
                 buildingCard.SetState(BuildingStateView.Built);
                 buildingCard.Init(model, () => ShowBuildingModal(model, false));
             }
-            else if (isBuilt && hasUpgrades && _castleInstance.HasEnoughResourcesForBuilding(model.Upgrade))
+            else if (isBuilt && hasUpgrades)
             {
-                buildingCard.SetState(BuildingStateView.CanBuild);
-                buildingCard.Init(model.Upgrade, () => ShowBuildingModal(model, true));
+                if (_castleInstance.HasEnoughResourcesForBuilding(model.Upgrade))
+                {
+                    buildingCard.SetState(BuildingStateView.CanBuild);
+                    buildingCard.Init(model.Upgrade, () => ShowBuildingModal(model.Upgrade, true));
+                }
+                else
+                {
+                    buildingCard.SetState(BuildingStateView.NotEnoughResources);
+                    buildingCard.Init(model.Upgrade, () => ShowBuildingModal(model.Upgrade, false));
+                }
+
             }
             else if (!isBuilt && _castleInstance.HasEnoughResourcesForBuilding(model))
             {

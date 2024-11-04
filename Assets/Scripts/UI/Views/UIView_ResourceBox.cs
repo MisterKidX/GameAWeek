@@ -14,7 +14,7 @@ public class UIView_ResourceBox : MonoBehaviour
     public void Init(ResourceInstance instance)
     {
         _instance = instance;
-
+        _change = int.MaxValue;
         Icon.sprite = _instance.Model.Icon;
     }
 

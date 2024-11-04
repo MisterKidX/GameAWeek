@@ -125,13 +125,13 @@ public class CastleInstance : ScriptableObject, ICombatant
         if (BuiltBuildings.ContainsKey(bmodel) && BuiltBuildings[bmodel] == null)
             Build(bmodel);
         else
-            Upgrade(bmodel);
+            Upgrade(BuiltBuildings.Keys.First(b => b.Upgrade == bmodel));
     }
 
     private void Build(BuildingModel bmodel)
     {
         if (BuiltBuildings[bmodel] != null)
-            throw new InvalidOperationException("You can't build an already built buuilding.");
+            throw new InvalidOperationException("You can't build an already built building.");
 
         BuiltBuildings[bmodel] = bmodel.BaseCreate(this);
         BuiltThisTurn = true;

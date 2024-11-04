@@ -202,6 +202,10 @@ public class CombatManager : MonoBehaviour
                 yield return StartCoroutine(MoveUnitRoutine(_currentUnit, GetAttackPosition(_currentUnit, opposition).Value));
                 yield return StartCoroutine(AttackRoutine(_currentUnit, opposition));
             }
+            else
+            {
+                Debug.Log("unit cant move");
+            }
         }
         else
             yield return StartCoroutine(MoveUnitRoutine(_currentUnit, pos));
@@ -236,6 +240,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator AttackRoutine(UnitInstance attacker, UnitInstance defender)
     {
+        yield return new WaitForSeconds(0.05f);
         attacker.Attack(defender);
         yield return new WaitForSeconds(0.75f);
     }
