@@ -84,6 +84,7 @@ public class TraversalInteractions : MonoBehaviour
 
         for (int i = 1; i < _path.Count; i++)
         {
+
             if (i == _path.Count - 1)
             {
                 if (_sfx.clip == _heroMovement)
@@ -110,7 +111,8 @@ public class TraversalInteractions : MonoBehaviour
             else
                 break;
 
-            yield return new WaitForSeconds(GameConfig.Configuration.HeroMovementSpeed);
+            if (i != _path.Count - 1)
+                yield return new WaitForSeconds(GameConfig.Configuration.HeroMovementSpeed);
         }
 
         if (_sfx.clip == _heroMovement)
