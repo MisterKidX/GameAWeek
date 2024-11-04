@@ -253,7 +253,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator MoveUnitRoutine(UnitInstance unit, Vector3Int end)
     {
-        var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end, true);
+        var path = _pathfinder.CalculatePath(unit.CombatCellPosition, end, unit.Model.Speed, true);
         if (path == null || path.Count == 0)
             yield break;
 
@@ -323,11 +323,47 @@ public class CombatManager : MonoBehaviour
                 if (_turnOrder.Any(u => u.CombatCellPosition == pos))
                     continue;
 
-                var path = _pathfinder.CalculatePath(unit.CombatCellPosition, pos, false);
-                if (_walkable.GetTile(pos) != null && path != null && path.Count >0)
+                var path = _pathfinder.CalculatePath(unit.CombatCellPosition, pos, unit.Model.Speed, false);
+
+                if (_walkable.GetTile(pos) != null && path != null && path.Count > 0)
                     _ui.SetTile(pos, MovableTile);
             }
         }
+    }
+
+    private Vector3Int[] GetValidPositions(UnitInstance unit)
+    {
+        var ret = new List<Vector3Int>();
+
+        if (unit.Model.IsRanged)
+            ret.AddRange(_turnOrder.Where(u => !SameCombatant(u, unit)).Select(u => u.CombatCellPosition).ToArray());
+
+        var posXMin = unit.CombatCellPosition.x - unit.Model.Speed;
+        var posXMax = unit.CombatCellPosition.x + unit.Model.Speed;
+        var posYMin = unit.CombatCellPosition.y - unit.Model.Speed;
+        var posYMax = unit.CombatCellPosition.y + unit.Model.Speed;
+
+        for (int i = posXMin; i <= posXMax; i++)
+        {
+            for (int j = posYMin; j <= posYMax; j++)
+            {
+                var pos = new Vector3Int(i, j);
+
+                if (Mathf.Abs(unit.CombatCellPosition.x - i) + Mathf.Abs(unit.CombatCellPosition.y - j) > unit.Model.Speed + 1)
+                    continue;
+                if (_obstacles.GetTile(pos) != null)
+                    continue;
+                if (_turnOrder.Any(u => u.CombatCellPosition == pos && SameCombatant(u, unit)))
+                    continue;
+
+                var path = _pathfinder.CalculatePath(unit.CombatCellPosition, pos, unit.Model.Speed, false);
+
+                if (_walkable.GetTile(pos) != null && path != null && path.Count > 0)
+                    ret.Add(pos);
+            }
+        }
+
+        return ret.ToArray();
     }
 
     private void InitializeUnits(ICombatant combatant, UnitCombatView[] combatViews, Vector3Int[] positions, bool flip)
@@ -440,7 +476,7 @@ public class CombatManager : MonoBehaviour
         {
             var target = FindTarget(unit);
 
-            Vector3Int[] positions = GetValidPositions(unit);
+            Vector3Int[] positions = _cm.GetValidPositions(unit);
             return GetClosestToTarget(positions, target);
         }
 
@@ -449,39 +485,6 @@ public class CombatManager : MonoBehaviour
             return positions.Aggregate((p1, p2) =>
                 (p1 - target.CombatCellPosition).magnitude < (p2 - target.CombatCellPosition).magnitude ?
                 p1 : p2);
-        }
-
-        private Vector3Int[] GetValidPositions(UnitInstance unit)
-        {
-            if (unit.Model.IsRanged)
-                return _cm._turnOrder.Where(u => !_cm.SameCombatant(u, unit)).Select(u => u.CombatCellPosition).ToArray();
-
-            var ret = new List<Vector3Int>();
-
-            var posXMin = unit.CombatCellPosition.x - unit.Model.Speed;
-            var posXMax = unit.CombatCellPosition.x + unit.Model.Speed;
-            var posYMin = unit.CombatCellPosition.y - unit.Model.Speed;
-            var posYMax = unit.CombatCellPosition.y + unit.Model.Speed;
-
-            for (int i = posXMin; i <= posXMax; i++)
-            {
-                for (int j = posYMin; j <= posYMax; j++)
-                {
-                    var pos = new Vector3Int(i, j);
-
-                    if (Mathf.Abs(unit.CombatCellPosition.x - i) + Mathf.Abs(unit.CombatCellPosition.y - j) > unit.Model.Speed + 1)
-                        continue;
-                    if (_cm._obstacles.GetTile(pos) != null)
-                        continue;
-                    if (_cm._turnOrder.Any(u => u.CombatCellPosition == pos && _cm.SameCombatant(u, unit)))
-                        continue;
-
-                    if (_cm._walkable.GetTile(pos) != null)
-                        ret.Add(pos);
-                }
-            }
-
-            return ret.ToArray();
         }
 
         private UnitInstance FindTarget(UnitInstance unit)

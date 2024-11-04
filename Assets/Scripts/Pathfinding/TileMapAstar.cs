@@ -81,6 +81,7 @@ public class TileMapAstar : MonoBehaviour
         {
             path.Add(new PathPoint(currentNode.Position, currentNode.GCost,
                 currentNode.Parent == null ? currentNode.GCost : currentNode.GCost - currentNode.Parent.GCost));
+
             currentNode = currentNode.Parent;
         }
 

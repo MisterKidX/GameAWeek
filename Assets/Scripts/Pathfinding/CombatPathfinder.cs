@@ -10,11 +10,11 @@ public class CombatPathfinder : MonoBehaviour
     public Tilemap _blockers;
     public Tilemap _ui;
 
-    public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end, bool finalMove)
+    public List<PathPoint> CalculatePath(Vector3Int start, Vector3Int end, int unitSpeed, bool checkUI)
     {
         if (start == end)
             return new List<PathPoint>() { new PathPoint(start, 0, 0) };
-        else if (!IsTargetable(end, finalMove))
+        else if (!IsTargetable(end, checkUI))
             return null;
 
         List<Node> openSet = new List<Node>();
@@ -42,15 +42,15 @@ public class CombatPathfinder : MonoBehaviour
                 closedSet[currentNode.Position] = currentNode.FCost;
 
             if (currentNode.Position == end)
-            {
                 return RetracePath(currentNode);
-            }
 
             foreach (Vector3Int neighbor in GetNeighbors(currentNode.Position))
             {
-                if (neighbor != end && !IsWalkable(neighbor, finalMove))
+                if (neighbor != end && !IsWalkable(neighbor, checkUI))
                     continue;
                 if (closedSet.ContainsKey(neighbor) && closedSet[neighbor] < currentNode.FCost)
+                    continue;
+                if (currentNode.GCost > unitSpeed)
                     continue;
 
                 float newMovementCostToNeighbor = currentNode.GCost + GetGCost(currentNode.Position, neighbor);
