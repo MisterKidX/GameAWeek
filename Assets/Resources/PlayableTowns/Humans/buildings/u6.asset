@@ -20,7 +20,9 @@ MonoBehaviour:
   Upgrade: {fileID: 0}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 10000
-  - Resource: {fileID: 11400000, guid: e2282df6662d11a418685505400f959e, type: 2}
-    Amount: 5
+    Amount: 8000
+  - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
+    Amount: 15
+  - Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 15
   Unit: {fileID: 11400000, guid: 10a5897297cf85b4a8278f5d85bf7cf7, type: 2}

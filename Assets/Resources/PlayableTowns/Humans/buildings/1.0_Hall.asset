@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958650dc4b907d14e9b8cc368f246891, type: 3}
   m_Name: 1.0_Hall
   m_EditorClassIdentifier: 
+  BuildingView: {fileID: 0}
   Name: Hall
   Description: Provides daily gold for your kingdom
   View: {fileID: -1152812806179444027, guid: 8dfed82d841fe9241a77b0328a025383, type: 3}
@@ -19,7 +20,7 @@ MonoBehaviour:
   Upgrade: {fileID: 11400000, guid: 6f35d00b66d098b48a7c46bbcdd8c25a, type: 2}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 1000
+    Amount: 1500
   Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
   Income: 500
   OverTime: 1

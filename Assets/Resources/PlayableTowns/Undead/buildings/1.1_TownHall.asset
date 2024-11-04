@@ -20,7 +20,11 @@ MonoBehaviour:
   Upgrade: {fileID: 11400000, guid: a1604ec583f36a741b6cf9ded6101407, type: 2}
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
-    Amount: 2000
+    Amount: 3000
+  - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
+    Amount: 5
+  - Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 5
   Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
   Income: 1000
   OverTime: 1

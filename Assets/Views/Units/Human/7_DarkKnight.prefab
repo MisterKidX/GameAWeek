@@ -4445,7 +4445,7 @@ PrefabInstance:
       objectReference: {fileID: 6832916646437518205}
     - target: {fileID: 7436356605049196729, guid: 6f59f1ee809a28d409c1352612d02998, type: 3}
       propertyPath: m_Name
-      value: DarkKnight
+      value: 7_DarkKnight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

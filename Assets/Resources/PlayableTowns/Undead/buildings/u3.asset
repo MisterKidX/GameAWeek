@@ -21,6 +21,6 @@ MonoBehaviour:
   Cost:
   - Resource: {fileID: 11400000, guid: 37340811eeed50b4d80754f4ecb7711f, type: 2}
     Amount: 3000
-  - Resource: {fileID: 11400000, guid: 3ba77670aae977046a978d7687f5d6b9, type: 2}
-    Amount: 10
+  - Resource: {fileID: 11400000, guid: 6d931b7fdd30fce4db250d42ccf20764, type: 2}
+    Amount: 5
   Unit: {fileID: 11400000, guid: 496ae2113e18f0545aee717b0b158513, type: 2}

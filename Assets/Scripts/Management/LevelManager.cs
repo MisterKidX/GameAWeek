@@ -150,8 +150,10 @@ public class LevelManager : MonoBehaviour
             _camController.PointAt(CurrentPlayer.Castles[0].View.gameObject);
 
         CurrentPlayer.NewTurn();
-        foreach (var sfx in _newDay)
-            _sfxSource.PlayOneShot(sfx, 1f);
+        _sfxSource.PlayOneShot(_newDay[0], 1f);
+
+        if (_timeManagement.TotalDays % 7 + 1 == 1)
+            _sfxSource.PlayOneShot(_newDay[1], 1f);
     }
 
     private void DecompileLevel()
